@@ -1,91 +1,28 @@
-# Real-time Chat App
-
-Built on MERN stack with GraphQL.
+# Crossword Constructor - web
 
 ## Installation
 
-```sh
-# Clone (or fork) the repo
-git clone https://github.com/alex996/graphql-chat.git && cd graphql-chat
+1. Fork https://github.com/crossword-constructor/xword-web
+1. clone forked repo
+1. `$ mv env.example .env`
+1. `$ yarn`
+1. `$ cd client and yarn`
+1. Make sure you have a mongo instance running, cd back to the root directory and...
+1. `$ yarn dev`
 
-# Fill out .env file with secrets (development only)
-cp .env.example .env
+## Technologies used
 
-# Install the deps
-yarn
+- Node
+- Apollo Server
+- Apollo Client
+- GraphQl
+- MongoDB
+- React
 
-# Run the server
-yarn dev
-```
+## Contributing
 
-## Features
+### Git Rebase Workflow
 
-### MVP
+### Issues
 
-- Sign up / sign in / reset password
-
-- Direct messaging (1 on 1)
-
-- Private group chat (2+ users)
-
-- File sharing (img, text, etc.)
-
-- Responsive material design
-
-### Nice to Haves
-
-- Notifications
-
-- Themes and customization
-
-- Status indicators (typing, offline)
-
-- Emails (confirmation, forgot password)
-
-- Other (?)
-
-## Topics
-
-- Schema design
-
-- Validation
-
-- Authentication (session vs. token)
-
-- Authorization (access control)
-
-- Security (injections, XSS, CSRF, headers)
-
-- State management
-
-- File upload
-
-- Real-time updates
-
-- Performance optimizations
-
-- Pagination
-
-## Technologies
-
-### Back-End
-
-- Node + Express
-
-- MongoDB + Mongoose ORM
-
-- Apollo Server v2
-
-- Web Sockets
-
-- Redis
-
-- Other (?)
-
-### Front-End
-
-- React 16+
-
-- Apollo Client v2
-
-- Material-UI
+### Tests
