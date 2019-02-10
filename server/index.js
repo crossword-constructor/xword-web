@@ -22,7 +22,7 @@ import {
 
 (async () => {
   try {
-    await mongoose.connect("mongodb://localhost/merng-template", {
+    await mongoose.connect("mongodb://localhost/historicalCrossword", {
       useNewUrlParser: true
     });
 
@@ -66,9 +66,6 @@ import {
     });
     app.use(cors());
     server.applyMiddleware({ app });
-    app.use(() => {
-      console.log("req");
-    });
     app.listen({ port: APP_PORT }, () =>
       console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
     );

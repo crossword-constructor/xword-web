@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Cell from "./Board.Cell";
+// import Cell from "./Board.cell";
 // import Clock from "./Clock";
 // import crossword from "./crossword.json";
-import _throttle from "lodash.throttle";
+// import _throttle from "lodash.throttle";
 import {
   buildPlayableBoard,
   searchForBoundaryCell,
   searchForValidCell
-} from "./boardUtils";
-import "./App.css";
-
+} from "./Board.utils";
+const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
 const Board = () => {
@@ -136,78 +135,77 @@ const Board = () => {
     // setWordCoords([wordBeg, wordEnd]);
   };
 
-  let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
-  let rows = Object.keys(board).map((row, rowNum) => {
-    return (
-      <tr className="row">
-        {board[row].map((cell, colNum) => {
-          let black = cell.answer === "#BlackSquare#";
-          let highlighted = false;
-          if (direction === "across") {
-            if (
-              colNum >= wordCoords[0] &&
-              colNum <= wordCoords[1] &&
-              rowNum === currentCoords[0]
-            ) {
-              highlighted = true;
-            }
-          } else {
-            if (
-              rowNum >= wordCoords[0] &&
-              rowNum <= wordCoords[1] &&
-              colNum === currentCoords[1]
-            ) {
-              highlighted = true;
-            }
-          }
-          return black ? (
-            <td className="black" />
-          ) : (
-            <Cell
-              highlighted={highlighted}
-              focus={currentCoords[0] === rowNum && currentCoords[1] === colNum}
-              answer={cell.answer}
-              guess={cell.guess}
-              number={cell.number}
-              showAnswer={showAnswers}
-              coords={[rowNum, colNum]}
-              click={() => clickListener(rowNum, colNum)}
-            />
-          );
-        })}
-      </tr>
-    );
-  });
-  return (
-    <div className="page">
-      <Clock play={playing} onClick={() => togglePlaying(!playing)} />
-      <table>
-        <tbody className="board">{rows}</tbody>
-      </table>
-      <div className="clues">
-        <div className="acrossClues">
-          {crossword.clues
-            .filter(clue => clue.position.indexOf("A") > -1)
-            .map(clue => {
-              return <div className="clue">{clue.position}</div>;
-            })}
-        </div>
-        <div className="downClues">
-          {crossword.clues
-            .filter(clue => clue.position.indexOf("D") > -1)
-            .map(clue => {
-              return <div className="clue">{clue.position}</div>;
-            })}
-        </div>
-      </div>
-      <button onClick={() => toggleAnswers(!showAnswers)} className="reveal">
-        {showAnswers ? "Hide Answers" : "Reveal Answers"}
-      </button>
-    </div>
-  );
+  // let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
+  // let rows = Object.keys(board).map((row, rowNum) => {
+  //   return (
+  //     <tr className="row">
+  //       {board[row].map((cell, colNum) => {
+  //         let black = cell.answer === "#BlackSquare#";
+  //         let highlighted = false;
+  //         if (direction === "across") {
+  //           if (
+  //             colNum >= wordCoords[0] &&
+  //             colNum <= wordCoords[1] &&
+  //             rowNum === currentCoords[0]
+  //           ) {
+  //             highlighted = true;
+  //           }
+  //         } else {
+  //           if (
+  //             rowNum >= wordCoords[0] &&
+  //             rowNum <= wordCoords[1] &&
+  //             colNum === currentCoords[1]
+  //           ) {
+  //             highlighted = true;
+  //           }
+  //         }
+  //         return black ? (
+  //           <td className="black" />
+  //         ) : (
+  //           <Cell
+  //             highlighted={highlighted}
+  //             focus={currentCoords[0] === rowNum && currentCoords[1] === colNum}
+  //             answer={cell.answer}
+  //             guess={cell.guess}
+  //             number={cell.number}
+  //             showAnswer={showAnswers}
+  //             coords={[rowNum, colNum]}
+  //             click={() => clickListener(rowNum, colNum)}
+  //           />
+  //         );
+  //       })}
+  //     </tr>
+  //   );
+  // });
+  return "hello";
+  // <div className="page">
+  //   {/* <Clock play={playing} onClick={() => togglePlaying(!playing)} /> */}
+  //   <table>
+  //     <tbody className="board">{rows}</tbody>
+  //   </table>
+  //   <div className="clues">
+  //     <div className="acrossClues">
+  //       {crossword.clues
+  //         .filter(clue => clue.position.indexOf("A") > -1)
+  //         .map(clue => {
+  //           return <div className="clue">{clue.position}</div>;
+  //         })}
+  //     </div>
+  //     <div className="downClues">
+  //       {crossword.clues
+  //         .filter(clue => clue.position.indexOf("D") > -1)
+  //         .map(clue => {
+  //           return <div className="clue">{clue.position}</div>;
+  //         })}
+  //     </div>
+  //   </div>
+  //   <button onClick={() => toggleAnswers(!showAnswers)} className="reveal">
+  //     {showAnswers ? "Hide Answers" : "Reveal Answers"}
+  //   </button>
+  // </div>
 };
 
 // position = [row, col]
 // incOrDec = increment or decrement
 
-export default App;
+export default Board;

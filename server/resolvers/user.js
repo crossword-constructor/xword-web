@@ -13,6 +13,7 @@ export default {
     },
     users: (root, args, context, info) => {
       // TODO: projection, pagination
+      console.log("getting users");
       return User.find({});
     },
     user: (root, { id }, context, info) => {

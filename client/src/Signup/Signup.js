@@ -37,6 +37,7 @@ export const Signup = () => {
   `;
   return (
     <div>
+      <Link to="/nyt/calendar">NYT Calendar</Link>
       <h1>Signup</h1>
       <Link to="/login">Login</Link>
       <input
