@@ -9,10 +9,24 @@ export default {
   Query: {
     puzzle: (root, args, context, info) => {
       console.log(args);
-      return Puzzle.findById({ _id: args.id })
-        .select("date title author board")
+      return Puzzle.findById(args.id)
+        .select("date title author board clues")
+        .populate({ path: "clues.clue", select: "text -_id" })
+        .populate({ path: "clues.answer", select: "text -_id" })
+        .lean()
         .then(puzzle => {
-          console.log(puzzle);
+          console.log(puzzle.clues[0]);
+          let formattedClues = [];
+          // Why is .map() not working on mongoose array???
+          puzzle.clues.forEach(clueObj => {
+            formattedClues.push({
+              clue: clueObj.clue.text.toString(),
+              answer: clueObj.answer.text.toString(),
+              position: clueObj.position
+            });
+          });
+          console.log(formattedClues);
+          puzzle.clues = formattedClues;
           return puzzle;
         });
       // return {

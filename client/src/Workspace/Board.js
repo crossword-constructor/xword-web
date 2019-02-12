@@ -199,10 +199,10 @@ const Board = ({ initialBoard }) => {
               return <div className="clue">{clue.position}</div>;
             })}
         </div>
-      </div>
+      </div> */}
       <button onClick={() => toggleAnswers(!showAnswers)} className="reveal">
         {showAnswers ? "Hide Answers" : "Reveal Answers"}
-      </button> */}
+      </button>
     </div>
   );
 };

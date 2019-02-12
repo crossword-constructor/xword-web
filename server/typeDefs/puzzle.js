@@ -22,6 +22,7 @@ export default gql`
     publisher: String
     date: String
     title: String
+    clues: [Clue]
     # cluesAnswer: [ClueAnswer!]!
     board: [[String]]
     # createdAt: String!
@@ -30,29 +31,12 @@ export default gql`
   }
 
   type Clue {
-    id: ID!
-    text: String!
+    answer: String!
+    clue: String!
+    position: String!
     # answers: {
     #   answer: Answer!
     #   count: Number!
     # }
-    puzzles: [Puzzle!]!
   }
-
-  # type Answer {
-  #   id: ID!
-  #   text: String!
-  #   clues: {
-  #     clue: Clue!
-  #     count: Number!
-  #   }
-  #   puzzles: [Puzzle!]!
-  # }
-
-  # type ClueAnswer {
-  #   id: ID!
-  #   clue: Clue!
-  #   answer: Answer!
-  #   position: String! # 1A or 61D e.g.
-  # }
 `;
