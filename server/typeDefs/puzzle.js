@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
-    puzzle(id: ID): Puzzle
+    puzzle(id: ID): Puzzle!
     puzzles(month: String, year: String): [Puzzle!]
   }
 

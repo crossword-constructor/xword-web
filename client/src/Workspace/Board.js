@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import Cell from "./Board.cell";
+import Cell from "./Board.cell";
+import "../App.css";
 // import Clock from "./Clock";
 // import crossword from "./crossword.json";
 // import _throttle from "lodash.throttle";
@@ -8,10 +9,10 @@ import {
   searchForBoundaryCell,
   searchForValidCell
 } from "./Board.utils";
-const crossword = { board: ["A"] };
+// const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
-const Board = () => {
+const Board = ({ initialBoard }) => {
   const [direction, setDirection] = useState("across");
   // const [wordCoords, setWordCoords] = useState([0, 0]);
   const [currentCoords, setCurrentCoords] = useState([0, 0]);
@@ -21,7 +22,7 @@ const Board = () => {
   const [playing, togglePlaying] = useState(true);
 
   useEffect(() => {
-    let board = buildPlayableBoard(crossword.board);
+    let board = buildPlayableBoard(initialBoard);
     updateBoard(board);
   }, []);
 
@@ -51,7 +52,7 @@ const Board = () => {
       if (direction === "down") code = "ArrowDown";
       else code = "ArrowRight"; // @TODO DOn't move if we've reached a black square or the end of the board also we need to skip letters if they're already therr
     } else if (code === "Backspace") {
-      if (/^[a-z0-9._]+$/i.test(crossword.board[row][col].guess)) {
+      if (/^[a-z0-9._]+$/i.test(initialBoard[row][col].guess)) {
         let newBoard = { ...board };
         newBoard[row][col].guess = "";
         updateBoard(newBoard);
@@ -83,7 +84,7 @@ const Board = () => {
         col,
         direction,
         code,
-        crossword.board
+        initialBoard
         // settings
       );
       // let { wordBeg, wordEnd } = setSelected(
@@ -112,14 +113,14 @@ const Board = () => {
       col,
       newDirection,
       "INCREMENT",
-      crossword.board
+      initialBoard
     );
     let wordBeg = searchForBoundaryCell(
       row,
       col,
       newDirection,
       "DECREMENT",
-      crossword.board
+      initialBoard
     );
     return [wordBeg, wordEnd];
   };
@@ -135,74 +136,75 @@ const Board = () => {
     // setWordCoords([wordBeg, wordEnd]);
   };
 
-  // let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
-  // let rows = Object.keys(board).map((row, rowNum) => {
-  //   return (
-  //     <tr className="row">
-  //       {board[row].map((cell, colNum) => {
-  //         let black = cell.answer === "#BlackSquare#";
-  //         let highlighted = false;
-  //         if (direction === "across") {
-  //           if (
-  //             colNum >= wordCoords[0] &&
-  //             colNum <= wordCoords[1] &&
-  //             rowNum === currentCoords[0]
-  //           ) {
-  //             highlighted = true;
-  //           }
-  //         } else {
-  //           if (
-  //             rowNum >= wordCoords[0] &&
-  //             rowNum <= wordCoords[1] &&
-  //             colNum === currentCoords[1]
-  //           ) {
-  //             highlighted = true;
-  //           }
-  //         }
-  //         return black ? (
-  //           <td className="black" />
-  //         ) : (
-  //           <Cell
-  //             highlighted={highlighted}
-  //             focus={currentCoords[0] === rowNum && currentCoords[1] === colNum}
-  //             answer={cell.answer}
-  //             guess={cell.guess}
-  //             number={cell.number}
-  //             showAnswer={showAnswers}
-  //             coords={[rowNum, colNum]}
-  //             click={() => clickListener(rowNum, colNum)}
-  //           />
-  //         );
-  //       })}
-  //     </tr>
-  //   );
-  // });
-  return "hello";
-  // <div className="page">
-  //   {/* <Clock play={playing} onClick={() => togglePlaying(!playing)} /> */}
-  //   <table>
-  //     <tbody className="board">{rows}</tbody>
-  //   </table>
-  //   <div className="clues">
-  //     <div className="acrossClues">
-  //       {crossword.clues
-  //         .filter(clue => clue.position.indexOf("A") > -1)
-  //         .map(clue => {
-  //           return <div className="clue">{clue.position}</div>;
-  //         })}
-  //     </div>
-  //     <div className="downClues">
-  //       {crossword.clues
-  //         .filter(clue => clue.position.indexOf("D") > -1)
-  //         .map(clue => {
-  //           return <div className="clue">{clue.position}</div>;
-  //         })}
-  //     </div>
-  //   </div>
-  //   <button onClick={() => toggleAnswers(!showAnswers)} className="reveal">
-  //     {showAnswers ? "Hide Answers" : "Reveal Answers"}
-  //   </button>
-  // </div>
+  let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
+  let rows = Object.keys(board).map((row, rowNum) => {
+    return (
+      <tr className="row">
+        {board[row].map((cell, colNum) => {
+          let black = cell.answer === "#BlackSquare#";
+          let highlighted = false;
+          if (direction === "across") {
+            if (
+              colNum >= wordCoords[0] &&
+              colNum <= wordCoords[1] &&
+              rowNum === currentCoords[0]
+            ) {
+              highlighted = true;
+            }
+          } else {
+            if (
+              rowNum >= wordCoords[0] &&
+              rowNum <= wordCoords[1] &&
+              colNum === currentCoords[1]
+            ) {
+              highlighted = true;
+            }
+          }
+          return black ? (
+            <td className="black" />
+          ) : (
+            <Cell
+              highlighted={highlighted}
+              focus={currentCoords[0] === rowNum && currentCoords[1] === colNum}
+              answer={cell.answer}
+              guess={cell.guess}
+              number={cell.number}
+              showAnswer={showAnswers}
+              coords={[rowNum, colNum]}
+              click={() => clickListener(rowNum, colNum)}
+            />
+          );
+        })}
+      </tr>
+    );
+  });
+  return (
+    <div className="page">
+      {/* <Clock play={playing} onClick={() => togglePlaying(!playing)} /> */}
+      <table>
+        <tbody className="board">{rows}</tbody>
+      </table>
+      {/* <div className="clues">
+        <div className="acrossClues">
+          {crossword.clues
+            .filter(clue => clue.position.indexOf("A") > -1)
+            .map(clue => {
+              return <div className="clue">{clue.position}</div>;
+            })}
+        </div>
+        <div className="downClues">
+          {crossword.clues
+            .filter(clue => clue.position.indexOf("D") > -1)
+            .map(clue => {
+              return <div className="clue">{clue.position}</div>;
+            })}
+        </div>
+      </div>
+      <button onClick={() => toggleAnswers(!showAnswers)} className="reveal">
+        {showAnswers ? "Hide Answers" : "Reveal Answers"}
+      </button> */}
+    </div>
+  );
 };
 
 // position = [row, col]

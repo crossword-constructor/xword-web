@@ -13,6 +13,7 @@ const App = props => {
       <Route path="/login" component={Login} />
       <Route path="/construct" component={Workspace} />
       <Route path="/solve" component={Solvespace} />
+      <Route path="/nyt/solve/:id" component={Solvespace} />
       <Route path="/nyt/calendar" component={NYTCalendar} />
     </Switch>
   );

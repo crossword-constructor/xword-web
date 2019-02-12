@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import Month from "./Month";
 
 const NYTCalendar = () => {
   const [[currentMonth, currentYear], setDate] = useState(["2", "1942"]);
@@ -80,7 +81,13 @@ const NYTCalendar = () => {
             return "error";
           }
           console.log(data);
-          return data.puzzles[0].date;
+          return (
+            <Month
+              puzzles={data.puzzles}
+              month={currentMonth}
+              year={currentYear}
+            />
+          );
         }}
       </Query>
     </div>

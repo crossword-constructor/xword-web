@@ -9,14 +9,12 @@ export default {
   Query: {
     puzzle: (root, args, context, info) => {
       console.log(args);
-      return {
-        id: "1",
-        title: "hello",
-        date: "2/15/1942",
-        author: "me",
-        publisher: "dsfdsf",
-        editor: "dfsdf"
-      };
+      return Puzzle.findById({ _id: args.id })
+        .select("date title author board")
+        .then(puzzle => {
+          console.log(puzzle);
+          return puzzle;
+        });
       // return {
 
       // }
