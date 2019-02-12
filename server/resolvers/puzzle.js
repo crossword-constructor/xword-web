@@ -23,7 +23,18 @@ export default {
     },
     puzzles: (root, args, context, info) => {
       console.log("getting puzzle");
-      return "puzzle 1237396278";
+      console.log(args.month);
+      console.log(args.year);
+      let regex = new RegExp(
+        `^(${args.month})(\/)([0-9]|[0-2][0-9]|(3)[0-1])(\/)(${args.year})`
+      );
+      console.log(regex);
+      return Puzzle.find({ date: regex })
+        .select("date title author")
+        .then(puzzles => {
+          console.log("puzzles: ", puzzles);
+          return puzzles;
+        });
     }
   }
 };

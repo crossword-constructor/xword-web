@@ -51,7 +51,6 @@ import {
         }
       })
     );
-    console.log(IN_PROD);
     const server = new ApolloServer({
       typeDefs,
       resolvers,
