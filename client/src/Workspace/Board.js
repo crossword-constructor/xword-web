@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cell from "./Board.cell";
-import "../App.css";
+import styles from "./Board.module.css";
 // import Clock from "./Clock";
 // import crossword from "./crossword.json";
 // import _throttle from "lodash.throttle";
@@ -200,7 +200,10 @@ const Board = ({ initialBoard }) => {
             })}
         </div>
       </div> */}
-      <button onClick={() => toggleAnswers(!showAnswers)} className="reveal">
+      <button
+        onClick={() => toggleAnswers(!showAnswers)}
+        className={styles.reveal}
+      >
         {showAnswers ? "Hide Answers" : "Reveal Answers"}
       </button>
     </div>

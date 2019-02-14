@@ -26,31 +26,34 @@ const Solvespace = ({ match }) => {
       {({ loading, error, data }) => {
         if (loading) return "...loading";
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
-        console.log(data.puzzle.clues);
         return (
           <div>
             {data.puzzle.title}
             {data.puzzle.author}
-            <Board initialBoard={data.puzzle.board} />
             <div style={{ display: "flex" }}>
-              <ul>
-                {data.puzzle.clues
-                  .filter(clue => clue.position.indexOf("A") > -1)
-                  .map(clue => (
-                    <li>
-                      {clue.position} {clue.clue}
-                    </li>
-                  ))}
-              </ul>
-              <ul>
-                {data.puzzle.clues
-                  .filter(clue => clue.position.indexOf("D") > -1)
-                  .map(clue => (
-                    <li>
-                      {clue.position} {clue.clue}
-                    </li>
-                  ))}
-              </ul>
+              <Board initialBoard={data.puzzle.board} />
+              <div style={{ display: "flex" }}>
+                <ul>
+                  {data.puzzle.clues
+                    .filter(clue => clue.position.indexOf("A") > -1)
+                    .map(clue => (
+                      <li>
+                        <span style={{ fontWeight: 600 }}>{clue.position}</span>{" "}
+                        {clue.clue}
+                      </li>
+                    ))}
+                </ul>
+                <ul>
+                  {data.puzzle.clues
+                    .filter(clue => clue.position.indexOf("D") > -1)
+                    .map(clue => (
+                      <li>
+                        <span style={{ fontWeight: 600 }}>{clue.position}</span>{" "}
+                        {clue.clue}
+                      </li>
+                    ))}
+                </ul>
+              </div>
             </div>
           </div>
         );

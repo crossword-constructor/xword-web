@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import Month from "./Month";
+import styles from "./Calendar.module.css";
+import { BuildYearList, monthMap } from "./utils";
 
-const NYTCalendar = () => {
+const Calendar = () => {
   const [[currentMonth, currentYear], setDate] = useState(["2", "1942"]);
 
   const FETCH_PUZZLES = gql`
@@ -17,45 +19,15 @@ const NYTCalendar = () => {
     }
   `;
 
-  const monthMap = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December"
-  };
-  const BuildYearList = function() {
-    let years = [];
-    for (let year = 1942; year <= 2019; year++) {
-      let months = [];
-      for (let month = 1; month <= 12; month++) {
-        months.push({
-          date: month,
-          title: monthMap[month]
-        });
-      }
-      // console.log(years);
-      years.push({ date: year, months: months.reverse() });
-    }
-    return years;
-  };
-
   let yearList = BuildYearList();
   console.log(currentMonth, currentYear);
   return (
-    <div style={{ display: "flex" }}>
-      <ol>
+    <div className={styles.page}>
+      <ul>
         {yearList.reverse().map(year => (
           <li key={year.date}>
-            {year.date}
-            <ol>
+            <div style={{ fontWeight: 600 }}>{year.date}</div>
+            <ul>
               {year.months.map(month => (
                 <li
                   key={month.date}
@@ -63,13 +35,13 @@ const NYTCalendar = () => {
                     setDate([month.date.toString(), year.date.toString()])
                   }
                 >
-                  {month.title}
+                  <div style={{ marginLeft: 5 }}>{month.title}</div>
                 </li>
               ))}
-            </ol>
+            </ul>
           </li>
         ))}
-      </ol>
+      </ul>
       <Query
         query={FETCH_PUZZLES}
         variables={{ month: currentMonth, year: currentYear }}
@@ -82,11 +54,16 @@ const NYTCalendar = () => {
           }
           console.log(data);
           return (
-            <Month
-              puzzles={data.puzzles}
-              month={currentMonth}
-              year={currentYear}
-            />
+            <div style={{ marginLeft: 50 }}>
+              <h2>
+                {monthMap[currentMonth]} {currentYear}
+              </h2>
+              <Month
+                puzzles={data.puzzles}
+                month={currentMonth}
+                year={currentYear}
+              />
+            </div>
           );
         }}
       </Query>
@@ -94,4 +71,4 @@ const NYTCalendar = () => {
   );
 };
 
-export default NYTCalendar;
+export default Calendar;

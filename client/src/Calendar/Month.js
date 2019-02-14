@@ -18,11 +18,15 @@ const Month = ({ puzzles, month, year }) => {
         if (puzzleDates.indexOf(day.date) > -1) {
           let index = puzzleDates.indexOf(day.date);
           return (
-            <Link to={`solve/${puzzles[index].id}`}>
-              <span>{day.number}</span>
-              <span>{puzzles[index].title}</span>
-              <span>{puzzles[index].author}</span>
-            </Link>
+            <ul>
+              <li>
+                <span>{day.number}</span>
+                <Link to={`solve/${puzzles[index].id}`}>
+                  <span>{puzzles[index].title}</span>
+                  <div>{puzzles[index].author}</div>
+                </Link>
+              </li>
+            </ul>
           );
         } else return <div>{day.number}</div>;
       })}

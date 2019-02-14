@@ -8,14 +8,12 @@ import { Puzzle } from "../models";
 export default {
   Query: {
     puzzle: (root, args, context, info) => {
-      console.log(args);
       return Puzzle.findById(args.id)
         .select("date title author board clues")
         .populate({ path: "clues.clue", select: "text -_id" })
         .populate({ path: "clues.answer", select: "text -_id" })
         .lean()
         .then(puzzle => {
-          console.log(puzzle.clues[0]);
           let formattedClues = [];
           // Why is .map() not working on mongoose array???
           puzzle.clues.forEach(clueObj => {
@@ -25,7 +23,6 @@ export default {
               position: clueObj.position
             });
           });
-          console.log(formattedClues);
           puzzle.clues = formattedClues;
           return puzzle;
         });
@@ -34,17 +31,12 @@ export default {
       // }
     },
     puzzles: (root, args, context, info) => {
-      console.log("getting puzzle");
-      console.log(args.month);
-      console.log(args.year);
       let regex = new RegExp(
         `^(${args.month})(\/)([0-9]|[0-2][0-9]|(3)[0-1])(\/)(${args.year})`
       );
-      console.log(regex);
       return Puzzle.find({ date: regex })
         .select("date title author")
         .then(puzzles => {
-          console.log("puzzles: ", puzzles);
           return puzzles;
         });
     }
