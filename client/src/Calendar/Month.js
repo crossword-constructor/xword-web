@@ -1,6 +1,7 @@
 import React from "react";
 import { buildMonth } from "./utils";
 import { Link } from "react-router-dom";
+import styles from "./Month.module.css";
 const Month = ({ puzzles, month, year }) => {
   // return <div>{puzzles.map(puzzle => puzzle.title)}</div>;
   // FOr the first few years of the NYT crossword puzzle the puzzle was only published on sunday.
@@ -11,16 +12,17 @@ const Month = ({ puzzles, month, year }) => {
   // so for those years (which is most) we can just iterate over the list of puzzles
   let days = buildMonth(month, year);
   let puzzleDates = puzzles.map(puzzle => puzzle.date);
+
   return (
-    <div>
+    <ul className={styles.month}>
       {days.map((day, i) => {
         console.log(day);
         if (puzzleDates.indexOf(day.date) > -1) {
           let index = puzzleDates.indexOf(day.date);
           return (
-            <ul>
+            <ul className={styles.day}>
               <li>
-                <span>{day.number}</span>
+                <div>{day.number}</div>
                 <Link to={`solve/${puzzles[index].id}`}>
                   <span>{puzzles[index].title}</span>
                   <div>{puzzles[index].author}</div>
@@ -28,9 +30,14 @@ const Month = ({ puzzles, month, year }) => {
               </li>
             </ul>
           );
-        } else return <div>{day.number}</div>;
+        } else
+          return (
+            <div className={day.number ? styles.day : styles.dayHeading}>
+              {day.number || day}
+            </div>
+          );
       })}
-    </div>
+    </ul>
   );
   //   <div class="wrapper">
   //     <main>

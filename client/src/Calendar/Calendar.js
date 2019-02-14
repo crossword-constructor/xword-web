@@ -3,8 +3,8 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import Month from "./Month";
 import styles from "./Calendar.module.css";
-import { BuildYearList, monthMap } from "./utils";
-
+import MonthList from "./MonthList";
+import { monthMap } from "./utils";
 const Calendar = () => {
   const [[currentMonth, currentYear], setDate] = useState(["2", "1942"]);
 
@@ -19,29 +19,10 @@ const Calendar = () => {
     }
   `;
 
-  let yearList = BuildYearList();
   console.log(currentMonth, currentYear);
   return (
-    <div className={styles.page}>
-      <ul>
-        {yearList.reverse().map(year => (
-          <li key={year.date}>
-            <div style={{ fontWeight: 600 }}>{year.date}</div>
-            <ul>
-              {year.months.map(month => (
-                <li
-                  key={month.date}
-                  onClick={() =>
-                    setDate([month.date.toString(), year.date.toString()])
-                  }
-                >
-                  <div style={{ marginLeft: 5 }}>{month.title}</div>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.container}>
+      <MonthList setDate={setDate} />
       <Query
         query={FETCH_PUZZLES}
         variables={{ month: currentMonth, year: currentYear }}
@@ -54,7 +35,7 @@ const Calendar = () => {
           }
           console.log(data);
           return (
-            <div style={{ marginLeft: 50 }}>
+            <div className={styles.calendarContainer}>
               <h2>
                 {monthMap[currentMonth]} {currentYear}
               </h2>

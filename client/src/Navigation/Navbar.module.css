@@ -25,3 +25,8 @@
   margin-left: 150px;
   letter-spacing: 0.05em;
 }
+
+.link {
+  color: white;
+  text-decoration: none;
+}

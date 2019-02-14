@@ -9,15 +9,17 @@ import "./reset.css";
 const App = props => {
   // console.log(props);
   return (
-    <Switch>
+    <div>
       <Navbar />
-      <Route exact path="/" component={Signup} />
-      <Route path="/login" component={Login} />
-      <Route path="/construct" component={Workspace} />
-      <Route path="/solve" component={Solvespace} />
-      <Route path="/nyt/solve/:id" component={Solvespace} />
-      <Route path="/nyt/calendar" component={Calendar} />
-    </Switch>
+      <Switch>
+        <Route exact path="/" component={Signup} />
+        <Route path="/login" component={Login} />
+        <Route path="/construct" component={Workspace} />
+        <Route path="/solve" component={Solvespace} />
+        <Route path="/nyt/solve/:id" component={Solvespace} />
+        <Route path="/calendar" component={Calendar} />
+      </Switch>
+    </div>
   );
 };
 

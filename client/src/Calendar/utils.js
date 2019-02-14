@@ -11,13 +11,15 @@ export const buildMonth = (month, year) => {
   };
   let day = 1;
   let days = [];
+  for (day in dayMap) {
+    days.push(dayMap[day]);
+  }
   let dayOfWeek = dayMap[moment(`${year}/${month}/1`).weekday()];
   let daysInMonth = moment(`${year}/${month}`).daysInMonth();
-  console.log(daysInMonth);
-  console.log(day);
   // let noOfDays =
   for (let i = 1; i <= daysInMonth; i++) {
     let dayOfWeek = dayMap[moment(`${year}/${month}/${i}`).weekday()];
+    console.log(dayOfWeek);
     days.push({ day: dayOfWeek, date: `${month}/${i}/${year}`, number: i });
   }
   return days;
@@ -38,7 +40,7 @@ export const monthMap = {
   12: "December"
 };
 
-export const BuildYearList = function() {
+export const buildYearList = function() {
   let years = [];
   for (let year = 1942; year <= 2019; year++) {
     let months = [];
