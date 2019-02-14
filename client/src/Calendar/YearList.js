@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { buildYearList } from "./utils";
-import styles from "./Calendar.module.css";
+import styles from "./YearList.module.css";
 export default props => {
   let [currentYear, setYear] = useState("2019");
   let yearList = buildYearList();

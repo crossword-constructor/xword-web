@@ -20,22 +20,25 @@ const Month = ({ puzzles, month, year }) => {
         if (puzzleDates.indexOf(day.date) > -1) {
           let index = puzzleDates.indexOf(day.date);
           return (
-            <ul className={styles.day}>
-              <li>
+            <div className={styles.day}>
+              <div>
                 <div>{day.number}</div>
                 <Link to={`solve/${puzzles[index].id}`}>
                   <span>{puzzles[index].title}</span>
                   <div>{puzzles[index].author}</div>
                 </Link>
-              </li>
-            </ul>
+              </div>
+            </div>
           );
-        } else
+        } else if (day === "BLANK") {
+          return <div className={styles.day} />;
+        } else {
           return (
             <div className={day.number ? styles.day : styles.dayHeading}>
               {day.number || day}
             </div>
           );
+        }
       })}
     </ul>
   );

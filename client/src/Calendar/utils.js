@@ -18,9 +18,18 @@ export const buildMonth = (month, year) => {
   let daysInMonth = moment(`${year}/${month}`).daysInMonth();
   // let noOfDays =
   for (let i = 1; i <= daysInMonth; i++) {
-    let dayOfWeek = dayMap[moment(`${year}/${month}/${i}`).weekday()];
-    console.log(dayOfWeek);
+    let dayNumber = moment(`${year}/${month}/${i}`).weekday();
+    let dayOfWeek = dayMap[dayNumber];
+    if (i === 1 && dayNumber > 0) {
+      for (let x = 0; x < dayNumber; x++) {
+        days.push("BLANK");
+      }
+    }
+
     days.push({ day: dayOfWeek, date: `${month}/${i}/${year}`, number: i });
+  }
+  for (let q = 0; q < days.length % 7; q++) {
+    days.push("BLANK");
   }
   return days;
 };

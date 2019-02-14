@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import Month from "./Month";
 import styles from "./Calendar.module.css";
-import MonthList from "./MonthList";
+import YearList from "./YearList";
 import { monthMap } from "./utils";
 const Calendar = () => {
   const [[currentMonth, currentYear], setDate] = useState(["2", "1942"]);
@@ -22,7 +22,7 @@ const Calendar = () => {
   console.log(currentMonth, currentYear);
   return (
     <div className={styles.container}>
-      <MonthList setDate={setDate} />
+      <YearList setDate={setDate} />
       <Query
         query={FETCH_PUZZLES}
         variables={{ month: currentMonth, year: currentYear }}
