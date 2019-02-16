@@ -1,8 +1,18 @@
 .container {
   display: flex;
-  align-items: center;
-  height: 100vh;
+  height: calc(100vh - 60px);
+  width: 100%;
+  margin-top: 30px;
 }
 
 .calendarContainer {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.currentMonth {
+  margin-bottom: 30px;
+  font-size: 25px;
 }

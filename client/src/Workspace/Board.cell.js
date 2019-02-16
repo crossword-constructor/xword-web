@@ -22,14 +22,14 @@ const Cell = ({
     }
   }
   return (
-    <td onMouseDown={click} className="cell">
-      <div className="number">{number}</div>
+    <td onMouseDown={click} className={styles.cell}>
+      <div className={styles.number}>{number}</div>
       <div
         style={{
           background,
           color
         }}
-        className="cellInput"
+        className={styles.cellInput}
       >
         {showAnswer ? answer : guess}
       </div>

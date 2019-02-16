@@ -1,6 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import styles from "./Board.module.css";
 import { Board, Clues } from "./";
 const Solvespace = ({ match }) => {
   let puzzleId = match.params.id;
@@ -20,6 +21,7 @@ const Solvespace = ({ match }) => {
       }
     }
   `;
+  console.log("match.params.id ", match.params.id);
 
   return (
     <Query query={GET_PUZZLE} variables={{ puzzleId }}>
@@ -27,13 +29,13 @@ const Solvespace = ({ match }) => {
         if (loading) return "...loading";
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
         return (
-          <div>
+          <div className={styles.page}>
             {data.puzzle.title}
             {data.puzzle.author}
-            <div style={{ display: "flex" }}>
+            <div className={styles.container}>
               <Board initialBoard={data.puzzle.board} />
-              <div style={{ display: "flex" }}>
-                <ul>
+              <div className={styles.clues}>
+                <ul className={styles.acrossClues}>
                   {data.puzzle.clues
                     .filter(clue => clue.position.indexOf("A") > -1)
                     .map(clue => (
@@ -43,7 +45,7 @@ const Solvespace = ({ match }) => {
                       </li>
                     ))}
                 </ul>
-                <ul>
+                <ul className={styles.downClues}>
                   {data.puzzle.clues
                     .filter(clue => clue.position.indexOf("D") > -1)
                     .map(clue => (

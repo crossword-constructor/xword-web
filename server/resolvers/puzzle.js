@@ -8,12 +8,14 @@ import { Puzzle } from "../models";
 export default {
   Query: {
     puzzle: (root, args, context, info) => {
+      console.log(args.id);
       return Puzzle.findById(args.id)
         .select("date title author board clues")
         .populate({ path: "clues.clue", select: "text -_id" })
         .populate({ path: "clues.answer", select: "text -_id" })
         .lean()
         .then(puzzle => {
+          console.log(puzzle);
           let formattedClues = [];
           // Why is .map() not working on mongoose array???
           puzzle.clues.forEach(clueObj => {

@@ -2,6 +2,7 @@ import React from "react";
 import { buildMonth } from "./utils";
 import { Link } from "react-router-dom";
 import styles from "./Month.module.css";
+import { PuzzleIcon } from "../Shared/";
 const Month = ({ puzzles, month, year }) => {
   // return <div>{puzzles.map(puzzle => puzzle.title)}</div>;
   // FOr the first few years of the NYT crossword puzzle the puzzle was only published on sunday.
@@ -11,23 +12,29 @@ const Month = ({ puzzles, month, year }) => {
   // For puzzles after 1952 we have a puzzle for every day of the week until the present day without exception
   // so for those years (which is most) we can just iterate over the list of puzzles
   let days = buildMonth(month, year);
-  let puzzleDates = puzzles.map(puzzle => puzzle.date);
+  let puzzleDates;
+  if (puzzles) {
+    puzzleDates = puzzles.map(puzzle => puzzle.date);
+  } else {
+    puzzleDates = new Array(31);
+  }
 
   return (
     <ul className={styles.month}>
       {days.map((day, i) => {
-        console.log(day);
         if (puzzleDates.indexOf(day.date) > -1) {
           let index = puzzleDates.indexOf(day.date);
           return (
             <div className={styles.day}>
-              <div>
-                <div>{day.number}</div>
-                <Link to={`solve/${puzzles[index].id}`}>
-                  <span>{puzzles[index].title}</span>
-                  <div>{puzzles[index].author}</div>
-                </Link>
-              </div>
+              {/* <div className={styles.playRibbon}>Play</div> */}
+              <div className={styles.number}>{day.number}</div>
+              <Link to={`solve/${puzzles[index].id}`}>
+                <PuzzleIcon size={80} />
+                {/* <span className={styles.title}>
+                    {puzzles[index].title.toLowerCase()}
+                  </span>
+                  <div>{puzzles[index].author}</div> */}
+              </Link>
             </div>
           );
         } else if (day === "BLANK") {

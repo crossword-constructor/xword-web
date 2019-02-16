@@ -87,5 +87,3 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
     }
   }
 };
-
-export default board => {};

@@ -4,20 +4,29 @@ import gql from "graphql-tag";
 import Month from "./Month";
 import styles from "./Calendar.module.css";
 import YearList from "./YearList";
+import moment from "moment";
 import { monthMap } from "./utils";
-const Calendar = () => {
-  const [[currentMonth, currentYear], setDate] = useState(["2", "1942"]);
 
-  const FETCH_PUZZLES = gql`
-    query Puzzles($month: String, $year: String) {
-      puzzles(month: $month, year: $year) {
-        id
-        author
-        title
-        date
-      }
+const FETCH_PUZZLES = gql`
+  query Puzzles($month: String, $year: String) {
+    puzzles(month: $month, year: $year) {
+      id
+      # author
+      # title
+      date
     }
-  `;
+  }
+`;
+
+const Calendar = () => {
+  console.log("current date", moment(Date.now()).format("M/D/YYYY"));
+  let date = new Date();
+
+  let month = date.getUTCMonth() + 1;
+  month = month.toString();
+  let year = date.getUTCFullYear().toString();
+  console.log(month, year);
+  const [[currentMonth, currentYear], setDate] = useState([month, year]);
 
   console.log(currentMonth, currentYear);
   return (
@@ -28,7 +37,15 @@ const Calendar = () => {
         variables={{ month: currentMonth, year: currentYear }}
       >
         {({ loading, error, data }) => {
-          if (loading) return "Loading...";
+          if (loading)
+            return (
+              <div className={styles.calendarContainer}>
+                <h2 className={styles.currentMonth}>
+                  {monthMap[currentMonth]} {currentYear}
+                </h2>
+                <Month puzzles={null} month={currentMonth} year={currentYear} />
+              </div>
+            );
           if (error) {
             console.log("ERROR: ", JSON.stringify(error, null, 2));
             return "error";
@@ -36,7 +53,7 @@ const Calendar = () => {
           console.log(data);
           return (
             <div className={styles.calendarContainer}>
-              <h2>
+              <h2 className={styles.currentMonth}>
                 {monthMap[currentMonth]} {currentYear}
               </h2>
               <Month

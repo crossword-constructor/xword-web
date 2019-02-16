@@ -129,11 +129,11 @@ table {
 
 html {
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
-*,
-*:before,
+* *:before,
 *:after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 input {
   margin: 0;

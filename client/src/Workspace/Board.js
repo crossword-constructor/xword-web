@@ -139,7 +139,7 @@ const Board = ({ initialBoard }) => {
   let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
   let rows = Object.keys(board).map((row, rowNum) => {
     return (
-      <tr className="row">
+      <tr className={styles.board}>
         {board[row].map((cell, colNum) => {
           let black = cell.answer === "#BlackSquare#";
           let highlighted = false;
@@ -161,7 +161,7 @@ const Board = ({ initialBoard }) => {
             }
           }
           return black ? (
-            <td className="black" />
+            <td className={styles.black} />
           ) : (
             <Cell
               highlighted={highlighted}
