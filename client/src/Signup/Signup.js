@@ -36,7 +36,7 @@ export const Signup = () => {
           type="text"
           name="name"
           value={name}
-          className={step === 0 ? styles.activeStep : styles.hidden}
+          // className={step === 0 ? styles.activeStep : styles.hidden}
           onChange={e => {
             setName(e.target.value);
           }}
@@ -45,7 +45,7 @@ export const Signup = () => {
           type="text"
           name="username"
           value={username}
-          className={step === 1 ? styles.activeStep : styles.hidden}
+          // className={step === 1 ? styles.activeStep : styles.hidden}
           onChange={e => {
             setUsername(e.target.value);
           }}
@@ -54,7 +54,7 @@ export const Signup = () => {
           type="password"
           name="password"
           value={password}
-          className={step === 2 ? styles.activeStep : styles.hidden}
+          // className={step === 2 ? styles.activeStep : styles.hidden}
           onChange={e => {
             setPassword(e.target.value);
           }}
@@ -63,7 +63,7 @@ export const Signup = () => {
           type="email"
           name="email"
           value={email}
-          className={step === 3 ? styles.activeStep : styles.hidden}
+          // className={step === 3 ? styles.activeStep : styles.hidden}
           onChange={e => {
             setEmail(e.target.value);
           }}
@@ -72,21 +72,21 @@ export const Signup = () => {
           mutation={SIGNUP_MUTATION}
           variables={{ username, email, password, name }}
         >
-          {(signUp, { data, error }) => {
-            console.log(data);
-            console.log(error);
+          {(signUp, res) => {
+            console.log("data: ", res);
             return (
               <div>
                 <button
-                  onClick={() =>
+                  onClick={e => {
+                    e.preventDefault();
                     signUp({
                       variables: { email, username, password, name }
-                    })
-                  }
+                    });
+                  }}
                 >
                   Submit
                 </button>
-                {data ? data.signUp.username : null}
+                {res.data ? res.data.signUp.username : null}
                 {/* {Object.keys(error).map(key => key)} */}
               </div>
             );

@@ -12,7 +12,7 @@ import {
 // const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
-const Board = ({ initialBoard }) => {
+const Board = ({ initialBoard, currentClue, setClue }) => {
   const [direction, setDirection] = useState("across");
   // const [wordCoords, setWordCoords] = useState([0, 0]);
   const [currentCoords, setCurrentCoords] = useState([0, 0]);
@@ -35,6 +35,26 @@ const Board = ({ initialBoard }) => {
       document.removeEventListener("keyup", keyListener.cancel);
     };
   });
+
+  useEffect(() => {
+    console.log("currnet clue changed");
+    let newPosition = currentClue.substring(0, currentClue.length - 1);
+    let newDirection =
+      currentClue.substring(currentClue.length - 1, currentClue.length) === "A"
+        ? "across"
+        : "down";
+    board.forEach((row, r) => {
+      row.forEach((cell, c) => {
+        if (cell.number) {
+          if (cell.number.toString() === newPosition) {
+            setCurrentCoords([r, c]);
+            setDirection(newDirection);
+          }
+        }
+      });
+    });
+    // get coords and direction from current clue
+  }, [currentClue]);
 
   const keyListener = function(event) {
     let newDirection = direction;
@@ -93,6 +113,7 @@ const Board = ({ initialBoard }) => {
       //   newDirection
       // );
       // setWordCoords([wordBeg, wordEnd]);
+
       setCurrentCoords(nextCell);
       return;
     }
@@ -107,6 +128,7 @@ const Board = ({ initialBoard }) => {
   };
 
   const setSelected = (row, col, newDirection) => {
+    console.log("setting selected");
     // Toggle direction if clicking active sqaure
     let wordEnd = searchForBoundaryCell(
       row,

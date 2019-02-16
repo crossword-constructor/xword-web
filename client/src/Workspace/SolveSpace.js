@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import styles from "./Board.module.css";
 import { Board, Clues } from "./";
-const Solvespace = ({ match }) => {
-  let puzzleId = match.params.id;
-  const GET_PUZZLE = gql`
-    query Puzzle($puzzleId: ID) {
-      puzzle(id: $puzzleId) {
-        title
-        author
-        date
-        publisher
-        board
-        clues {
-          answer
-          clue
-          position
-        }
+const GET_PUZZLE = gql`
+  query Puzzle($puzzleId: ID) {
+    puzzle(id: $puzzleId) {
+      title
+      author
+      date
+      publisher
+      board
+      clues {
+        answer
+        clue
+        position
       }
     }
-  `;
+  }
+`;
+const Solvespace = ({ match }) => {
+  let [currentClue, setClue] = useState("1A");
+  let puzzleId = match.params.id;
+
   console.log("match.params.id ", match.params.id);
 
   return (
@@ -33,28 +35,17 @@ const Solvespace = ({ match }) => {
             {data.puzzle.title}
             {data.puzzle.author}
             <div className={styles.container}>
-              <Board initialBoard={data.puzzle.board} />
+              <Board
+                initialBoard={data.puzzle.board}
+                currentClue={currentClue}
+                setClue={setClue}
+              />
               <div className={styles.clues}>
-                <ul className={styles.acrossClues}>
-                  {data.puzzle.clues
-                    .filter(clue => clue.position.indexOf("A") > -1)
-                    .map(clue => (
-                      <li>
-                        <span style={{ fontWeight: 600 }}>{clue.position}</span>{" "}
-                        {clue.clue}
-                      </li>
-                    ))}
-                </ul>
-                <ul className={styles.downClues}>
-                  {data.puzzle.clues
-                    .filter(clue => clue.position.indexOf("D") > -1)
-                    .map(clue => (
-                      <li>
-                        <span style={{ fontWeight: 600 }}>{clue.position}</span>{" "}
-                        {clue.clue}
-                      </li>
-                    ))}
-                </ul>
+                <Clues
+                  clues={data.puzzle.clues}
+                  setClue={setClue}
+                  currentClue={currentClue}
+                />
               </div>
             </div>
           </div>
