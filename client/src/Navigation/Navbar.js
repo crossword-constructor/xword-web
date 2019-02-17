@@ -15,7 +15,15 @@ export const Navbar = () => {
             Solve
           </NavLink>
         </li>
-        <li>Construct</li>
+        <li>
+          <NavLink
+            className={styles.link}
+            to="/construct"
+            activeClassName={styles.activeLink}
+          >
+            Construct
+          </NavLink>
+        </li>
         <li>Sign up</li>
       </ul>
     </nav>

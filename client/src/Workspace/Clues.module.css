@@ -1,6 +1,20 @@
 .clue {
+  padding: 5px;
 }
 
 .highlighted {
+  composes: clue;
   background: blue;
+}
+
+.clues {
+  overflow: scroll;
+}
+
+.acrossClues {
+  composes: clues;
+}
+
+.downClues {
+  composes: clues;
 }

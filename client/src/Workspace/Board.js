@@ -105,15 +105,9 @@ const Board = ({ initialBoard, currentClue, setClue }) => {
         direction,
         code,
         initialBoard
-        // settings
+        // @TODO settings
       );
-      // let { wordBeg, wordEnd } = setSelected(
-      //   nextCell[0],
-      //   nextCell[1],
-      //   newDirection
-      // );
-      // setWordCoords([wordBeg, wordEnd]);
-
+      // @TODO setClue
       setCurrentCoords(nextCell);
       return;
     }

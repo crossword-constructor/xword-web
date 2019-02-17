@@ -5,6 +5,10 @@
   margin-top: 40px;
 }
 
+.clues {
+  max-height: calc(40px * 15);
+}
+
 .board {
   border-collapse: collapse;
   font-size: 20px;
