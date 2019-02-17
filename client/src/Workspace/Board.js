@@ -12,7 +12,7 @@ import {
 // const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
-const Board = ({ initialBoard, currentClue, setClue }) => {
+const Board = ({ initialBoard, currentClue, setClue, construct }) => {
   const [direction, setDirection] = useState("across");
   // const [wordCoords, setWordCoords] = useState([0, 0]);
   const [currentCoords, setCurrentCoords] = useState([0, 0]);
@@ -37,7 +37,6 @@ const Board = ({ initialBoard, currentClue, setClue }) => {
   });
 
   useEffect(() => {
-    console.log("currnet clue changed");
     let newPosition = currentClue.substring(0, currentClue.length - 1);
     let newDirection =
       currentClue.substring(currentClue.length - 1, currentClue.length) === "A"
@@ -60,6 +59,7 @@ const Board = ({ initialBoard, currentClue, setClue }) => {
     let newDirection = direction;
     let code = event.code;
     let [row, col] = currentCoords;
+    let newBoard = { ...board };
     if (code === "Insert") {
       return setRebus(true);
       // Check for change of direction
@@ -73,13 +73,20 @@ const Board = ({ initialBoard, currentClue, setClue }) => {
       else code = "ArrowRight"; // @TODO DOn't move if we've reached a black square or the end of the board also we need to skip letters if they're already therr
     } else if (code === "Backspace") {
       if (/^[a-z0-9._]+$/i.test(initialBoard[row][col].guess)) {
-        let newBoard = { ...board };
         newBoard[row][col].guess = "";
         updateBoard(newBoard);
+      }
+      if (construct && newBoard[row][col].answer === "#BlackSquare#") {
+        newBoard[row][col].answer = " ";
+        newBoard[7 + (7 - row)][7 + (7 - col)].answer = " ";
       }
       if (direction === "down") code = "ArrowUp";
       else code = "ArrowLeft";
     } else if (code === "Space") {
+      if (construct) {
+        newBoard[row][col].answer = "#BlackSquare#";
+        newBoard[7 + (7 - row)][7 + (7 - col)].answer = "#BlackSquare#";
+      }
       if (direction === "down") code = "ArrowDown";
       else code = "ArrowRight";
     }

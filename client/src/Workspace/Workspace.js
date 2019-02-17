@@ -21,6 +21,7 @@ const Workspace = () => {
           initialBoard={initialBoard}
           currentClue={currentClue}
           setClue={setClue}
+          construct
         />
         <div className={styles.clues}>
           <Clues clues={[]} setClue={setClue} currentClue={currentClue} />
