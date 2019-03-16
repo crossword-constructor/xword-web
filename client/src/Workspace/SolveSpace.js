@@ -21,10 +21,11 @@ const GET_PUZZLE = gql`
   }
 `;
 
-const Solvespace = ({ match }) => {
+const Solvespace = props => {
   let [currentClue, setClue] = useState("1A");
-  let puzzleId = match.params.id;
-
+  let puzzleId = props.match.params.id;
+  console.log("what is causing this to rerender? ");
+  console.log(props);
   return (
     <Query query={GET_PUZZLE} variables={{ puzzleId }}>
       {({ loading, error, data }) => {

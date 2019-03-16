@@ -16,7 +16,28 @@ export const buildPlayableBoard = board => {
         number = currentNumber;
         currentNumber++;
       }
-      return { guess: "", answer: col, number: number };
+      let wordBegAcross = searchForBoundaryCell(
+        rowCount,
+        colCount,
+        "across",
+        "DECREMENT",
+        board
+      );
+      let wordBegDown = searchForBoundaryCell(
+        rowCount,
+        colCount,
+        "down",
+        "DECREMENT",
+        board
+      );
+      // console.log("wordBegAcross: ", wordBegAcross);
+      return {
+        guess: "",
+        answer: col,
+        number: number,
+        acrossClue: `${wordBegAcross + 1}A`,
+        downClue: `${wordBegDown + 1}D`
+      };
     });
   });
 };

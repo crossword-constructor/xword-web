@@ -35,7 +35,7 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
       document.removeEventListener("keydown", keyListener);
       document.removeEventListener("keyup", keyListener.cancel);
     };
-  });
+  }, [initialBoard]);
 
   const [rebusPosition, setRebus] = useState(null);
   const [currentCoords, setCurrentCoords] = useState([0, 0]);
@@ -133,9 +133,10 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     // updatePosition(increment, decrement)
   };
 
-  const setSelected = (row, col, newDirection) => {
-    console.log("setting selected");
-    // Toggle direction if clicking active sqaure
+  const [wordCoords, setWordBoundaries] = useState([0, 0]);
+  useEffect(() => {
+    let [row, col] = currentCoords;
+    let newDirection = direction;
     let wordEnd = searchForBoundaryCell(
       row,
       col,
@@ -150,15 +151,20 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
       "DECREMENT",
       initialBoard
     );
-    console.log("word beg: ", wordBeg);
     let clue;
     if (board[row] && newDirection === "across") {
       clue = board[row][wordBeg].number + "A";
+      console.log("new clue: ", clue);
       if (clue !== currentClue) {
         setClue(clue);
       }
     }
-    return [wordBeg, wordEnd];
+    setWordBoundaries([wordBeg, wordEnd]);
+  }, [currentCoords, direction, currentClue]);
+
+  const setSelected = (row, col, newDirection) => {
+    console.log("current clue: ", currentClue);
+    // Toggle direction if clicking active sqaure
   };
 
   const clickListener = (rowNum, colNum) => {
@@ -172,7 +178,7 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     // setWordCoords([wordBeg, wordEnd]);
   };
 
-  let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
+  // let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
   let rows = Object.keys(board).map((row, rowNum) => {
     return (
       <tr className={styles.board}>
