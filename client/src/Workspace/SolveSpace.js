@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import styles from "./Board.module.css";
 import { Board, Clues } from "./";
+
 const GET_PUZZLE = gql`
   query Puzzle($puzzleId: ID) {
     puzzle(id: $puzzleId) {
@@ -19,17 +20,17 @@ const GET_PUZZLE = gql`
     }
   }
 `;
+
 const Solvespace = ({ match }) => {
   let [currentClue, setClue] = useState("1A");
   let puzzleId = match.params.id;
-
-  console.log("match.params.id ", match.params.id);
 
   return (
     <Query query={GET_PUZZLE} variables={{ puzzleId }}>
       {({ loading, error, data }) => {
         if (loading) return "...loading";
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
+        console.log(data);
         return (
           <div className={styles.page}>
             {data.puzzle.title}

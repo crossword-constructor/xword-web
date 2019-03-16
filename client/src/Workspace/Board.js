@@ -13,18 +13,19 @@ import {
 // Converts the object structure of board to store guesses next to answers
 
 const Board = ({ initialBoard, currentClue, setClue, construct }) => {
-  const [direction, setDirection] = useState("across");
   // const [wordCoords, setWordCoords] = useState([0, 0]);
-  const [currentCoords, setCurrentCoords] = useState([0, 0]);
-  const [rebusPosition, setRebus] = useState(null);
-  const [board, updateBoard] = useState([]);
   const [showAnswers, toggleAnswers] = useState(false);
-  const [playing, togglePlaying] = useState(true);
+  // const [playing, togglePlaying] = useState(true);
 
+  const [board, updateBoard] = useState([]);
   useEffect(() => {
+    console.log("intitialBoard");
+    console.log(initialBoard);
     let board = buildPlayableBoard(initialBoard);
+    console.log("playablebaord");
+    console.log(board);
     updateBoard(board);
-  }, []);
+  }, [initialBoard]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyListener);
@@ -36,6 +37,11 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     };
   });
 
+  const [rebusPosition, setRebus] = useState(null);
+  const [currentCoords, setCurrentCoords] = useState([0, 0]);
+  const [direction, setDirection] = useState("across");
+
+  // Get coords and direction from currentClue
   useEffect(() => {
     let newPosition = currentClue.substring(0, currentClue.length - 1);
     let newDirection =
@@ -52,7 +58,6 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
         }
       });
     });
-    // get coords and direction from current clue
   }, [currentClue]);
 
   const keyListener = function(event) {
@@ -145,6 +150,14 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
       "DECREMENT",
       initialBoard
     );
+    console.log("word beg: ", wordBeg);
+    let clue;
+    if (board[row] && newDirection === "across") {
+      clue = board[row][wordBeg].number + "A";
+      if (clue !== currentClue) {
+        setClue(clue);
+      }
+    }
     return [wordBeg, wordEnd];
   };
 

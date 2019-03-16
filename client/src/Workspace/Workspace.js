@@ -10,6 +10,7 @@ for (let i = 0; i < 15; i++) {
   }
   initialBoard.push(row);
 }
+
 const Workspace = () => {
   let currentClue = "1A";
   let setClue = () => "1D";
@@ -24,7 +25,8 @@ const Workspace = () => {
           construct
         />
         <div className={styles.clues}>
-          <Clues clues={[]} setClue={setClue} currentClue={currentClue} />
+          <textarea width={600} height={400} />
+          {/* <Clues clues={[]} setClue={setClue} currentClue={currentClue} /> */}
         </div>
       </div>
     </div>
