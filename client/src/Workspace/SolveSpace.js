@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import styles from "./Board.module.css";
-import { Board, Clues } from "./";
+import React, { useState, useEffect } from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import styles from './Board.module.css';
+import { Board, Clues } from './';
 
 const GET_PUZZLE = gql`
   query Puzzle($puzzleId: ID) {
@@ -22,16 +22,16 @@ const GET_PUZZLE = gql`
 `;
 
 const Solvespace = props => {
-  let [currentClue, setClue] = useState("1A");
+  let [currentClue, setClue] = useState('1A');
   let puzzleId = props.match.params.id;
-  console.log("what is causing this to rerender? ");
-  console.log(props);
+  // console.log("what is causing this to rerender? ");
+  // console.log(props);
   return (
     <Query query={GET_PUZZLE} variables={{ puzzleId }}>
       {({ loading, error, data }) => {
-        if (loading) return "...loading";
+        if (loading) return '...loading';
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
-        console.log(data);
+        console.log(data.puzzle.clues);
         return (
           <div className={styles.page}>
             {data.puzzle.title}
