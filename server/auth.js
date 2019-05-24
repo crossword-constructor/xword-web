@@ -1,10 +1,10 @@
-import { AuthenticationError } from "apollo-server-express";
-import { User } from "./models";
-import { SESS_SECRET } from "./config";
-import jwt from "jsonwebtoken";
+import { AuthenticationError } from 'apollo-server-express';
+import { User } from './models';
+import { SESS_SECRET } from './config';
+import jwt from 'jsonwebtoken';
 
 export const attemptSignIn = async (email, password) => {
-  const message = "Incorrect email or password. Please try again.";
+  const message = 'Incorrect email or password. Please try again.';
 
   const user = await User.findOne({ email });
 
@@ -19,13 +19,13 @@ const signedIn = req => req.session.userId;
 
 export const ensureSignedIn = req => {
   if (!signedIn(req)) {
-    throw new AuthenticationError("You must be signed in.");
+    throw new AuthenticationError('You must be signed in.');
   }
 };
 
 export const ensureSignedOut = req => {
   if (signedIn(req)) {
-    throw new AuthenticationError("You are already signed in.");
+    throw new AuthenticationError('You are already signed in.');
   }
 };
 
