@@ -13,7 +13,7 @@ import {
 // const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
-const Board = ({ initialBoard, currentClue, setClue, construct }) => {
+const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
   // const [wordCoords, setWordCoords] = useState([0, 0]);
   const [showAnswers, toggleAnswers] = useState(false);
   // const [playing, togglePlaying] = useState(true);
@@ -22,6 +22,7 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
   useEffect(() => {
     // console.log(initialBoard);
     const playableBoard = buildPlayableBoard(initialBoard);
+    console.log(playableBoard);
     // console.log('playable board: ', board);
     updateBoard(playableBoard);
   }, [initialBoard]);
@@ -79,14 +80,14 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
         newBoard[row][col].guess = '';
         updateBoard(newBoard);
       }
-      if (construct && newBoard[row][col].answer === '#BlackSquare#') {
+      if (isConstructing && newBoard[row][col].answer === '#BlackSquare#') {
         newBoard[row][col].answer = ' ';
         newBoard[7 + (7 - row)][7 + (7 - col)].answer = ' ';
       }
       if (direction === 'down') code = 'ArrowUp';
       else code = 'ArrowLeft';
     } else if (code === 'Space') {
-      if (construct) {
+      if (isConstructing) {
         newBoard[row][col].answer = '#BlackSquare#';
         newBoard[7 + (7 - row)][7 + (7 - col)].answer = '#BlackSquare#';
       }
@@ -201,9 +202,13 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
             highlighted = true;
           }
           return black ? (
-            <td className={styles.black} />
+            // it is fine to use index as key because the index will not change and is actually meaningful information because it's index = its position in the grid
+            // eslint-disable-next-line react/no-array-index-key
+            <td className={styles.black} key={`${rowNum}${colNum}`} />
           ) : (
             <Cell
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${rowNum}${colNum}`}
               highlighted={highlighted}
               focus={currentCoords[0] === rowNum && currentCoords[1] === colNum}
               answer={cell.answer}
@@ -252,10 +257,15 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
 };
 
 Board.propTypes = {
-  initialBoard: PropTypes.shape({}).isRequired,
+  initialBoard: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+    .isRequired,
   currentClue: PropTypes.string.isRequired,
   setClue: PropTypes.func.isRequired,
-  construct: PropTypes.func.isRequired,
+  isConstructing: PropTypes.bool,
+};
+
+Board.defaultProps = {
+  isConstructing: false,
 };
 // position = [row, col]
 // incOrDec = increment or decrement

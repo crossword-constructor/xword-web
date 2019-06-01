@@ -1,13 +1,32 @@
 export const buildPlayableBoard = board => {
   let currentNumber = 1;
+  const downClueTracker = {};
   const playableBoard = board.map((row, rowCount) => {
-    const acrossClue = 1;
-    const downClue = 1;
+    let acrossClue = 1;
+    let downClue = 1;
     return row.map((col, colCount) => {
       let number = null;
       if (col === '#BlackSquare#') {
         return { answer: col };
       }
+      // deduce clues associated with this cell
+      if (rowCount === 0) {
+        downClueTracker[colCount] = currentNumber;
+      }
+      if (colCount === 0) {
+        acrossClue = currentNumber;
+      }
+      if (row[colCount - 1] === '#BlackSquare#') {
+        acrossClue = currentNumber;
+      }
+      if (
+        board[rowCount - 1] &&
+        board[rowCount - 1][colCount] === '#BlackSquare#'
+      ) {
+        downClueTracker[colCount] = currentNumber;
+      }
+
+      downClue = downClueTracker[colCount];
       // Check if this cell gets a number
       if (
         rowCount === 0 ||

@@ -11,7 +11,7 @@ const Clues = ({ clues, currentClue, setClue }) => {
           .filter(clue => clue.position.indexOf('A') > -1)
           .map(clue => (
             <li
-              key={clue._id}
+              key={clue.position}
               className={
                 currentClue === clue.position ? styles.highlighted : styles.clue
               }
@@ -33,7 +33,7 @@ const Clues = ({ clues, currentClue, setClue }) => {
           .filter(clue => clue.position.indexOf('D') > -1)
           .map(clue => (
             <li
-              key={clue._id}
+              key={clue.position}
               className={
                 currentClue === clue.position ? styles.highlighted : styles.clue
               }
