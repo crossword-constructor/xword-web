@@ -1,13 +1,40 @@
-export const buildPlayableBoard = board => {
+export const buildPlayableBoard = puzzle => {
+  const { board, clues } = puzzle;
+
+  const cluesObj = {};
+  for (let i = 0; i < clues.length; i += 1) {
+    cluesObj[clues[i].position] = clues[i];
+    cluesObj[clues[i].position].cells = [];
+  }
   let currentNumber = 1;
+  const downClueTracker = {};
   const playableBoard = board.map((row, rowCount) => {
-    const acrossClue = 1;
-    const downClue = 1;
+    let acrossClue = '1A';
+    let downClue = '1D';
     return row.map((col, colCount) => {
       let number = null;
       if (col === '#BlackSquare#') {
         return { answer: col };
       }
+      // deduce clues associated with this cell
+      if (rowCount === 0) {
+        downClueTracker[colCount] = currentNumber;
+      }
+      if (colCount === 0) {
+        acrossClue = `${currentNumber}A`;
+      }
+      if (row[colCount - 1] === '#BlackSquare#') {
+        acrossClue = `${currentNumber}A`;
+      }
+      if (
+        board[rowCount - 1] &&
+        board[rowCount - 1][colCount] === '#BlackSquare#'
+      ) {
+        downClueTracker[colCount] = currentNumber;
+      }
+      downClue = `${downClueTracker[colCount]}D`;
+      cluesObj[acrossClue].cells.push([rowCount, colCount]);
+      cluesObj[downClue].cells.push([rowCount, colCount]);
       // Check if this cell gets a number
       if (
         rowCount === 0 ||
@@ -23,33 +50,7 @@ export const buildPlayableBoard = board => {
       return { guess: '', answer: col, number, clues: [acrossClue, downClue] };
     });
   });
-  // let rowCounter = 0;
-  // for (let row of playableBoard) {
-  //   let colCounter = 0;
-  //   for (let col of row) {
-  //     let wordBegAcross = searchForBoundaryCell(
-  //       rowCounter,
-  //       colCounter,
-  //       "across",
-  //       "DECREMENT",
-  //       playableBoard
-  //     );
-  //     let wordBegDown = searchForBoundaryCell(
-  //       rowCounter,
-  //       colCounter,
-  //       "down",
-  //       "DECREMENT",
-  //       playableBoard
-  //     );
-  //     playableBoard[rowCounter][colCounter].acrossClue = `${wordBegAcross +
-  //       1}A`;
-  //     playableBoard[rowCounter][colCounter].downClue = `${wordBegDown + 1}D`;
-  //     colCounter++;
-  //   }
-  //   rowCounter++;
-  // }
-  // console.log(playableBoard);
-  return playableBoard;
+  return { playableBoard, clues: cluesObj };
 };
 
 // Take the current position, direction, keypressed and finds the next cell in that row or col that isn't a blacksquare.
