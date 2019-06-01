@@ -1,40 +1,63 @@
-import React, { useState, useEffect } from "react";
-import styles from "./Board.module.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './Board.module.css';
+
 const Cell = ({
   answer,
   number,
   guess,
-  showAnswer,
+  isShowingAnswer,
   click,
-  focus,
-  highlighted
+  isFocused,
+  isHighlighted,
 }) => {
-  let background = "#F6F6F6";
-  if (focus) {
-    background = "yellow";
-  } else if (highlighted) {
-    background = "#a0effb";
+  let background = '#F6F6F6';
+  if (isFocused) {
+    background = 'yellow';
+  } else if (isHighlighted) {
+    background = '#a0effb';
   }
-  let color = "black";
-  if (showAnswer) {
+  let color = 'black';
+  if (isShowingAnswer) {
     if (answer.toLowerCase() !== guess.toLowerCase()) {
-      color = "red";
+      color = 'red';
     }
   }
   return (
-    <td onMouseDown={click} className={styles.cell}>
+    <td className={styles.cell}>
       <div className={styles.number}>{number}</div>
       <div
         style={{
           background,
-          color
+          color,
         }}
         className={styles.cellInput}
+        onMouseDown={click}
+        role="button"
+        tabIndex="-1"
       >
-        {showAnswer ? answer : guess}
+        {isShowingAnswer ? answer : guess}
       </div>
     </td>
   );
+};
+
+Cell.propTypes = {
+  answer: PropTypes.string.isRequired,
+  guess: PropTypes.string,
+  number: PropTypes.number,
+  click: PropTypes.func.isRequired,
+  isShowingAnswer: PropTypes.bool,
+  isHighlighted: PropTypes.bool,
+  isFocused: PropTypes.bool,
+};
+
+Cell.defaultProps = {
+  guess: '',
+  number: null,
+  isShowingAnswer: false,
+  isFocused: false,
+  isHighlighted: false,
 };
 
 export default Cell;

@@ -1,10 +1,12 @@
 import Joi from "joi";
 import mongoose from "mongoose";
+import passport from "passport";
 import { UserInputError } from "apollo-server-express";
 import { signUp, signIn } from "../schemas";
-import { attemptSignIn, signOut } from "../auth";
+// import { attemptSignIn, signOut } from '../auth';
 import { User } from "../models";
-
+import { resolveGraphqlOptions } from "apollo-server-core";
+var fofo;
 export default {
   Query: {
     me: (root, args, { req }, info) => {
@@ -25,16 +27,42 @@ export default {
     }
   },
   Mutation: {
-    signUp: async (root, args, { req }, info) => {
+    signUp: async (root, args, { req, res }, info) => {
+      // console.log('info ', info);
       console.log("someone is signing up");
+      // console.log(req);
+      // console.log(resolveGraphqlOptions);
       // TODO: projection
-      await Joi.validate(args, signUp, { abortEarly: false });
+      // await Joi.validate(args, signUp, { abortEarly: false });
+      // console.log(req.body);
+      passport.authenticate("local", (err, user, info) => {
+        console.log("in here??");
+        console.log("user ", user);
+        console.log("info ", info);
+        console.log("err: ", err);
+        if (user) {
+          return req.login(user, err => {
+            if (err) {
+              errors.sendError.InternalError(null, res);
+            }
+            res.json(user);
+          });
+        }
+        let msg;
+        if (info && info.message) {
+          msg = info.message;
+        } else {
+          msg = info;
+        }
 
-      const user = await User.create(args);
+        return errors.sendError.InvalidCredentialsError(msg, res);
+      })(req, res);
 
-      req.session.userId = user.id;
+      // const user = await User.create(args);
 
-      return user;
+      // req.session.userId = user.id;
+
+      // return user;
     },
     signIn: async (root, args, { req }, info) => {
       // TODO: projection

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import Month from "./Month";
-import styles from "./Calendar.module.css";
-import YearList from "./YearList";
-import moment from "moment";
-import { monthMap } from "./utils";
+import React, { useState } from 'react';
+// import PropTypes from 'prop-types';
+// import moment from 'moment';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import Month from './Month';
+import styles from './Calendar.module.css';
+import YearList from './YearList';
+import { monthMap } from './utils';
 
 const FETCH_PUZZLES = gql`
   query Puzzles($month: String, $year: String) {
@@ -19,16 +20,16 @@ const FETCH_PUZZLES = gql`
 `;
 
 const Calendar = () => {
-  console.log("current date", moment(Date.now()).format("M/D/YYYY"));
-  let date = new Date();
+  // console.log('current date', moment(Date.now()).format('M/D/YYYY'));
+  const date = new Date();
 
   let month = date.getUTCMonth() + 1;
   month = month.toString();
-  let year = date.getUTCFullYear().toString();
-  console.log(month, year);
+  const year = date.getUTCFullYear().toString();
+  // console.log(month, year);
   const [[currentMonth, currentYear], setDate] = useState([month, year]);
 
-  console.log(currentMonth, currentYear);
+  // console.log(currentMonth, currentYear);
   return (
     <div className={styles.container}>
       <YearList setDate={setDate} />
@@ -47,10 +48,10 @@ const Calendar = () => {
               </div>
             );
           if (error) {
-            console.log("ERROR: ", JSON.stringify(error, null, 2));
-            return "error";
+            // console.log('ERROR: ', JSON.stringify(error, null, 2));
+            return 'error';
           }
-          console.log(data);
+          // console.log(data);
           return (
             <div className={styles.calendarContainer}>
               <h2 className={styles.currentMonth}>

@@ -2,7 +2,7 @@ import Joi from "joi";
 import mongoose from "mongoose";
 import { UserInputError } from "apollo-server-express";
 // import { signUp, signIn } from "../schemas";
-import { attemptSignIn, signOut } from "../auth";
+// import { attemptSignIn, signOut } from "../auth";
 import { Puzzle } from "../models";
 
 export default {

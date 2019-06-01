@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { Mutation, Query } from "react-apollo";
-import { Link } from "react-router-dom";
-import styles from "./Signup.module.css";
+import React, { useState } from 'react';
+// import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+// import { Link } from 'react-router-dom';
+import styles from './Signup.module.css';
 
-import gql from "graphql-tag";
-export const Signup = () => {
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [step, setStep] = useState(0);
+const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  // const [step, setStep] = useState(0);
 
   const SIGNUP_MUTATION = gql`
     mutation signUp(
@@ -73,16 +74,17 @@ export const Signup = () => {
           variables={{ username, email, password, name }}
         >
           {(signUp, res) => {
-            console.log("data: ", res);
+            // console.log('data: ', res);
             return (
               <div>
                 <button
                   onClick={e => {
                     e.preventDefault();
                     signUp({
-                      variables: { email, username, password, name }
+                      variables: { email, username, password, name },
                     });
                   }}
+                  type="submit"
                 >
                   Submit
                 </button>
@@ -97,4 +99,4 @@ export const Signup = () => {
   );
 };
 
-// export default Signup;
+export default Signup;

@@ -4,6 +4,7 @@ import session from "express-session";
 import connectMongo from "connect-mongo";
 import cors from "cors";
 import { ApolloServer } from "apollo-server-express";
+// import auth from './auth';
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 import schemaDirectives from "./directives";
@@ -51,6 +52,11 @@ import {
         }
       })
     );
+
+    // // auth(passport); // SETUP STRATEGIES ./middleware/passport
+    // app.use(passport.initialize());
+    // app.use(passport.session());
+
     const server = new ApolloServer({
       typeDefs,
       resolvers,
@@ -61,7 +67,10 @@ import {
               "request.credentials": "include"
             }
           },
-      context: ({ req, res }) => ({ req, res })
+      context: ({ req, res }) => {
+        // console.log('building context');
+        return { req, res };
+      }
     });
     app.use(cors());
     server.applyMiddleware({ app });
