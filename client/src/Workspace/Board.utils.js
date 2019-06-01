@@ -1,27 +1,25 @@
 export const buildPlayableBoard = board => {
   let currentNumber = 1;
-  let playableBoard = board.map((row, rowCount) => {
-    let acrossClue = 1;
-    let downClue = 1;
+  const playableBoard = board.map((row, rowCount) => {
+    const acrossClue = 1;
+    const downClue = 1;
     return row.map((col, colCount) => {
       let number = null;
       if (col === '#BlackSquare#') {
         return { answer: col };
       }
       // Check if this cell gets a number
-      else if (
+      if (
         rowCount === 0 ||
         colCount === 0 ||
         row[colCount - 1] === '#BlackSquare#' ||
         board[rowCount - 1][colCount] === '#BlackSquare#'
       ) {
         number = currentNumber;
-        currentNumber++;
+        currentNumber += 1;
       }
 
-      if (row[colCount - 1] === '#BlackSquare#') {
-        acrossClue = number;
-      }
+      // acrossClue = currentNuber;
       return { guess: '', answer: col, number, clues: [acrossClue, downClue] };
     });
   });
@@ -50,7 +48,7 @@ export const buildPlayableBoard = board => {
   //   }
   //   rowCounter++;
   // }
-  console.log(playableBoard);
+  // console.log(playableBoard);
   return playableBoard;
 };
 
@@ -105,7 +103,7 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
       currentCell = board[row][endCounter];
     } else {
       try {
-        currentCell = board[parseInt(endCounter)][col];
+        currentCell = board[parseInt(endCounter, 10)][col];
       } catch (err) {
         currentCell = undefined;
       }
@@ -115,9 +113,9 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
       return cell;
     }
     if (incOrDec === 'INCREMENT') {
-      endCounter++;
+      endCounter += 1;
     } else {
-      endCounter--;
+      endCounter -= 1;
     }
   }
 };

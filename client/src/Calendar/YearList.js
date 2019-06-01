@@ -1,14 +1,22 @@
-import React, { useState } from "react";
-import { buildYearList } from "./utils";
-import styles from "./YearList.module.css";
-export default props => {
-  let [currentYear, setYear] = useState("2019");
-  let yearList = buildYearList();
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { buildYearList } from './utils';
+import styles from './YearList.module.css';
+
+const YearList = ({ setDate }) => {
+  const [currentYear, setYear] = useState('2019');
+  const yearList = buildYearList();
   return (
     <ul className={styles.yearList}>
       {yearList.reverse().map(year => (
         <li key={year.date}>
-          <div className={styles.year} onClick={() => setYear(year.date)}>
+          <div
+            className={styles.year}
+            onClick={() => setYear(year.date)}
+            role="button"
+            tabIndex="-1"
+            onKeyPress={() => setYear(year.date)}
+          >
             {year.date}
           </div>
           <ul
@@ -17,13 +25,20 @@ export default props => {
             }
           >
             {year.months.map(month => (
-              <li
-                key={month.date}
-                onClick={() =>
-                  props.setDate([month.date.toString(), year.date.toString()])
-                }
-              >
-                <div style={{ marginLeft: 5 }}>{month.title}</div>
+              <li key={month.date}>
+                <div
+                  onClick={() =>
+                    setDate([month.date.toString(), year.date.toString()])
+                  }
+                  onKeyPress={() =>
+                    setDate([month.date.toString(), year.date.toString()])
+                  }
+                  role="button"
+                  tabIndex="-1"
+                  style={{ marginLeft: 5 }}
+                >
+                  {month.title}
+                </div>
               </li>
             ))}
           </ul>
@@ -32,3 +47,9 @@ export default props => {
     </ul>
   );
 };
+
+YearList.propTypes = {
+  setDate: PropTypes.func.isRequired,
+};
+
+export default YearList;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Cell from './Board.cell';
 import styles from './Board.module.css';
 // import Clock from "./Clock";
@@ -19,10 +20,10 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
 
   const [board, updateBoard] = useState([]);
   useEffect(() => {
-    console.log(initialBoard);
-    let board = buildPlayableBoard(initialBoard);
-    console.log('playable board: ', board);
-    updateBoard(board);
+    // console.log(initialBoard);
+    const playableBoard = buildPlayableBoard(initialBoard);
+    // console.log('playable board: ', board);
+    updateBoard(playableBoard);
   }, [initialBoard]);
 
   useEffect(() => {
@@ -35,14 +36,14 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     };
   }, [initialBoard]);
 
-  const [rebusPosition, setRebus] = useState(null);
+  // const [rebusPosition, setRebus] = useState(null);
   const [currentCoords, setCurrentCoords] = useState([0, 0]);
   const [direction, setDirection] = useState('across');
 
   // Get coords and direction from currentClue
   useEffect(() => {
-    let newPosition = currentClue.substring(0, currentClue.length - 1);
-    let newDirection =
+    const newPosition = currentClue.substring(0, currentClue.length - 1);
+    const newDirection =
       currentClue.substring(currentClue.length - 1, currentClue.length) === 'A'
         ? 'across'
         : 'down';
@@ -58,17 +59,16 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     });
   }, [currentClue]);
 
-  const keyListener = function(event) {
+  const keyListener = event => {
     let newDirection = direction;
-    let code = event.code;
-    let [row, col] = currentCoords;
-    let newBoard = { ...board };
+    let { code } = event;
+    const [row, col] = currentCoords;
+    const newBoard = { ...board };
     if (code === 'Insert') {
-      return setRebus(true);
+      // return setRebus(true);
       // Check for change of direction
     } else if (/^[a-z0-9._]+$/i.test(event.key) && event.key.length === 1) {
       // INSERT GUESS
-      let newBoard = { ...board };
       newBoard[row][col].guess = event.key;
       updateBoard(newBoard);
       // After inserting a letter move to the next position by making this key listener think the arrow key was pressed
@@ -109,7 +109,7 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
       code === 'ArrowDown' ||
       code === 'ArrowUp'
     ) {
-      let nextCell = searchForValidCell(
+      const nextCell = searchForValidCell(
         row,
         col,
         direction,
@@ -122,7 +122,8 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
       return;
     }
     if (newDirection !== direction) {
-      return setDirection(newDirection);
+      setDirection(newDirection);
+      return;
     }
     setCurrentCoords([row, col]);
     // setWordCoords([wordBeg, wordEnd]);
@@ -133,16 +134,16 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
 
   const [wordCoords, setWordBoundaries] = useState([0, 0]);
   useEffect(() => {
-    let [row, col] = currentCoords;
-    let newDirection = direction;
-    let wordEnd = searchForBoundaryCell(
+    const [row, col] = currentCoords;
+    const newDirection = direction;
+    const wordEnd = searchForBoundaryCell(
       row,
       col,
       newDirection,
       'INCREMENT',
       initialBoard
     );
-    let wordBeg = searchForBoundaryCell(
+    const wordBeg = searchForBoundaryCell(
       row,
       col,
       newDirection,
@@ -151,8 +152,8 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     );
     let clue;
     if (board[row] && newDirection === 'across') {
-      clue = board[row][wordBeg].number + 'A';
-      console.log('new clue: ', clue);
+      clue = `${board[row][wordBeg].number}A`;
+      // console.log('new clue: ', clue);
       if (clue !== currentClue) {
         setClue(clue);
       }
@@ -160,28 +161,29 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
     setWordBoundaries([wordBeg, wordEnd]);
   }, [currentCoords, direction, currentClue]);
 
-  const setSelected = (row, col, newDirection) => {
-    console.log('current clue: ', currentClue);
-    // Toggle direction if clicking active sqaure
-  };
+  // const setSelected = (row, col, newDirection) => {
+  //   console.log('current clue: ', currentClue);
+  //   // Toggle direction if clicking active sqaure
+  // };
 
   const clickListener = (rowNum, colNum) => {
     let newDirection = direction;
     if (rowNum === currentCoords[0] && colNum === currentCoords[1]) {
       // toggle direction
       newDirection = direction === 'across' ? 'down' : 'across';
-      return setDirection(newDirection);
+      setDirection(newDirection);
+      return;
     }
     setCurrentCoords([rowNum, colNum]);
     // setWordCoords([wordBeg, wordEnd]);
   };
 
   // let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
-  let rows = Object.keys(board).map((row, rowNum) => {
+  const rows = Object.keys(board).map((row, rowNum) => {
     return (
-      <tr className={styles.board}>
+      <tr className={styles.board} key={row}>
         {board[row].map((cell, colNum) => {
-          let black = cell.answer === '#BlackSquare#';
+          const black = cell.answer === '#BlackSquare#';
           let highlighted = false;
           if (direction === 'across') {
             if (
@@ -191,14 +193,12 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
             ) {
               highlighted = true;
             }
-          } else {
-            if (
-              rowNum >= wordCoords[0] &&
-              rowNum <= wordCoords[1] &&
-              colNum === currentCoords[1]
-            ) {
-              highlighted = true;
-            }
+          } else if (
+            rowNum >= wordCoords[0] &&
+            rowNum <= wordCoords[1] &&
+            colNum === currentCoords[1]
+          ) {
+            highlighted = true;
           }
           return black ? (
             <td className={styles.black} />
@@ -243,6 +243,7 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
       <button
         onClick={() => toggleAnswers(!showAnswers)}
         className={styles.reveal}
+        type="button"
       >
         {showAnswers ? 'Hide Answers' : 'Reveal Answers'}
       </button>
@@ -250,6 +251,12 @@ const Board = ({ initialBoard, currentClue, setClue, construct }) => {
   );
 };
 
+Board.propTypes = {
+  initialBoard: PropTypes.shape({}).isRequired,
+  currentClue: PropTypes.string.isRequired,
+  setClue: PropTypes.func.isRequired,
+  construct: PropTypes.func.isRequired,
+};
 // position = [row, col]
 // incOrDec = increment or decrement
 

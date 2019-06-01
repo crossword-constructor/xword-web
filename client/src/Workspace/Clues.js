@@ -1,39 +1,63 @@
-import React from "react";
-import { Aux } from "../Shared";
-import styles from "./Clues.module.css";
-export default ({ clues, currentClue, setClue }) => {
+import React from 'react';
+import PropTypes from 'prop-types';
+// import { Aux } from '../Shared';
+import styles from './Clues.module.css';
+
+const Clues = ({ clues, currentClue, setClue }) => {
   return (
-    <Aux>
+    <>
       <ul className={styles.acrossClues}>
         {clues
-          .filter(clue => clue.position.indexOf("A") > -1)
+          .filter(clue => clue.position.indexOf('A') > -1)
           .map(clue => (
             <li
-              onClick={() => setClue(clue.position)}
+              key={clue._id}
               className={
                 currentClue === clue.position ? styles.highlighted : styles.clue
               }
             >
-              <span style={{ fontWeight: 600 }}>{clue.position}</span>{" "}
-              {clue.clue}
+              <div
+                role="button"
+                tabIndex="-1"
+                onClick={() => setClue(clue.position)}
+                onKeyPress={() => setClue(clue.position)}
+              >
+                <span style={{ fontWeight: 600 }}>{clue.position}</span>{' '}
+                {clue.clue}
+              </div>
             </li>
           ))}
       </ul>
       <ul className={styles.downClues}>
         {clues
-          .filter(clue => clue.position.indexOf("D") > -1)
+          .filter(clue => clue.position.indexOf('D') > -1)
           .map(clue => (
             <li
-              onClick={() => setClue(clue.position)}
+              key={clue._id}
               className={
                 currentClue === clue.position ? styles.highlighted : styles.clue
               }
             >
-              <span style={{ fontWeight: 600 }}>{clue.position}</span>{" "}
-              {clue.clue}
+              <div
+                onClick={() => setClue(clue.position)}
+                onKeyPress={() => setClue(clue.position)}
+                role="button"
+                tabIndex="-1"
+              >
+                <span style={{ fontWeight: 600 }}>{clue.position}</span>{' '}
+                {clue.clue}
+              </div>
             </li>
           ))}
       </ul>
-    </Aux>
+    </>
   );
 };
+
+Clues.propTypes = {
+  clues: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  currentClue: PropTypes.string.isRequired,
+  setClue: PropTypes.func.isRequired,
+};
+
+export default Clues;

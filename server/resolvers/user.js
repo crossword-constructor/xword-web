@@ -1,12 +1,12 @@
-import Joi from 'joi';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import { UserInputError } from 'apollo-server-express';
-import { signUp, signIn } from '../schemas';
+import Joi from "joi";
+import mongoose from "mongoose";
+import passport from "passport";
+import { UserInputError } from "apollo-server-express";
+import { signUp, signIn } from "../schemas";
 // import { attemptSignIn, signOut } from '../auth';
-import { User } from '../models';
-import { resolveGraphqlOptions } from 'apollo-server-core';
-
+import { User } from "../models";
+import { resolveGraphqlOptions } from "apollo-server-core";
+var fofo;
 export default {
   Query: {
     me: (root, args, { req }, info) => {
@@ -15,7 +15,7 @@ export default {
     },
     users: (root, args, context, info) => {
       // TODO: projection, pagination
-      console.log('getting users');
+      console.log("getting users");
       return User.find({});
     },
     user: (root, { id }, context, info) => {
@@ -24,22 +24,22 @@ export default {
         throw new UserInputError(`${id} is not a valid user ID.`);
       }
       return User.findById(id);
-    },
+    }
   },
   Mutation: {
     signUp: async (root, args, { req, res }, info) => {
       // console.log('info ', info);
-      console.log('someone is signing up');
+      console.log("someone is signing up");
       // console.log(req);
       // console.log(resolveGraphqlOptions);
       // TODO: projection
       // await Joi.validate(args, signUp, { abortEarly: false });
       // console.log(req.body);
-      passport.authenticate('local', (err, user, info) => {
-        console.log('in here??');
-        console.log('user ', user);
-        console.log('info ', info);
-        console.log('err: ', err);
+      passport.authenticate("local", (err, user, info) => {
+        console.log("in here??");
+        console.log("user ", user);
+        console.log("info ", info);
+        console.log("err: ", err);
         if (user) {
           return req.login(user, err => {
             if (err) {
@@ -76,6 +76,6 @@ export default {
     },
     signOut: (root, args, { req, res }, info) => {
       return signOut(req, res);
-    },
-  },
+    }
+  }
 };

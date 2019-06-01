@@ -1,12 +1,14 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import { Signup } from "./Signup";
-import { Workspace, Solvespace } from "./Workspace";
-import { Calendar } from "./Calendar";
-import { Navbar } from "./Navigation/Navbar";
-import Login from "./Login/Login";
-import "./reset.css";
-const App = props => {
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Signup from './Signup/Signup';
+import Workspace from './Workspace/Workspace';
+import Solvespace from './Workspace/Solvespace';
+import Calendar from './Calendar/Calendar';
+import Navbar from './Navigation/Navbar';
+import Login from './Login/Login';
+import './reset.css';
+
+const App = () => {
   // console.log(props);
   return (
     <div>
