@@ -6,26 +6,24 @@ import styles from './Board.module.css';
 // import crossword from "./crossword.json";
 // import _throttle from "lodash.throttle";
 import {
-  buildPlayableBoard,
+  // buildPlayableBoard,
   searchForBoundaryCell,
   searchForValidCell,
 } from './Board.utils';
 // const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
-const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
+const Board = ({ playableBoard, currentClue, setClue, isConstructing }) => {
   // const [wordCoords, setWordCoords] = useState([0, 0]);
   const [showAnswers, toggleAnswers] = useState(false);
   // const [playing, togglePlaying] = useState(true);
 
   const [board, updateBoard] = useState([]);
   useEffect(() => {
-    // console.log(initialBoard);
-    const playableBoard = buildPlayableBoard(initialBoard);
     console.log(playableBoard);
-    // console.log('playable board: ', board);
+    console.log('playable board: ', board);
     updateBoard(playableBoard);
-  }, [initialBoard]);
+  }, [playableBoard]);
 
   useEffect(() => {
     document.addEventListener('keydown', keyListener);
@@ -35,7 +33,7 @@ const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
       document.removeEventListener('keydown', keyListener);
       document.removeEventListener('keyup', keyListener.cancel);
     };
-  }, [initialBoard]);
+  }, [playableBoard]);
 
   // const [rebusPosition, setRebus] = useState(null);
   const [currentCoords, setCurrentCoords] = useState([0, 0]);
@@ -76,7 +74,7 @@ const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
       if (direction === 'down') code = 'ArrowDown';
       else code = 'ArrowRight'; // @TODO DOn't move if we've reached a black square or the end of the board also we need to skip letters if they're already therr
     } else if (code === 'Backspace') {
-      if (/^[a-z0-9._]+$/i.test(initialBoard[row][col].guess)) {
+      if (/^[a-z0-9._]+$/i.test(playableBoard[row][col].guess)) {
         newBoard[row][col].guess = '';
         updateBoard(newBoard);
       }
@@ -115,7 +113,7 @@ const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
         col,
         direction,
         code,
-        initialBoard
+        playableBoard
         // @TODO settings
       );
       // @TODO setClue
@@ -142,14 +140,14 @@ const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
       col,
       newDirection,
       'INCREMENT',
-      initialBoard
+      playableBoard
     );
     const wordBeg = searchForBoundaryCell(
       row,
       col,
       newDirection,
       'DECREMENT',
-      initialBoard
+      playableBoard
     );
     let clue;
     if (board[row] && newDirection === 'across') {
@@ -178,7 +176,7 @@ const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
     setCurrentCoords([rowNum, colNum]);
     // setWordCoords([wordBeg, wordEnd]);
   };
-
+  console.log(board);
   // let wordCoords = setSelected(currentCoords[0], currentCoords[1], direction);
   const rows = Object.keys(board).map((row, rowNum) => {
     return (
@@ -257,8 +255,16 @@ const Board = ({ initialBoard, currentClue, setClue, isConstructing }) => {
 };
 
 Board.propTypes = {
-  initialBoard: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
-    .isRequired,
+  playableBoard: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        answer: PropTypes.string.isRequired,
+        guess: PropTypes.string,
+        clues: PropTypes.arrayOf(PropTypes.string),
+        number: PropTypes.number,
+      })
+    )
+  ).isRequired,
   currentClue: PropTypes.string.isRequired,
   setClue: PropTypes.func.isRequired,
   isConstructing: PropTypes.bool,
