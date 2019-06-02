@@ -1,12 +1,26 @@
 .clue {
   padding: 5px;
+  display: flex;
+  height: auto;
+  /* position: relative; */
+  /* border: 1px solid blue; */
 }
 
 .highlighted {
   composes: clue;
-  background: blue;
+  background: rgb(99, 167, 255);
 }
 
+.secondaryNoHighlight {
+  min-width: 10px;
+  margin-right: 4px;
+  /* border: 1px solid red; */
+}
+
+.secondaryHighlight {
+  composes: secondaryNoHighlight;
+  background: rgb(99, 167, 255);
+}
 .clues {
   overflow: scroll;
 }

@@ -5,21 +5,25 @@ import styles from './Board.module.css';
 // import Clock from "./Clock";
 // import crossword from "./crossword.json";
 // import _throttle from "lodash.throttle";
-import // buildPlayableBoard,
+// import // buildPlayableBoard,
 // searchForBoundaryCell,
 // searchForValidCell,
-'./Board.utils';
+// './Board.utils';
 // const crossword = { board: ["A"] };
 // Converts the object structure of board to store guesses next to answers
 
 // eslint-disable-next-line no-unused-vars
-const Board = ({ playableBoard, currentClue, setClue, isConstructing }) => {
-  const direction = 'across';
-  const wordCoords = [0, 0];
-  const currentCoords = [0, 0];
+const Board = ({
+  playableBoard,
+  direction,
+  currentCells,
+  focusedCell,
+  selectCell,
+  isConstructing,
+}) => {
+  // const currentCoords = [0, 0];
   const showAnswers = () => {};
   const toggleAnswers = () => {};
-  const clickListener = () => {};
   // console.log('board rendered');
   // console.log(playableBoard);
   // // const [wordCoords, setWordCoords] = useState([0, 0]);
@@ -193,22 +197,18 @@ const Board = ({ playableBoard, currentClue, setClue, isConstructing }) => {
       <tr className={styles.board} key={rowNum}>
         {row.map((cell, colNum) => {
           const black = cell.answer === '#BlackSquare#';
-          let highlighted = false;
-          if (direction === 'across') {
-            if (
-              colNum >= wordCoords[0] &&
-              colNum <= wordCoords[1] &&
-              rowNum === currentCoords[0]
-            ) {
-              highlighted = true;
+          let isHighlighted = false;
+          currentCells.some(coords => {
+            // console.log('coords: ', coords);
+            if (coords[0] === rowNum && coords[1] === colNum) {
+              isHighlighted = true;
+              return true;
             }
-          } else if (
-            rowNum >= wordCoords[0] &&
-            rowNum <= wordCoords[1] &&
-            colNum === currentCoords[1]
-          ) {
-            highlighted = true;
-          }
+            return false;
+          });
+          // if (rowNum === 0 && colNum > 3 && colNum < 9) {
+          // console.log('highlighted after ', highlighted);
+          // }
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />
@@ -216,14 +216,14 @@ const Board = ({ playableBoard, currentClue, setClue, isConstructing }) => {
             <Cell
               // eslint-disable-next-line react/no-array-index-key
               key={`${rowNum}${colNum}`}
-              highlighted={highlighted}
-              focus={currentCoords[0] === rowNum && currentCoords[1] === colNum}
+              isHighlighted={isHighlighted}
+              isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
               answer={cell.answer}
               guess={cell.guess}
               number={cell.number}
               showAnswer={showAnswers}
               coords={[rowNum, colNum]}
-              click={() => clickListener(rowNum, colNum)}
+              click={() => selectCell([rowNum, colNum])}
             />
           );
         })}
@@ -236,6 +236,8 @@ const Board = ({ playableBoard, currentClue, setClue, isConstructing }) => {
       <table>
         <tbody className="board">{rows}</tbody>
       </table>
+      <div>{isConstructing}</div>
+      <div>{direction}</div>
       {/* <div className="clues">
         <div className="acrossClues">
           {crossword.clues
@@ -274,12 +276,15 @@ Board.propTypes = {
       })
     )
   ),
-  currentClue: PropTypes.string.isRequired,
-  setClue: PropTypes.func.isRequired,
+  direction: PropTypes.oneOf(['across', 'down']).isRequired,
+  currentCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  selectCell: PropTypes.func.isRequired,
+  focusedCell: PropTypes.arrayOf(PropTypes.number).isRequired,
   isConstructing: PropTypes.bool,
 };
 
 Board.defaultProps = {
+  currentCells: [],
   playableBoard: [[]],
   isConstructing: false,
 };
