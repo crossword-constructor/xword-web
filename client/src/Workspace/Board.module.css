@@ -28,7 +28,7 @@
 .cellInput {
   height: 38px;
   width: 38px;
-  background: blue;
+  background: rgb(139, 190, 255);
   text-transform: capitalize;
   display: flex;
   align-items: center;

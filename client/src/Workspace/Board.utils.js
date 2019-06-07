@@ -56,11 +56,11 @@ export const buildPlayableBoard = puzzle => {
 // Take the current position, direction, keypressed and finds the next cell in that row or col that isn't a blacksquare.
 // If it reaches the end of the board it goes back to the beginning
 
-export const searchForValidCell = (row, col, direction, key, board) => {
+export const findNextCell = ([row, col], direction, key, board) => {
   let validCellFound;
   while (!validCellFound) {
     if (direction === 'across') {
-      if (key === 'ArrowRight') {
+      if (key === 39) {
         col += 1;
         if (!board[row][col]) {
           col = 0;
@@ -72,7 +72,7 @@ export const searchForValidCell = (row, col, direction, key, board) => {
         }
       }
     } else if (direction === 'down') {
-      if (key === 'ArrowDown') {
+      if (key === 40) {
         row += 1;
         if (!board[row]) {
           row = 0;
@@ -84,7 +84,7 @@ export const searchForValidCell = (row, col, direction, key, board) => {
         }
       }
     }
-    if (board[row][col] === '#BlackSquare#') {
+    if (board[row][col].answer === '#BlackSquare#') {
       validCellFound = false;
     } else {
       validCellFound = true;

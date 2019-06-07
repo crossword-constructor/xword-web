@@ -15,7 +15,7 @@ const Cell = ({
   if (isFocused) {
     background = 'yellow';
   } else if (isHighlighted) {
-    background = '#a0effb';
+    background = 'rgb(139, 190, 255)';
   }
   let color = 'black';
   if (isShowingAnswer) {
@@ -49,6 +49,7 @@ Cell.propTypes = {
   click: PropTypes.func.isRequired,
   isShowingAnswer: PropTypes.bool,
   isHighlighted: PropTypes.bool,
+  // coords: PropTypes.arrayOf(PropTypes.number).isRequired,
   isFocused: PropTypes.bool,
 };
 

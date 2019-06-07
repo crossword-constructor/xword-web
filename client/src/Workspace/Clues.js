@@ -38,7 +38,6 @@ const Clues = ({ clues, currentClues, selectClue, direction }) => {
             </li>
           ))}
       </ul>
-      <div>{direction}</div>
       <ul className={styles.downClues}>
         {Object.keys(clues)
           .filter(clue => clues[clue].position.indexOf('D') > -1)

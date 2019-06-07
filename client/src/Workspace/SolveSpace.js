@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { findNextCell } from './Board.utils';
 import styles from './Board.module.css';
 import Board from './Board';
 import Clues from './Clues';
@@ -11,6 +12,12 @@ const puzzleReducer = (state, action) => {
         ...state,
         playableBoard: action.playableBoard,
         clues: action.clues,
+        direction: 'across',
+        selection: {
+          focusedCell: [0, 0],
+          currentCells: action.clues['1A'].cells,
+          currentClues: ['1A', '1D'],
+        },
       };
     }
     case 'SELECT_CLUE': {
@@ -22,7 +29,6 @@ const puzzleReducer = (state, action) => {
         selection: {
           focusedCell: action.clue.cells[0],
           currentCells: action.clue.cells,
-          // @TODO this is hardcoded for across clues...need to make it dynamic based on direction
           currentClues: [
             newDirection === 'across'
               ? action.clue.position
@@ -43,7 +49,6 @@ const puzzleReducer = (state, action) => {
       const { cell } = action;
       const { clues, playableBoard, direction, selection } = state;
       let newDirection = direction;
-      // @TODO logic for switching direction if action.cell === state.selection.currentCell then switch direction
       if (
         selection.focusedCell[0] === cell[0] &&
         selection.focusedCell[1] === cell[1]
@@ -65,6 +70,39 @@ const puzzleReducer = (state, action) => {
         },
       };
     }
+
+    case 'NAVIGATE': {
+      const { playableBoard, clues, selection } = { ...state };
+      const { currentClues, focusedCell } = selection;
+      const { keyCode } = action;
+      console.log('NAVIAGTE:', keyCode);
+      let { currentCells } = selection;
+      let nextCell = focusedCell; // Do I need to copy these so React knows its value has changed ? @ todo look into this
+      let { direction } = state;
+      if (keyCode % 2 !== 0 && state.direction === 'down') {
+        direction = 'across';
+        currentCells = clues[currentClues[0]].cells;
+      } else if (keyCode % 2 === 0 && state.direction === 'across') {
+        direction = 'down';
+        currentCells = clues[currentClues[1]].cells;
+      } else {
+        nextCell = findNextCell(focusedCell, direction, keyCode, playableBoard);
+        const [row, col] = nextCell;
+        currentCells =
+          clues[playableBoard[row][col].clues[direction === 'across' ? 0 : 1]]
+            .cells;
+      }
+      return {
+        ...state,
+        direction,
+        selection: {
+          ...selection,
+          focusedCell: nextCell,
+          currentCells,
+          currentClues: playableBoard[nextCell[0]][nextCell[1]].clues,
+        },
+      };
+    }
     default:
       break;
   }
@@ -83,12 +121,14 @@ const Solvespace = ({ puzzle }) => {
   });
 
   useEffect(() => {
+    console.log('loading puzzle');
     dispatch({
       type: 'LOAD_PUZZLE',
       playableBoard: puzzle.playableBoard,
       clues: puzzle.clues,
     });
   }, [puzzle]);
+  console.log('rerendering!');
   return (
     <div className={styles.page}>
       {puzzle.title}
@@ -100,7 +140,8 @@ const Solvespace = ({ puzzle }) => {
           focusedCell={state.selection.focusedCell}
           direction={state.direction}
           selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
-          navigate={event => dispatch({ type: 'NAVIGATE', event })}
+          navigate={keyCode => dispatch({ type: 'NAVIGATE', keyCode })}
+          guess={key => dispatch({ type: 'GUESS', key })}
         />
         <div className={styles.clues}>
           <Clues
@@ -118,7 +159,24 @@ const Solvespace = ({ puzzle }) => {
 };
 
 Solvespace.propTypes = {
-  puzzle: PropTypes.shape({}).isRequired,
+  puzzle: PropTypes.shape({
+    playableBoard: PropTypes.arrayOf(
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          guess: PropTypes.string,
+          answer: PropTypes.string.isRequired,
+          number: PropTypes.number,
+          clues: PropTypes.arrayOf(PropTypes.string),
+        })
+      )
+    ).isRequired,
+    clues: PropTypes.shape({
+      answer: PropTypes.string,
+      clue: PropTypes.string,
+      position: PropTypes.string,
+      cells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Solvespace;
