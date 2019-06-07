@@ -55,8 +55,14 @@ export const buildPlayableBoard = puzzle => {
 
 // Take the current position, direction, keypressed and finds the next cell in that row or col that isn't a blacksquare.
 // If it reaches the end of the board it goes back to the beginning
+// If a key (arrow key code) is not provided we deduce it from the direction
 
-export const findNextCell = ([row, col], direction, key, board) => {
+export const findNextCell = (
+  [row, col],
+  direction,
+  key = direction === 'across' ? 39 : 40,
+  board
+) => {
   let validCellFound;
   while (!validCellFound) {
     if (direction === 'across') {

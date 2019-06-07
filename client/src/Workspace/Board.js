@@ -34,11 +34,13 @@ const Board = ({
       if (keyCode >= 37 && keyCode <= 40) {
         navigate(keyCode);
         // @todo add conditional for rebus
-      } else {
+      } else if (keyCode >= 45 && keyCode <= 90) {
         guess(key);
+      } else if (keyCode === 8) {
+        navigate(direction === 'across' ? 37 : 38, { clearFirst: true });
       }
     }, 50),
-    []
+    [direction]
   );
 
   const keyListener = event => {
