@@ -8,6 +8,7 @@ import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import schemaDirectives from './directives';
+import dotenv from 'dotenv';
 import {
   APP_PORT,
   IN_PROD,
@@ -16,12 +17,10 @@ import {
   DB_HOST,
   DB_PORT,
   DB_NAME,
-  SESS_NAME,
-  SESS_SECRET,
-  SESS_LIFETIME,
 } from './config';
 
 (async () => {
+  dotenv.config();
   try {
     await mongoose.connect('mongodb://localhost/historicalCrossword', {
       useNewUrlParser: true,
@@ -30,32 +29,6 @@ import {
     const app = express();
 
     app.disable('x-powered-by');
-
-    const MongoStore = connectMongo(session);
-    const store = new MongoStore({
-      mongooseConnection: mongoose.connection,
-      stringify: false,
-    });
-
-    app.use(
-      session({
-        store,
-        name: SESS_NAME,
-        secret: SESS_SECRET,
-        resave: true,
-        rolling: true,
-        saveUninitialized: false,
-        cookie: {
-          maxAge: parseInt(SESS_LIFETIME),
-          sameSite: true,
-          secure: IN_PROD,
-        },
-      })
-    );
-
-    // // auth(passport); // SETUP STRATEGIES ./middleware/passport
-    // app.use(passport.initialize());
-    // app.use(passport.session());
 
     const server = new ApolloServer({
       typeDefs,
@@ -68,7 +41,7 @@ import {
             },
           },
       context: ({ req, res }) => {
-        // console.log('building context');
+        console.log('building context');
         return { req, res };
       },
     });

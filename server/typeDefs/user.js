@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
@@ -13,7 +13,7 @@ export default gql`
       username: String!
       name: String!
       password: String!
-    ): User
+    ): AuthPayload
     signIn(email: String!, password: String!): User
     signOut: Boolean @auth
   }
@@ -24,5 +24,9 @@ export default gql`
     username: String!
     name: String!
     createdAt: String!
+  }
+
+  type AuthPayload {
+    token: String!
   }
 `;
