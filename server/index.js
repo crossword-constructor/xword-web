@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 import express from 'express';
-import session from 'express-session';
-import connectMongo from 'connect-mongo';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 // import auth from './auth';
@@ -28,7 +26,7 @@ import {
 
     const app = express();
 
-    app.disable('x-powered-by');
+    // app.disable('x-powered-by');
 
     const server = new ApolloServer({
       typeDefs,
@@ -42,10 +40,26 @@ import {
           },
       context: ({ req, res }) => {
         console.log('building context');
+        console.log(req.headers);
+        res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
         return { req, res };
       },
     });
-    app.use(cors());
+    app.use(
+      cors({
+        // allowedHeaders: ['Authorization', 'Content-Type'],
+        origin: 'http://localhost:3000',
+        credentials: true,
+      })
+    );
+    // app.options(
+    //   '*',
+    //   cors({
+    //     allowedHeaders: ['Authorization', 'Content-Type'],
+    //     origin: true
+    //     // credentials: true,
+    //   })
+    // );
     server.applyMiddleware({ app });
     app.listen({ port: APP_PORT }, () =>
       console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)

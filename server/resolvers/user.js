@@ -30,12 +30,17 @@ export default {
     signUp: async (root, args, { req, res }, info) => {
       // console.log('info ', info);
       // console.log(args);
-      console.log('someone is signing up');
       return User.create(args)
         .then(user => {
           const payload = { admin: user.isAdmin, _id: user._id };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '2d',
+          });
+          console.log(token);
+          res.cookie('Authorization', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 1000 * 60 * 60 * 24 * 7,
           });
           return { token };
         })

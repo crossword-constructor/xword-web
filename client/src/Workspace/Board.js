@@ -93,18 +93,16 @@ const Board = ({
   return (
     <div className="page">
       {/* <Clock play={playing} onClick={() => togglePlaying(!playing)} /> */}
-      <table>
-        <tbody className="board">
-          <div
-            role="button"
-            tabIndex="-1"
-            // @ TODO NEXT // holding down key is causing freezing
-            onKeyDown={keyListener}
-          >
-            {rows}
-          </div>
-        </tbody>
-      </table>
+      <div
+        role="button"
+        tabIndex="-1"
+        // @ TODO NEXT // holding down key is causing freezing
+        onKeyDown={keyListener}
+      >
+        <table>
+          <tbody className="board">{rows}</tbody>
+        </table>
+      </div>
       <div>{isConstructing}</div>
       <div>{direction}</div>
       <button

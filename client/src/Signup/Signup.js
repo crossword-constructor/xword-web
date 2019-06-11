@@ -25,7 +25,7 @@ const Signup = () => {
         name: $name
         password: $password
       ) {
-        username
+        token
       }
     }
   `;
@@ -73,8 +73,7 @@ const Signup = () => {
           mutation={SIGNUP_MUTATION}
           variables={{ username, email, password, name }}
         >
-          {(signUp, res) => {
-            // console.log('data: ', res);
+          {signUp => {
             return (
               <div>
                 <button
@@ -88,7 +87,7 @@ const Signup = () => {
                 >
                   Submit
                 </button>
-                {res.data ? res.data.signUp.username : null}
+                {/* {res.data ? res.data.signUp.username : null} */}
                 {/* {Object.keys(error).map(key => key)} */}
               </div>
             );

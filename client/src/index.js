@@ -12,6 +12,7 @@ import App from './App';
 // import Login from "./Login/Login";
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
+  credentials: 'include',
 });
 
 const client = new ApolloClient({

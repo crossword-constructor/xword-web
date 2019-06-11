@@ -12,8 +12,16 @@ const Clue = ({
   const clueRef = useRef(null);
 
   if (clueRef.current && (isHighlighted || isSecondaryHighlight)) {
-    // @TODO we can't set behavior smooth...only the down column will scroll.
-    clueRef.current.scrollIntoView();
+    // @TODO we can't set behavior smooth...only the down column will scroll.'
+    // if (isSecondaryHighlight) {
+    //   setTimeout(() => {
+    //     console.log('scrolling secondary');
+    clueRef.current.scrollIntoView({ behavior: 'smooth' });
+    //   }, 260);
+    // } else if (isHighlighted) {
+    //   console.log('scrolling primary');
+    //   clueRef.current.scrollIntoView({ behavior: 'smooth' });
+    // }
   }
   return (
     <li
