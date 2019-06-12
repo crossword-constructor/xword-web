@@ -11,7 +11,18 @@ import { SESS_SECRET, SESS_NAME } from './config';
  */
 export const attemptSignUp = async (userInfo, res) => {
   console.log('attempting');
-  const user = await User.create(userInfo);
+  let user;
+  try {
+    user = await User.create(userInfo);
+  } catch (err) {
+    // move to util function formatMongoError
+    let message = '';
+    Object.keys(err.errors).forEach(key => {
+      message += err.errors[key] + ' ';
+    });
+
+    throw new AuthenticationError(message);
+  }
   const payload = user.authSummary();
   const token = jwt.sign(payload, process.env.SECRET, {
     expiresIn: '2d',

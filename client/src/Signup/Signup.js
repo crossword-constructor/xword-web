@@ -80,22 +80,24 @@ const Signup = () => {
               errorComponent = <div>{res.error.message}</div>;
             }
             return (
-              <div>
-                <button
-                  onClick={e => {
-                    e.preventDefault();
-                    signUp({
-                      variables: { email, username, password, name },
-                    });
-                  }}
-                  type="submit"
-                >
-                  Submit
-                </button>
-                {/* {res.data ? res.data.signUp.username : null} */}
-                {/* {Object.keys(error).map(key => key)} */}
+              <>
+                <div>
+                  <button
+                    onClick={e => {
+                      e.preventDefault();
+                      signUp({
+                        variables: { email, username, password, name },
+                      });
+                    }}
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  {/* {res.data ? res.data.signUp.username : null} */}
+                  {/* {Object.keys(error).map(key => key)} */}
+                </div>
                 {errorComponent}
-              </div>
+              </>
             );
           }}
         </Mutation>
