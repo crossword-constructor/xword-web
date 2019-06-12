@@ -1,21 +1,22 @@
 import mongoose from 'mongoose';
 import { hash, compare } from 'bcryptjs';
+import user from '../resolvers/user';
 
 const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      // validate: {
-      //   validator: email => User.doesntExist({ email }),
-      //   message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security
-      // },
+      validate: {
+        validator: email => User.doesntExist({ email }),
+        message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security
+      },
     },
     username: {
       type: String,
-      // validate: {
-      //   validator: username => User.doesntExist({ username }),
-      //   message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security
-      // },
+      validate: {
+        validator: username => User.doesntExist({ username }),
+        message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security
+      },
     },
     name: String,
     password: String,
@@ -34,13 +35,19 @@ userSchema.pre('save', async function() {
   }
 });
 
-// Why not just put a uniwue field on this
 userSchema.statics.doesntExist = async function(options) {
   return (await this.where(options).countDocuments()) === 0;
 };
 
 userSchema.methods.matchesPassword = function(password) {
   return compare(password, this.password);
+};
+
+userSchema.methods.authSummary = function() {
+  return {
+    _id: this._id,
+    isAdmin: this.isAdmin,
+  };
 };
 
 const User = mongoose.model('User', userSchema);

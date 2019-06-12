@@ -27,6 +27,6 @@ export default gql`
   }
 
   type AuthPayload {
-    token: String!
+    loggedIn: Boolean!
   }
 `;

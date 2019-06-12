@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { UserInputError } from 'apollo-server-express';
 // import { signUp, signIn } from '../schemas';
-// import { attemptSignIn, signOut } from '../auth';
+import { attemptSignUp, attemptSignIn, signOut } from '../auth';
 import { User } from '../models';
 import { resolveGraphqlOptions } from 'apollo-server-core';
 
@@ -11,7 +11,7 @@ export default {
   Query: {
     me: (root, args, { req }, info) => {
       // TODO: projection
-      return User.findById(req.session.userId);
+      return User.findById(req.user);
     },
     users: (root, args, context, info) => {
       // TODO: projection, pagination
@@ -28,34 +28,9 @@ export default {
   },
   Mutation: {
     signUp: async (root, args, { req, res }, info) => {
-      // console.log('info ', info);
-      // console.log(args);
-      return User.create(args)
-        .then(user => {
-          const payload = { admin: user.isAdmin, _id: user._id };
-          const token = jwt.sign(payload, process.env.SECRET, {
-            expiresIn: '2d',
-          });
-          console.log(token);
-          res.cookie('Authorization', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-          });
-          return { token };
-        })
-        .catch(err => {
-          console.log('error: ', err);
-          // return errors.sendError.InternalServerError();
-        });
-
-      // return errors.sendError.InvalidCredentialsError(msg, res);
-
-      // const user = await User.create(args);
-
-      // req.session.userId = user.id;
-
-      // return user;
+      console.log('here?');
+      const loggedIn = await attemptSignUp(args, res);
+      return { loggedIn };
     },
     signIn: async (root, args, { req }, info) => {
       // TODO: projection

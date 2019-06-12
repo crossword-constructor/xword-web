@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
+import cookieParser from 'cookie-parser';
 // import auth from './auth';
+import jwt from 'jsonwebtoken';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import schemaDirectives from './directives';
@@ -39,28 +41,29 @@ import {
             },
           },
       context: ({ req, res }) => {
-        console.log('building context');
-        console.log(req.headers);
         res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        const { user } = req.cookies;
+        if (user) {
+          try {
+            req.user = jwt.verify(user, process.env.SECRET);
+          } catch (e) {
+            console.log('ERORR: ', e);
+          }
+        }
         return { req, res };
       },
     });
+
     app.use(
       cors({
-        // allowedHeaders: ['Authorization', 'Content-Type'],
         origin: 'http://localhost:3000',
         credentials: true,
       })
     );
-    // app.options(
-    //   '*',
-    //   cors({
-    //     allowedHeaders: ['Authorization', 'Content-Type'],
-    //     origin: true
-    //     // credentials: true,
-    //   })
-    // );
+    app.use(cookieParser());
     server.applyMiddleware({ app });
+
     app.listen({ port: APP_PORT }, () =>
       console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
     );

@@ -1,0 +1,1333 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "server/.external-ecmascript.js",
+    "static": true,
+    "longname": "server/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "server/auth.js",
+    "content": "import jwt from 'jsonwebtoken';\r\nimport { AuthenticationError, Internal } from 'apollo-server-express';\r\nimport { User } from './models';\r\nimport { SESS_SECRET, SESS_NAME } from './config';\r\n/**\r\n * @function attemptSignIn\r\n * @description tries to create a user from uesrInfo and attaches a jwt to req.cookie\r\n * @param  {Object} userInfo\r\n * @param  {Object} req express req object\r\n */\r\nexport const attemptSignUp = async (userInfo, req) => {\r\n  try {\r\n    const { _id, isAdmin } = await User.create(args);\r\n  } catch (e) {\r\n    throw new ApolloError('Failed write', 500);\r\n  }\r\n  const payload = { _id, isAdmin };\r\n  const token = jwt.sign(payload, process.env.SECRET, {\r\n    expiresIn: '2d',\r\n  });\r\n  res.cookie('user', token, {\r\n    httpOnly: true,\r\n    secure: process.env.NODE_ENV === 'production',\r\n    maxAge: 1000 * 60 * 60 * 24 * 2,\r\n  });\r\n  return { token };\r\n};\r\n\r\nexport const attemptSignIn = async (email, password) => {\r\n  const message = 'Incorrect email or password. Please try again.';\r\n\r\n  const user = await User.findOne({ email });\r\n\r\n  if (!user || !(await user.matchesPassword(password))) {\r\n    throw new AuthenticationError(message);\r\n  }\r\n\r\n  return user;\r\n};\r\n\r\nconst signedIn = req => req.user._id;\r\n\r\nexport const ensureSignedIn = req => {\r\n  if (!signedIn(req)) {\r\n    throw new AuthenticationError('You must be signed in.');\r\n  }\r\n};\r\n\r\nexport const ensureSignedOut = req => {\r\n  if (signedIn(req)) {\r\n    throw new AuthenticationError('You are already signed in.');\r\n  }\r\n};\r\n\r\nexport const signOut = (req, res) =>\r\n  new Promise((resolve, reject) => {\r\n    req.session.destroy(err => {\r\n      if (err) reject(err);\r\n\r\n      res.clearCookie(SESS_NAME);\r\n\r\n      resolve(true);\r\n    });\r\n  });\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/auth.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "function",
+    "name": "attemptSignUp",
+    "memberof": "server/auth.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "server/auth.js~attemptSignUp",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/auth.js",
+    "importStyle": "{attemptSignUp}",
+    "description": "",
+    "lineNumber": 11,
+    "unknown": [
+      {
+        "tagName": "@function",
+        "tagValue": "attemptSignIn"
+      },
+      {
+        "tagName": "@description",
+        "tagValue": "tries to create a user from uesrInfo and attaches a jwt to req.cookie"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "userInfo",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "req",
+        "description": "express req object"
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"token\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 50,
+    "kind": "function",
+    "name": "attemptSignIn",
+    "memberof": "server/auth.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "server/auth.js~attemptSignIn",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/auth.js",
+    "importStyle": "{attemptSignIn}",
+    "description": null,
+    "lineNumber": 29,
+    "undocument": true,
+    "params": [
+      {
+        "name": "email",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "password",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "function",
+    "name": "signedIn",
+    "memberof": "server/auth.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "server/auth.js~signedIn",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/auth.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 41,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 52,
+    "kind": "function",
+    "name": "ensureSignedIn",
+    "memberof": "server/auth.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "server/auth.js~ensureSignedIn",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/auth.js",
+    "importStyle": "{ensureSignedIn}",
+    "description": null,
+    "lineNumber": 43,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 53,
+    "kind": "function",
+    "name": "ensureSignedOut",
+    "memberof": "server/auth.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "server/auth.js~ensureSignedOut",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/auth.js",
+    "importStyle": "{ensureSignedOut}",
+    "description": null,
+    "lineNumber": 49,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 54,
+    "kind": "function",
+    "name": "signOut",
+    "memberof": "server/auth.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "server/auth.js~signOut",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/auth.js",
+    "importStyle": "{signOut}",
+    "description": null,
+    "lineNumber": 55,
+    "undocument": true,
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 55,
+    "kind": "file",
+    "name": "server/config.js",
+    "content": "export const {\r\n  APP_PORT = 4000,\r\n  NODE_ENV = 'development',\r\n\r\n  DB_USERNAME = 'admin',\r\n  DB_PASSWORD = 'secret',\r\n  DB_HOST = 'localhost',\r\n  DB_PORT = 27017,\r\n  DB_NAME = 'chat',\r\n\r\n  SESS_SECRET = 'secret',\r\n  SESS_NAME = 'u',\r\n} = process.env;\r\n\r\nexport const IN_PROD = NODE_ENV === 'production';\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/config.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 56,
+    "kind": "variable",
+    "name": "APP_PORT",
+    "memberof": "server/config.js",
+    "static": true,
+    "longname": "server/config.js~APP_PORT",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/config.js",
+    "importStyle": "{APP_PORT}",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "variable",
+    "name": "IN_PROD",
+    "memberof": "server/config.js",
+    "static": true,
+    "longname": "server/config.js~IN_PROD",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/config.js",
+    "importStyle": "{IN_PROD}",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "file",
+    "name": "server/directives/auth.js",
+    "content": "import { SchemaDirectiveVisitor } from 'apollo-server-express';\r\nimport { defaultFieldResolver } from 'graphql';\r\n// import { ensureSignedIn } from \"../auth\";\r\n\r\nclass AuthDirective extends SchemaDirectiveVisitor {\r\n  visitFieldDefinition(field) {\r\n    console.log('auth Directive');\r\n    const { resolve = defaultFieldResolver } = field;\r\n\r\n    field.resolve = function(...args) {\r\n      const [, , context] = args;\r\n\r\n      ensureSignedIn(context.req);\r\n\r\n      return resolve.apply(this, args);\r\n    };\r\n  }\r\n}\r\n\r\nexport default AuthDirective;\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/directives/auth.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 59,
+    "kind": "class",
+    "name": "AuthDirective",
+    "memberof": "server/directives/auth.js",
+    "static": true,
+    "longname": "server/directives/auth.js~AuthDirective",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/directives/auth.js",
+    "importStyle": "AuthDirective",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "apollo-server-express~SchemaDirectiveVisitor"
+    ]
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "name": "visitFieldDefinition",
+    "memberof": "server/directives/auth.js~AuthDirective",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "server/directives/auth.js~AuthDirective#visitFieldDefinition",
+    "access": "public",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "params": [
+      {
+        "name": "field",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 61,
+    "kind": "file",
+    "name": "server/directives/guest.js",
+    "content": "import { SchemaDirectiveVisitor } from 'apollo-server-express';\r\nimport { defaultFieldResolver } from 'graphql';\r\n// import { ensureSignedOut } from '../auth'\r\n\r\nclass GuestDirective extends SchemaDirectiveVisitor {\r\n  visitFieldDefinition(field) {\r\n    const { resolve = defaultFieldResolver } = field;\r\n\r\n    field.resolve = function(...args) {\r\n      const [, , context] = args;\r\n\r\n      ensureSignedOut(context.req);\r\n\r\n      return resolve.apply(this, args);\r\n    };\r\n  }\r\n}\r\n\r\nexport default GuestDirective;\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/directives/guest.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 62,
+    "kind": "class",
+    "name": "GuestDirective",
+    "memberof": "server/directives/guest.js",
+    "static": true,
+    "longname": "server/directives/guest.js~GuestDirective",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/directives/guest.js",
+    "importStyle": "GuestDirective",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "apollo-server-express~SchemaDirectiveVisitor"
+    ]
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "visitFieldDefinition",
+    "memberof": "server/directives/guest.js~GuestDirective",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "server/directives/guest.js~GuestDirective#visitFieldDefinition",
+    "access": "public",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "params": [
+      {
+        "name": "field",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 64,
+    "kind": "file",
+    "name": "server/directives/index.js",
+    "content": "import AuthDirective from './auth'\r\nimport GuestDirective from './guest'\r\n\r\nexport default {\r\n  auth: AuthDirective,\r\n  guest: GuestDirective\r\n}\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/directives/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 65,
+    "kind": "file",
+    "name": "server/index.js",
+    "content": "import mongoose from 'mongoose';\r\nimport express from 'express';\r\nimport cors from 'cors';\r\nimport { ApolloServer } from 'apollo-server-express';\r\nimport cookieParser from 'cookie-parser';\r\n// import auth from './auth';\r\nimport jwt from 'jsonwebtoken';\r\nimport typeDefs from './typeDefs';\r\nimport resolvers from './resolvers';\r\nimport schemaDirectives from './directives';\r\nimport dotenv from 'dotenv';\r\nimport {\r\n  APP_PORT,\r\n  IN_PROD,\r\n  DB_USERNAME,\r\n  DB_PASSWORD,\r\n  DB_HOST,\r\n  DB_PORT,\r\n  DB_NAME,\r\n} from './config';\r\n\r\n(async () => {\r\n  dotenv.config();\r\n  try {\r\n    await mongoose.connect('mongodb://localhost/historicalCrossword', {\r\n      useNewUrlParser: true,\r\n    });\r\n\r\n    const app = express();\r\n\r\n    // app.disable('x-powered-by');\r\n\r\n    const server = new ApolloServer({\r\n      typeDefs,\r\n      resolvers,\r\n      playground: IN_PROD\r\n        ? false\r\n        : {\r\n            settings: {\r\n              'request.credentials': 'include',\r\n            },\r\n          },\r\n      context: ({ req, res }) => {\r\n        res.set('Access-Control-Allow-Origin', 'http://localhost:3000');\r\n\r\n        const { user } = req.cookies;\r\n        if (user) {\r\n          try {\r\n            req.user = jwt.verify(user, process.env.SECRET);\r\n          } catch (e) {\r\n            console.log('ERORR: ', e);\r\n          }\r\n        }\r\n        return { req, res };\r\n      },\r\n    });\r\n\r\n    app.use(\r\n      cors({\r\n        origin: 'http://localhost:3000',\r\n        credentials: true,\r\n      })\r\n    );\r\n    app.use(cookieParser());\r\n    server.applyMiddleware({ app });\r\n\r\n    app.listen({ port: APP_PORT }, () =>\r\n      console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)\r\n    );\r\n  } catch (e) {\r\n    console.error(e);\r\n  }\r\n})();\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 66,
+    "kind": "file",
+    "name": "server/models/answer.js",
+    "content": "import mongoose from \"mongoose\";\r\nconst ObjectId = mongoose.Schema.Types.ObjectId;\r\nconst Answer = new mongoose.Schema({\r\n  text: { type: String, required: true, index: true },\r\n  clues: [\r\n    {\r\n      clue: { type: ObjectId, red: \"Clue\" },\r\n      count: { type: Number },\r\n      _id: false\r\n    }\r\n  ],\r\n  puzzles: [{ type: ObjectId, ref: \"Puzzle\" }]\r\n});\r\n\r\nexport default mongoose.model(\"Answer\", Answer);\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/models/answer.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 67,
+    "kind": "variable",
+    "name": "ObjectId",
+    "memberof": "server/models/answer.js",
+    "static": true,
+    "longname": "server/models/answer.js~ObjectId",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/answer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "variable",
+    "name": "Answer",
+    "memberof": "server/models/answer.js",
+    "static": true,
+    "longname": "server/models/answer.js~Answer",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/answer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "file",
+    "name": "server/models/clue.js",
+    "content": "import mongoose from \"mongoose\";\r\nconst ObjectId = mongoose.Schema.Types.ObjectId;\r\nconst Clue = new mongoose.Schema({\r\n  text: { type: String, index: true },\r\n  answers: [\r\n    {\r\n      answer: { type: ObjectId, ref: \"Answer\" },\r\n      count: { type: Number },\r\n      _id: false\r\n    }\r\n  ],\r\n  puzzles: [{ type: ObjectId, ref: \"Puzzle\" }]\r\n});\r\n\r\nexport default mongoose.model(\"Clue\", Clue);\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/models/clue.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 70,
+    "kind": "variable",
+    "name": "ObjectId",
+    "memberof": "server/models/clue.js",
+    "static": true,
+    "longname": "server/models/clue.js~ObjectId",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/clue.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "variable",
+    "name": "Clue",
+    "memberof": "server/models/clue.js",
+    "static": true,
+    "longname": "server/models/clue.js~Clue",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/clue.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "file",
+    "name": "server/models/index.js",
+    "content": "export { default as User } from \"./user\";\r\nexport { default as Puzzle } from \"./puzzle\";\r\nexport { default as Clue } from \"./clue\";\r\nexport { default as Answer } from \"./answer\";\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/models/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 73,
+    "kind": "file",
+    "name": "server/models/puzzle.js",
+    "content": "import mongoose from \"mongoose\";\r\nconst ObjectId = mongoose.Schema.Types.ObjectId;\r\nconst Puzzle = new mongoose.Schema(\r\n  {\r\n    editor: { type: String },\r\n    title: { type: String },\r\n    author: { type: String },\r\n    publisher: { type: String },\r\n    clues: [\r\n      {\r\n        position: { type: String },\r\n        answer: { type: ObjectId, ref: \"Answer\" },\r\n        clue: { type: ObjectId, ref: \"Clue\" }\r\n      }\r\n    ],\r\n    date: { type: String },\r\n    dimensions: {\r\n      rows: { type: Number },\r\n      columns: { type: Number }\r\n    },\r\n    board: [],\r\n    privacySetting: {\r\n      type: String,\r\n      enum: [\"PUBLIC\", \"PRIVATE\", \"SUPERPRIVATE\"]\r\n    }\r\n  },\r\n  { timestamps: true }\r\n);\r\n\r\nexport default mongoose.model(\"Puzzle\", Puzzle);\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/models/puzzle.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 74,
+    "kind": "variable",
+    "name": "ObjectId",
+    "memberof": "server/models/puzzle.js",
+    "static": true,
+    "longname": "server/models/puzzle.js~ObjectId",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/puzzle.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "variable",
+    "name": "Puzzle",
+    "memberof": "server/models/puzzle.js",
+    "static": true,
+    "longname": "server/models/puzzle.js~Puzzle",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/puzzle.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "file",
+    "name": "server/models/user.js",
+    "content": "import mongoose from 'mongoose';\r\nimport { hash, compare } from 'bcryptjs';\r\n\r\nconst userSchema = new mongoose.Schema(\r\n  {\r\n    email: {\r\n      type: String,\r\n      validate: {\r\n        validator: email => User.doesntExist({ email }),\r\n        message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security\r\n      },\r\n    },\r\n    username: {\r\n      type: String,\r\n      validate: {\r\n        validator: username => User.doesntExist({ username }),\r\n        message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security\r\n      },\r\n    },\r\n    name: String,\r\n    password: String,\r\n    isAdmin: { type: Boolean, default: false },\r\n    constructedPuzzles: [],\r\n    solvedPuzzles: [],\r\n  },\r\n  {\r\n    timestamps: true,\r\n  }\r\n);\r\n\r\nuserSchema.pre('save', async function() {\r\n  if (this.isModified('password')) {\r\n    this.password = await hash(this.password, 10);\r\n  }\r\n});\r\n\r\nuserSchema.statics.doesntExist = async function(options) {\r\n  return (await this.where(options).countDocuments()) === 0;\r\n};\r\n\r\nuserSchema.methods.matchesPassword = function(password) {\r\n  return compare(password, this.password);\r\n};\r\n\r\nconst User = mongoose.model('User', userSchema);\r\n\r\nexport default User;\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/models/user.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 77,
+    "kind": "variable",
+    "name": "userSchema",
+    "memberof": "server/models/user.js",
+    "static": true,
+    "longname": "server/models/user.js~userSchema",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 78,
+    "kind": "function",
+    "name": "doesntExist",
+    "memberof": "server/models/user.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "server/models/user.js~doesntExist",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "params": [
+      {
+        "name": "options",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 79,
+    "kind": "function",
+    "name": "matchesPassword",
+    "memberof": "server/models/user.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "server/models/user.js~matchesPassword",
+    "access": "public",
+    "export": false,
+    "importPath": "chat/server/models/user.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 41,
+    "undocument": true,
+    "params": [
+      {
+        "name": "password",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 80,
+    "kind": "variable",
+    "name": "User",
+    "memberof": "server/models/user.js",
+    "static": true,
+    "longname": "server/models/user.js~User",
+    "access": "public",
+    "export": true,
+    "importPath": "chat/server/models/user.js",
+    "importStyle": "User",
+    "description": null,
+    "lineNumber": 45,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 81,
+    "kind": "file",
+    "name": "server/resolvers/index.js",
+    "content": "import user from \"./user\";\r\nimport puzzle from \"./puzzle\";\r\nexport default [user, puzzle];\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/resolvers/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 82,
+    "kind": "file",
+    "name": "server/resolvers/puzzle.js",
+    "content": "import Joi from 'joi';\r\nimport mongoose from 'mongoose';\r\nimport { UserInputError } from 'apollo-server-express';\r\n// import { signUp, signIn } from \"../schemas\";\r\n// import { attemptSignIn, signOut } from \"../auth\";\r\nimport { Puzzle } from '../models';\r\n\r\nexport default {\r\n  Query: {\r\n    puzzle: (root, args, context, info) => {\r\n      console.log(args.id);\r\n      return Puzzle.findById(args.id)\r\n        .select('date title author board clues')\r\n        .populate({ path: 'clues.clue', select: 'text -_id' })\r\n        .populate({ path: 'clues.answer', select: 'text -_id' })\r\n        .lean()\r\n        .then(puzzle => {\r\n          console.log(puzzle);\r\n          let formattedClues = [];\r\n          // Why is .map() not working on mongoose array???\r\n          puzzle.clues.forEach(clueObj => {\r\n            formattedClues.push({\r\n              clue: clueObj.clue.text.toString(),\r\n              answer: clueObj.answer.text.toString(),\r\n              position: clueObj.position,\r\n            });\r\n          });\r\n          puzzle.clues = formattedClues;\r\n          return puzzle;\r\n        });\r\n      // return {\r\n\r\n      // }\r\n    },\r\n    puzzles: (root, args, { req }, info) => {\r\n      console.log('user: ', req.user);\r\n      let regex = new RegExp(\r\n        `^(${args.month})(\\/)([0-9]|[0-2][0-9]|(3)[0-1])(\\/)(${args.year})`\r\n      );\r\n      return Puzzle.find({ date: regex })\r\n        .select('date title author')\r\n        .then(puzzles => {\r\n          return puzzles;\r\n        });\r\n    },\r\n  },\r\n};\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/resolvers/puzzle.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 83,
+    "kind": "file",
+    "name": "server/resolvers/user.js",
+    "content": "import Joi from 'joi';\r\nimport mongoose from 'mongoose';\r\nimport jwt from 'jsonwebtoken';\r\nimport { UserInputError } from 'apollo-server-express';\r\n// import { signUp, signIn } from '../schemas';\r\nimport { attemptSignUp, attemptSignIn, signOut } from '../auth';\r\nimport { User } from '../models';\r\nimport { resolveGraphqlOptions } from 'apollo-server-core';\r\n\r\nexport default {\r\n  Query: {\r\n    me: (root, args, { req }, info) => {\r\n      // TODO: projection\r\n      return User.findById(req.user);\r\n    },\r\n    users: (root, args, context, info) => {\r\n      // TODO: projection, pagination\r\n      console.log('getting users');\r\n      return User.find({});\r\n    },\r\n    user: (root, { id }, context, info) => {\r\n      // TODO: projection, sanitization\r\n      if (!mongoose.Types.ObjectId.isValid(id)) {\r\n        throw new UserInputError(`${id} is not a valid user ID.`);\r\n      }\r\n      return User.findById(id);\r\n    },\r\n  },\r\n  Mutation: {\r\n    signUp: async (root, args, { req, res }, info) => {\r\n      // console.log('info ', info);\r\n      // console.log(args);\r\n\r\n      attemptSignUp(args, req);\r\n      // return errors.sendError.InvalidCredentialsError(msg, res);\r\n\r\n      // const user = await User.create(args);\r\n\r\n      // req.session.userId = user.id;\r\n\r\n      // return user;\r\n    },\r\n    signIn: async (root, args, { req }, info) => {\r\n      // TODO: projection\r\n      await Joi.validate(args, signIn, { abortEarly: false });\r\n\r\n      const user = await attemptSignIn(args.email, args.password);\r\n\r\n      req.session.userId = user.id;\r\n\r\n      return user;\r\n    },\r\n    signOut: (root, args, { req, res }, info) => {\r\n      return signOut(req, res);\r\n    },\r\n  },\r\n};\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/resolvers/user.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 84,
+    "kind": "file",
+    "name": "server/typeDefs/index.js",
+    "content": "import root from \"./root\";\r\nimport user from \"./user\";\r\nimport puzzle from \"./puzzle\";\r\n\r\nexport default [root, user, puzzle];\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/typeDefs/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 85,
+    "kind": "file",
+    "name": "server/typeDefs/puzzle.js",
+    "content": "import { gql } from \"apollo-server-express\";\r\n\r\nexport default gql`\r\n  extend type Query {\r\n    puzzle(id: ID): Puzzle!\r\n    puzzles(month: String, year: String): [Puzzle!]\r\n  }\r\n\r\n  extend type Mutation {\r\n    createPuzzle(\r\n      clues: String!\r\n      username: String!\r\n      name: String!\r\n      password: String!\r\n    ): Puzzle\r\n  }\r\n\r\n  type Puzzle {\r\n    id: ID!\r\n    editor: String\r\n    author: String\r\n    publisher: String\r\n    date: String\r\n    title: String\r\n    clues: [Clue]\r\n    # cluesAnswer: [ClueAnswer!]!\r\n    board: [[String]]\r\n    # createdAt: String!\r\n    # updatedAt: String!\r\n    # privacySetting: String!\r\n  }\r\n\r\n  type Clue {\r\n    answer: String!\r\n    clue: String!\r\n    position: String!\r\n    # answers: {\r\n    #   answer: Answer!\r\n    #   count: Number!\r\n    # }\r\n  }\r\n`;\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/typeDefs/puzzle.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 86,
+    "kind": "file",
+    "name": "server/typeDefs/root.js",
+    "content": "import { gql } from \"apollo-server-express\";\r\n\r\nexport default gql`\r\n  directive @auth on FIELD_DEFINITION\r\n\r\n  directive @guest on FIELD_DEFINITION\r\n\r\n  type Query {\r\n    _: String\r\n  }\r\n\r\n  type Mutation {\r\n    _: String\r\n  }\r\n\r\n  type Subscription {\r\n    _: String\r\n  }\r\n`;\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/typeDefs/root.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 87,
+    "kind": "file",
+    "name": "server/typeDefs/user.js",
+    "content": "import { gql } from 'apollo-server-express';\r\n\r\nexport default gql`\r\n  extend type Query {\r\n    me: User @auth\r\n    user(id: ID!): User @auth\r\n    users: [User!]!\r\n  }\r\n\r\n  extend type Mutation {\r\n    signUp(\r\n      email: String!\r\n      username: String!\r\n      name: String!\r\n      password: String!\r\n    ): AuthPayload\r\n    signIn(email: String!, password: String!): User\r\n    signOut: Boolean @auth\r\n  }\r\n\r\n  type User {\r\n    id: ID!\r\n    email: String!\r\n    username: String!\r\n    name: String!\r\n    createdAt: String!\r\n  }\r\n\r\n  type AuthPayload {\r\n    token: String!\r\n  }\r\n`;\r\n",
+    "static": true,
+    "longname": "C:/Users/ok_computadora/Documents/Programming/crossword-web/server/typeDefs/user.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "kind": "index",
+    "content": "# Crossword Constructor - web\r\n\r\n## Installation\r\n\r\n1. Fork https://github.com/crossword-constructor/xword-web\r\n1. clone forked repo\r\n1. `$ mv env.example .env`\r\n1. `$ yarn`\r\n1. `$ cd client and yarn`\r\n1. Make sure you have a mongo instance running, cd back to the root directory and...\r\n1. `$ yarn dev`\r\n\r\n## Technologies used\r\n\r\n- Node\r\n- Apollo Server\r\n- Apollo Client\r\n- GraphQl\r\n- MongoDB\r\n- React\r\n\r\n## Contributing\r\n\r\n### Git Rebase Workflow\r\n\r\n### Issues\r\n\r\n### Tests\r\n",
+    "longname": "C:\\Users\\ok_computadora\\Documents\\Programming\\crossword-web\\README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\r\n  \"name\": \"chat\",\r\n  \"version\": \"1.0.0\",\r\n  \"main\": \"index.js\",\r\n  \"license\": \"MIT\",\r\n  \"scripts\": {\r\n    \"start\": \"NODE_ENV=production node -r esm .\",\r\n    \"dev\": \"concurrently \\\"nodemon --ignore ./client -r esm\\\" \\\"cd client && yarn start\\\"\"\r\n  },\r\n  \"dependencies\": {\r\n    \"apollo-server-express\": \"^2.2.6\",\r\n    \"bcryptjs\": \"^2.4.3\",\r\n    \"connect-mongo\": \"^2.0.3\",\r\n    \"cookie-parser\": \"^1.4.4\",\r\n    \"cors\": \"^2.8.5\",\r\n    \"dotenv\": \"^8.0.0\",\r\n    \"esdoc\": \"^1.1.0\",\r\n    \"esdoc-standard-plugin\": \"^1.0.0\",\r\n    \"eslint-config-airbnb-base\": \"^13.1.0\",\r\n    \"eslint-plugin-import\": \"^2.17.2\",\r\n    \"eslint-plugin-jsx-a11y\": \"^6.2.1\",\r\n    \"eslint-plugin-react\": \"^7.13.0\",\r\n    \"esm\": \"^3.0.84\",\r\n    \"express\": \"^4.16.4\",\r\n    \"express-session\": \"^1.15.6\",\r\n    \"graphql\": \"^14.0.2\",\r\n    \"joi\": \"^14.3.0\",\r\n    \"jsonwebtoken\": \"^8.4.0\",\r\n    \"mongoose\": \"^5.3.15\",\r\n    \"passport\": \"^0.4.0\",\r\n    \"passport-local\": \"^1.0.0\"\r\n  },\r\n  \"prettier\": {\r\n    \"trailingComma\": \"es5\",\r\n    \"singleQuote\": true\r\n  }\r\n}\r\n",
+    "longname": "C:\\Users\\ok_computadora\\Documents\\Programming\\crossword-web\\package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]

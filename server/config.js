@@ -8,7 +8,8 @@ export const {
   DB_PORT = 27017,
   DB_NAME = 'chat',
 
-  SECRET = 'secret',
+  SESS_SECRET = 'secret',
+  SESS_NAME = 'u',
 } = process.env;
 
 export const IN_PROD = NODE_ENV === 'production';

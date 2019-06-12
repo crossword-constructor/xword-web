@@ -1,7 +1,28 @@
-import { AuthenticationError } from 'apollo-server-express';
-import { User } from './models';
-import { SESS_SECRET } from './config';
 import jwt from 'jsonwebtoken';
+import { AuthenticationError, ApolloError } from 'apollo-server-express';
+import { User } from './models';
+import { SESS_SECRET, SESS_NAME } from './config';
+/**
+ * @function attemptSignIn
+ * @description tries to create a user from uesrInfo and attaches a jwt to req.cookie
+ * @param  {Object} userInfo -- see ./models/user
+ * @param  {Object} res express object
+ * @return {Bool} success
+ */
+export const attemptSignUp = async (userInfo, res) => {
+  console.log('attempting');
+  const user = await User.create(userInfo);
+  const payload = user.authSummary();
+  const token = jwt.sign(payload, process.env.SECRET, {
+    expiresIn: '2d',
+  });
+  res.cookie('user', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 2,
+  });
+  return true;
+};
 
 export const attemptSignIn = async (email, password) => {
   const message = 'Incorrect email or password. Please try again.';
@@ -15,7 +36,7 @@ export const attemptSignIn = async (email, password) => {
   return user;
 };
 
-const signedIn = req => req.session.userId;
+const signedIn = req => req.user._id;
 
 export const ensureSignedIn = req => {
   if (!signedIn(req)) {

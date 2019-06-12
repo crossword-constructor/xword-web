@@ -1,0 +1,76 @@
+{
+  "coverage": "4.54%",
+  "expectCount": 22,
+  "actualCount": 1,
+  "files": {
+    "server/auth.js": {
+      "expectCount": 6,
+      "actualCount": 1,
+      "undocumentLines": [
+        29,
+        41,
+        43,
+        49,
+        55
+      ]
+    },
+    "server/config.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        15
+      ]
+    },
+    "server/directives/auth.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        6
+      ]
+    },
+    "server/directives/guest.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        6
+      ]
+    },
+    "server/models/answer.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3
+      ]
+    },
+    "server/models/clue.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3
+      ]
+    },
+    "server/models/puzzle.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3
+      ]
+    },
+    "server/models/user.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        37,
+        41,
+        45
+      ]
+    }
+  }
+}
