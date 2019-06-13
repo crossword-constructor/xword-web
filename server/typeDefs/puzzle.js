@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
@@ -7,12 +7,11 @@ export default gql`
   }
 
   extend type Mutation {
-    createPuzzle(
-      clues: String!
-      username: String!
-      name: String!
-      password: String!
-    ): Puzzle
+    createPuzzle(username: String!, name: String!, password: String!): Puzzle
+
+    # updatePuzzle(
+    #   board: [[String]]
+    # ): Puzzle
   }
 
   type Puzzle {
@@ -23,20 +22,33 @@ export default gql`
     date: String
     title: String
     clues: [Clue]
-    # cluesAnswer: [ClueAnswer!]!
     board: [[String]]
-    # createdAt: String!
-    # updatedAt: String!
-    # privacySetting: String!
+    createdAt: String!
+    updatedAt: String
+    privacySetting: String!
+    comments: [Comment]
   }
 
   type Clue {
-    answer: String!
+    answer: Answer!
     clue: String!
     position: String!
     # answers: {
     #   answer: Answer!
     #   count: Number!
     # }
+  }
+
+  type Answer {
+    id: ID!
+    text: String!
+  }
+
+  type Comment {
+    id: ID!
+    author: User!
+    puzzle: Puzzle!
+    text: String!
+    date: String!
   }
 `;

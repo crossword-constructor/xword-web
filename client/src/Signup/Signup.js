@@ -25,7 +25,8 @@ const Signup = () => {
         name: $name
         password: $password
       ) {
-        loggedIn
+        id
+        username
       }
     }
   `;
@@ -77,7 +78,8 @@ const Signup = () => {
             console.log({ res });
             let errorComponent = null;
             if (res.error) {
-              errorComponent = <div>{res.error.message}</div>;
+              console.log(res.error);
+              errorComponent = <div>{res.error.graphQLErrors[0].message}</div>;
             }
             return (
               <>

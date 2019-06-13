@@ -5,13 +5,23 @@ import { UserInputError } from 'apollo-server-express';
 // import { signUp, signIn } from '../schemas';
 import { attemptSignUp, attemptSignIn, signOut } from '../auth';
 import { User } from '../models';
-import { resolveGraphqlOptions } from 'apollo-server-core';
+import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
 
 export default {
   Query: {
     me: (root, args, { req }, info) => {
       // TODO: projection
-      return User.findById(req.user);
+      return User.findById(req.user._id);
+    },
+
+    verifyLoggedIn: async (root, args, { req }, info) => {
+      if (req.user) {
+        console.log('USER: ', req.user._id);
+        const user = await User.findById(req.user._id);
+        console.log(user);
+        return user;
+      }
+      throw new AuthenticationError('you are not logged in');
     },
     users: (root, args, context, info) => {
       // TODO: projection, pagination
@@ -29,8 +39,9 @@ export default {
   Mutation: {
     signUp: async (root, args, { req, res }, info) => {
       console.log('here?');
-      const loggedIn = await attemptSignUp(args, res);
-      return { loggedIn };
+      const user = await attemptSignUp(args, res);
+      console.log({ user });
+      return user;
     },
     signIn: async (root, args, { req }, info) => {
       // TODO: projection

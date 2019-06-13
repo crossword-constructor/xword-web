@@ -10,11 +10,12 @@ import { SESS_SECRET, SESS_NAME } from './config';
  * @return {Bool} success
  */
 export const attemptSignUp = async (userInfo, res) => {
-  console.log('attempting');
+  console.log('attempting signup');
   let user;
   try {
     user = await User.create(userInfo);
   } catch (err) {
+    console.log('errrrrrrr, ', err);
     // move to util function formatMongoError
     let message = '';
     Object.keys(err.errors).forEach(key => {
@@ -32,7 +33,7 @@ export const attemptSignUp = async (userInfo, res) => {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 1000 * 60 * 60 * 24 * 2,
   });
-  return true;
+  return user;
 };
 
 export const attemptSignIn = async (email, password) => {

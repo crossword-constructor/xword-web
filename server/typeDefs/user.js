@@ -2,7 +2,8 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    me: User @auth
+    verifyLoggedIn: User
+    me: User
     user(id: ID!): User @auth
     users: [User!]!
   }
@@ -13,7 +14,7 @@ export default gql`
       username: String!
       name: String!
       password: String!
-    ): AuthPayload
+    ): User!
     signIn(email: String!, password: String!): User
     signOut: Boolean @auth
   }
@@ -24,9 +25,36 @@ export default gql`
     username: String!
     name: String!
     createdAt: String!
+    solvedPuzzles: [UserPuzzle]
+    createdPuzzles: [UserPuzzle]
+    stats: Stats
+    friends: [User]
+    notifications: [Notification]
   }
 
   type AuthPayload {
     loggedIn: Boolean!
+  }
+
+  type UserPuzzle {
+    id: ID!
+    puzzle: Puzzle
+    currentBoard: [[String]]
+    startTime: String!
+    endTime: String
+  }
+
+  type Notification {
+    id: ID!
+    fromUser: User
+    toUser: User!
+    message: String
+    puzzle: Puzzle
+  }
+
+  type Stats {
+    averageSolveTime: Float
+    noSolved: Float
+    noAttempted: Float
   }
 `;

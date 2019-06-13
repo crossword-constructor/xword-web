@@ -1,8 +1,19 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 import styles from './Navbar.module.css';
 
 const Navbar = () => {
+  const USERNAME = gql`
+    {
+      me {
+        id
+        username
+      }
+    }
+  `;
+
   return (
     <nav className={styles.container}>
       <h1 className={styles.logo}>Crossword Constructor</h1>
@@ -25,7 +36,22 @@ const Navbar = () => {
             Construct
           </NavLink>
         </li>
-        <li>Sign up</li>
+        <Query query={USERNAME}>
+          {({ data }) => {
+            console.log(data);
+            return (
+              <li>
+                <NavLink
+                  className={styles.link}
+                  to={data ? '/profile' : '/login'}
+                  activeClassName={styles.activeLink}
+                >
+                  {data && data.me ? data.me.username : 'Login'}
+                </NavLink>
+              </li>
+            );
+          }}
+        </Query>
       </ul>
     </nav>
   );
