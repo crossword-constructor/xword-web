@@ -1,0 +1,9 @@
+.Stack {
+  /* border: 1px solid orange; */
+  display: block;
+}
+
+.Stack > * + * {
+  margin-top: var(--s1);
+  /* border: 1px solid blue; */
+}

@@ -36,9 +36,8 @@ const Navbar = () => {
             Construct
           </NavLink>
         </li>
-        <Query query={USERNAME}>
+        <Query query={USERNAME} fetchPolicy="cache-and-network">
           {({ data }) => {
-            console.log(data);
             return (
               <li>
                 <NavLink

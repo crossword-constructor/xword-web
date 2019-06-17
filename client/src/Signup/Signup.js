@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 // import { Link } from 'react-router-dom';
 import styles from './Signup.module.css';
 
-const Signup = () => {
+const Signup = ({ history }) => {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -25,6 +25,15 @@ const Signup = () => {
         name: $name
         password: $password
       ) {
+        id
+        username
+      }
+    }
+  `;
+
+  const USERNAME = gql`
+    {
+      me {
         id
         username
       }
@@ -73,6 +82,13 @@ const Signup = () => {
         <Mutation
           mutation={SIGNUP_MUTATION}
           variables={{ username, email, password, name }}
+          // eslint-disable-next-line no-unused-vars
+          refetchQueries={['USERNAME']}
+          update={cache => {
+            console.log('update ufnciton');
+            const username2 = cache.readQuery({ query: USERNAME });
+            console.log(username2);
+          }}
         >
           {(signUp, res) => {
             console.log({ res });
@@ -89,7 +105,9 @@ const Signup = () => {
                       e.preventDefault();
                       signUp({
                         variables: { email, username, password, name },
+                        refetchQueries: ['USERNAME'],
                       });
+                      history.push('/profile');
                     }}
                     type="submit"
                   >
@@ -108,4 +126,7 @@ const Signup = () => {
   );
 };
 
+Signup.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+};
 export default Signup;

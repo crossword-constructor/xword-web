@@ -1,0 +1,37 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Background {
+  width: 100%;
+  height: var(--s4);
+}
+
+.Bottom {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.AvatarImage {
+  border-radius: 50%;
+  height: var(--s4);
+  width: var(--s4);
+  margin-left: var(--s1);
+  margin-top: calc(var(--s4) / -2);
+  border: 2px solid #0a2a3f;
+}
+
+.UserInfo {
+  height: var(--s4);
+  flex: 1 0 var(--s3);
+  padding: var(--s-1);
+  display: flex;
+  flex-flow: column;
+}
+
+.Name {
+  font-size: calc(var(--s-2) * var(--ratio) * 2);
+  margin-bottom: var(--s-2);
+  composes: TextTruncate from '../helpers.module.css';
+}

@@ -9,6 +9,7 @@ import FetchPuzzle from './Workspace/FetchPuzzle';
 import Calendar from './Calendar/Calendar';
 import Navbar from './Navigation/Navbar';
 import Login from './Login/Login';
+import Profile from './Profile/Profile';
 import './reset.css';
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
               <Route path="/login" component={Login} />
               <Route path="/construct" component={Workspace} />
               <Route path="/solve/:id" component={FetchPuzzle} />
+              <Route path="/profile" component={Profile} />
               <Route path="/nyt/solve/:id" component={FetchPuzzle} />
               <Route path="/calendar" component={Calendar} />
             </Switch>
