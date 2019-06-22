@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { buildPlayableBoard } from './Board.utils';
+import WithApollo from '../Shared/WithApollo';
 import SolveSpace from './SolveSpace';
-// import { buildPlayableBoard } from './Board.utils';
-// import styles from './Board.module.css';
-// import Board from './Board';
-// import Clues from './Clues';
 
 const GET_PUZZLE = gql`
   query Puzzle($puzzleId: ID) {
@@ -40,8 +37,11 @@ const FetchPuzzle = ({ match }) => {
         if (loading) return '...loading';
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
         const puzzle = buildPlayableBoard(data.puzzle);
-        console.log(puzzle);
-        return <SolveSpace puzzle={puzzle} />;
+        return (
+          <WithApollo>
+            {client => <SolveSpace puzzle={puzzle} client={client} />}
+          </WithApollo>
+        );
       }}
     </Query>
   );

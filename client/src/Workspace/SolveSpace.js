@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
+import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import puzzleReducer from './puzzleReducer';
 import Sidebar from '../Layouts/Sidebar';
@@ -6,7 +7,13 @@ import styles from './SolveSpace.module.css';
 import Board from './Board';
 import Clues from './Clues';
 
-const Solvespace = ({ puzzle }) => {
+const UPDATE_PLAYER_BOARD = gql`
+  mutation updatePlayerBoard($board: [[String!]]) {
+    updatePlayerBoard(board: $board)
+  }
+`;
+
+const Solvespace = ({ puzzle, client }) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: [[]],
     clues: {},
@@ -24,7 +31,17 @@ const Solvespace = ({ puzzle }) => {
       playableBoard: puzzle.playableBoard,
       clues: puzzle.clues,
     });
+    return () => {
+      console.log(client);
+      client.mutate(UPDATE_PLAYER_BOARD);
+    };
   }, [puzzle]);
+
+  useEffect(() => {
+    console.log('playableboard has changed');
+    console.log(client);
+  }, [state.playableBoard]);
+
   const { selection, direction } = state;
   const { currentClues } = selection;
   return (
@@ -34,6 +51,7 @@ const Solvespace = ({ puzzle }) => {
         {puzzle.author}
       </div>
       <Sidebar
+        breakPointPercent={40}
         sideBar={
           <>
             <div className={styles.focusedClue}>
@@ -96,6 +114,7 @@ Solvespace.propTypes = {
       cells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     }).isRequired,
   }).isRequired,
+  client: PropTypes.shape({}).isRequired,
 };
 
 export default Solvespace;

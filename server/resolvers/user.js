@@ -7,6 +7,8 @@ import { attemptSignUp, attemptSignIn, signOut } from '../auth';
 import { User } from '../models';
 import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
 
+const ObjectId = mongoose.Types.ObjectId;
+
 export default {
   Query: {
     me: (root, args, { req }, info) => {
@@ -55,6 +57,31 @@ export default {
     },
     signOut: (root, args, { req, res }, info) => {
       return signOut(req, res);
+    },
+
+    updatePlayerBoard: async (root, args, { req, res }, info) => {
+      const { puzzleId, board } = args;
+      const user = await User.findById(req.user._id);
+      if (!user) {
+        throw new Error('internal server error');
+      }
+      const puzzle = user.solvedPuzzles.filter(puz => {
+        console.log(puz.puzzle);
+        console.log(puz.puzzle === puzzleId);
+        return puz.puzzle == puzzleId;
+      })[0];
+      console.log({ puzzle });
+      if (puzzle) {
+        console.log('that puzzle exists');
+      } else {
+        user.solvedPuzzles.push({
+          board,
+          puzzle: puzzleId,
+        });
+        console.log(user.solvedPuzzles);
+        await user.save();
+      }
+      return { message: 'success' };
     },
   },
 };

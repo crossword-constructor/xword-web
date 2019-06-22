@@ -20,6 +20,6 @@
   flex-grow: 999;
   flex-basis: 0;
   /* border: 1px solid green; */
-  min-width: calc(50% - 1rem);
+  /* min-width: calc(50% - 1rem); */
   margin: var(--s-2);
 }

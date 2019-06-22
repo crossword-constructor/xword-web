@@ -1,28 +1,33 @@
 import mongoose from 'mongoose';
 import { hash, compare } from 'bcryptjs';
-import user from '../resolvers/user';
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      validate: {
-        validator: email => User.doesntExist({ email }),
-        message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security
-      },
+      // validate: {
+      //   validator: email => User.doesntExist({ email }),
+      //   message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security
+      // },
     },
     username: {
       type: String,
-      validate: {
-        validator: username => User.doesntExist({ username }),
-        message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security
-      },
+      // validate: {
+      //   validator: username => User.doesntExist({ username }),
+      //   message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security
+      // },
     },
     name: String,
     password: String,
     isAdmin: { type: Boolean, default: false },
     constructedPuzzles: [],
-    solvedPuzzles: [],
+    solvedPuzzles: [
+      {
+        puzzle: { type: ObjectId, ref: 'Puzzle' },
+        board: [[{ type: String }]],
+      },
+    ],
   },
   {
     timestamps: true,
