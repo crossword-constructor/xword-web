@@ -1,0 +1,10 @@
+.Container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* override Stack margin */
+  margin-bottom: 0;
+  background: rgba(248, 248, 248, 0.9);
+}

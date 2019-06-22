@@ -31,3 +31,13 @@ code {
 * {
   box-sizing: border-box;
 }
+
+body {
+  /* background: #10171e; */
+}
+
+.Box {
+  background: #f8f8f8;
+  padding: var(--s-1);
+  border: 1px solid #ddd;
+}

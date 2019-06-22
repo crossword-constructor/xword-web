@@ -12,14 +12,14 @@
 .Sidebar {
   flex-basis: 26rem;
   flex-grow: 1;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   margin: var(--s-2);
 }
 
 .MainContent {
   flex-grow: 999;
   flex-basis: 0;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   min-width: calc(50% - 1rem);
   margin: var(--s-2);
 }

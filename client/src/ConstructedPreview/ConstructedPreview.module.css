@@ -1,0 +1,3 @@
+.Container {
+  composes: Box from '../index.css';
+}
