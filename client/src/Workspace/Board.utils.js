@@ -50,7 +50,7 @@ export const buildPlayableBoard = puzzle => {
       return { guess: '', answer: col, number, clues: [acrossClue, downClue] };
     });
   });
-  return { playableBoard, clues: cluesObj };
+  return { ...puzzle, playableBoard, clues: cluesObj };
 };
 
 // Take the current position, direction, keypressed and finds the next cell in that row or col that isn't a blacksquare.

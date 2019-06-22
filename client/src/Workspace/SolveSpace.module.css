@@ -1,0 +1,27 @@
+.page {
+  /* border: 1px solid red; */
+}
+
+.focusedCluePosition {
+  font-weight: 700;
+  margin-right: var(--s-1);
+}
+
+.focusedClue {
+  background: var(--highlightBlue);
+  padding: var(--s-1);
+  font-size: calc(var(--s-2) * 2);
+  margin-bottom: var(--s-2);
+}
+
+.clues {
+  display: flex;
+  max-height: calc(40px * 15);
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 40px;
+}

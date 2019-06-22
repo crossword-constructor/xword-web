@@ -1,7 +1,8 @@
 import React, { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import puzzleReducer from './puzzleReducer';
-import styles from './Board.module.css';
+import Sidebar from '../Layouts/Sidebar';
+import styles from './SolveSpace.module.css';
 import Board from './Board';
 import Clues from './Clues';
 
@@ -13,7 +14,7 @@ const Solvespace = ({ puzzle }) => {
     selection: {
       focusedCell: [0, 0],
       currentCells: puzzle.clues['1A'].cells,
-      currentClues: [],
+      currentClues: null,
     },
   });
 
@@ -24,34 +25,54 @@ const Solvespace = ({ puzzle }) => {
       clues: puzzle.clues,
     });
   }, [puzzle]);
-
+  const { selection, direction } = state;
+  const { currentClues } = selection;
   return (
     <div className={styles.page}>
-      {puzzle.title}
-      {puzzle.author}
-      <div className={styles.container}>
-        <Board
-          playableBoard={state.playableBoard}
-          currentCells={state.selection.currentCells}
-          focusedCell={state.selection.focusedCell}
-          direction={state.direction}
-          selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
-          navigate={(keyCode, options) =>
-            dispatch({ type: 'NAVIGATE', keyCode, options })
-          }
-          guess={key => dispatch({ type: 'GUESS', key })}
-        />
-        <div className={styles.clues}>
-          <Clues
-            clues={state ? state.clues : {}}
-            direction={state.direction}
-            currentClues={state.selection.currentClues}
-            selectClue={clue => {
-              dispatch({ type: 'SELECT_CLUE', clue });
-            }}
-          />
-        </div>
+      <div>
+        {puzzle.title}
+        {puzzle.author}
       </div>
+      <Sidebar
+        sideBar={
+          <>
+            <div className={styles.focusedClue}>
+              <span className={styles.focusedCluePosition}>
+                {currentClues
+                  ? currentClues[direction === 'across' ? 0 : 1]
+                  : null}
+              </span>
+              {currentClues
+                ? puzzle.clues[currentClues[direction === 'across' ? 0 : 1]]
+                    .clue.text
+                : null}
+            </div>
+            <Board
+              playableBoard={state.playableBoard}
+              currentCells={state.selection.currentCells}
+              focusedCell={state.selection.focusedCell}
+              direction={state.direction}
+              selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
+              navigate={(keyCode, options) =>
+                dispatch({ type: 'NAVIGATE', keyCode, options })
+              }
+              guess={key => dispatch({ type: 'GUESS', key })}
+            />
+          </>
+        }
+        mainContent={
+          <div className={styles.clues}>
+            <Clues
+              clues={state ? state.clues : {}}
+              direction={state.direction}
+              currentClues={state.selection.currentClues}
+              selectClue={clue => {
+                dispatch({ type: 'SELECT_CLUE', clue });
+              }}
+            />
+          </div>
+        }
+      />
     </div>
   );
 };
