@@ -10,22 +10,32 @@ export default {
     puzzle: (root, args, context, info) => {
       console.log(args.id);
       return Puzzle.findById(args.id)
-        .select('date title author board clues')
-        .populate({ path: 'clues.clue', select: 'text -_id' })
-        .populate({ path: 'clues.answer', select: 'text -_id' })
+        .select('-clues._id')
+        .populate({ path: 'clues.clue', select: 'text' })
+        .populate({ path: 'clues.answer', select: 'text' })
         .lean()
         .then(puzzle => {
-          console.log(puzzle);
-          let formattedClues = [];
+          console.log('HELLO');
+          console.log(puzzle.clues[puzzle.clues.length - 1]);
+          // console.log(
+          //   puzzle.clues.forEach((clue, i) => {
+          //     if (!clue) {
+          //       return console.log('NO CLUE AT ', i);
+          //     }
+          //     console.log(clue);
+          //   })
+          // );
+          // let formattedClues = [];
           // Why is .map() not working on mongoose array???
-          puzzle.clues.forEach(clueObj => {
-            formattedClues.push({
-              clue: clueObj.clue.text.toString(),
-              answer: clueObj.answer.text.toString(),
-              position: clueObj.position,
-            });
-          });
-          puzzle.clues = formattedClues;
+          // puzzle.clues.forEach(clueObj => {
+          //   formattedClues.push({
+          //     clue: clueObj.clue.text.toString(),
+          //     answer: clueObj.answer.text.toString(),
+          //     position: clueObj.position,
+          //   });
+          // });
+          // console.log(puzzle.clues);
+          // puzzle.clues = formattedClues;
           return puzzle;
         });
       // return {

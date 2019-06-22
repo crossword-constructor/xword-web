@@ -50,10 +50,6 @@ userSchema.methods.authSummary = function() {
   };
 };
 
-userSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
-
 // Ensure virtual fields are serialised.
 userSchema.set('toJSON', {
   virtuals: true,

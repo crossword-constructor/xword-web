@@ -19,7 +19,7 @@ const Clues = ({ clues, currentClues, selectClue, direction }) => {
               }
               selectClue={() => selectClue(clues[clue])}
               position={clues[clue].position}
-              text={clues[clue].clue}
+              text={clues[clue].clue.text}
             />
           ))}
       </ul>
@@ -35,7 +35,7 @@ const Clues = ({ clues, currentClues, selectClue, direction }) => {
               }
               selectClue={() => selectClue(clues[clue])}
               position={clues[clue].position}
-              text={clues[clue].clue}
+              text={clues[clue].clue.text}
             />
           ))}
       </ul>

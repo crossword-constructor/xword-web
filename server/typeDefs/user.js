@@ -20,7 +20,7 @@ export default gql`
   }
 
   type User {
-    id: ID!
+    _id: ID!
     email: String!
     username: String!
     name: String!
@@ -37,7 +37,7 @@ export default gql`
   }
 
   type UserPuzzle {
-    id: ID!
+    _id: ID!
     puzzle: Puzzle
     currentBoard: [[String]]
     startTime: String!
@@ -45,7 +45,7 @@ export default gql`
   }
 
   type Notification {
-    id: ID!
+    _id: ID!
     fromUser: User
     toUser: User!
     message: String

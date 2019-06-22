@@ -18,8 +18,14 @@ const GET_PUZZLE = gql`
       publisher
       board
       clues {
-        answer
-        clue
+        answer {
+          _id
+          text
+        }
+        clue {
+          _id
+          text
+        }
         position
       }
     }
@@ -34,6 +40,7 @@ const FetchPuzzle = ({ match }) => {
         if (loading) return '...loading';
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
         const puzzle = buildPlayableBoard(data.puzzle);
+        console.log(puzzle);
         return <SolveSpace puzzle={puzzle} />;
       }}
     </Query>
