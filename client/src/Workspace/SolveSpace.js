@@ -8,8 +8,10 @@ import Board from './Board';
 import Clues from './Clues';
 
 const UPDATE_PLAYER_BOARD = gql`
-  mutation updatePlayerBoard($board: [[String!]]) {
-    updatePlayerBoard(board: $board)
+  mutation updatePlayerBoard($puzzleId: ID!, $board: [[String!]]) {
+    updatePlayerBoard(puzzleId: $puzzleId, board: $board) {
+      message
+    }
   }
 `;
 
@@ -32,15 +34,18 @@ const Solvespace = ({ puzzle, client }) => {
       clues: puzzle.clues,
     });
     return () => {
-      console.log(client);
-      client.mutate(UPDATE_PLAYER_BOARD);
+      // console.log(client);
+      client
+        .mutate({
+          mutation: UPDATE_PLAYER_BOARD,
+          variables: { board: [['this is a board']], puzzleId: puzzle._id },
+        })
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => console.log({ err }));
     };
   }, [puzzle]);
-
-  useEffect(() => {
-    console.log('playableboard has changed');
-    console.log(client);
-  }, [state.playableBoard]);
 
   const { selection, direction } = state;
   const { currentClues } = selection;
@@ -113,6 +118,7 @@ Solvespace.propTypes = {
       position: PropTypes.string,
       cells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     }).isRequired,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
   client: PropTypes.shape({}).isRequired,
 };

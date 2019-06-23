@@ -18,16 +18,13 @@ export default {
 
     verifyLoggedIn: async (root, args, { req }, info) => {
       if (req.user) {
-        console.log('USER: ', req.user._id);
         const user = await User.findById(req.user._id);
-        console.log(user);
         return user;
       }
       throw new AuthenticationError('you are not logged in');
     },
     users: (root, args, context, info) => {
       // TODO: projection, pagination
-      console.log('getting users');
       return User.find({});
     },
     user: (root, { id }, context, info) => {
@@ -40,9 +37,7 @@ export default {
   },
   Mutation: {
     signUp: async (root, args, { req, res }, info) => {
-      console.log('here?');
       const user = await attemptSignUp(args, res);
-      console.log({ user });
       return user;
     },
     signIn: async (root, args, { req }, info) => {
@@ -66,19 +61,15 @@ export default {
         throw new Error('internal server error');
       }
       const puzzle = user.solvedPuzzles.filter(puz => {
-        console.log(puz.puzzle);
-        console.log(puz.puzzle === puzzleId);
-        return puz.puzzle == puzzleId;
+        return puz.puzzle.toString() === puzzleId;
       })[0];
-      console.log({ puzzle });
       if (puzzle) {
-        console.log('that puzzle exists');
+        console.log('this puzzle already exists');
       } else {
         user.solvedPuzzles.push({
           board,
           puzzle: puzzleId,
         });
-        console.log(user.solvedPuzzles);
         await user.save();
       }
       return { message: 'success' };

@@ -1,23 +1,43 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
-import { UserInputError } from 'apollo-server-express';
+import { UserInputError, AuthenticationError } from 'apollo-server-express';
 // import { signUp, signIn } from "../schemas";
 // import { attemptSignIn, signOut } from "../auth";
-import { Puzzle } from '../models';
+import { Puzzle, User } from '../models';
 
 export default {
   Query: {
-    puzzle: (root, args, context, info) => {
-      console.log(args.id);
-      return Puzzle.findById(args.id)
-        .select('-clues._id')
-        .populate({ path: 'clues.clue', select: 'text' })
-        .populate({ path: 'clues.answer', select: 'text' })
-        .lean()
-        .then(puzzle => puzzle)
-        .catch(err => {
-          throw new Error(err);
-        });
+    puzzle: async (root, args, { req }, info) => {
+      const { id } = args;
+      const [user, puzzle] = await Promise.all([
+        User.findById(req.user._id),
+        Puzzle.findById(args.id)
+          .select('-clues._id')
+          .populate({ path: 'clues.clue', select: 'text' })
+          .populate({ path: 'clues.answer', select: 'text' })
+          .lean(),
+      ]);
+
+      if (!user) {
+        throw new AuthenticationError();
+      }
+
+      if (!puzzle) {
+        throw new Error('internal server error');
+      }
+
+      const userPuzzle = user.solvedPuzzles.filter(p => {
+        p.puzzle.toString() === id;
+      })[0];
+
+      if (!userPuzzle) {
+        user.solvedPuzzles.push({ puzzle: id, board: puzzle.board });
+        user.save();
+      } else {
+        puzzle.board = userPuzzle.board;
+      }
+
+      return puzzle;
     },
     puzzles: (root, args, { req }, info) => {
       let regex = new RegExp(

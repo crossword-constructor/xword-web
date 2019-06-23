@@ -44,7 +44,6 @@ import {
         res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 
         // consider moving this to auth
-        console.log('building context');
         const { user } = req.cookies;
         if (user) {
           try {

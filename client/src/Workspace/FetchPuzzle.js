@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { Query, ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import { buildPlayableBoard } from './Board.utils';
-import WithApollo from '../Shared/WithApollo';
 import SolveSpace from './SolveSpace';
 
 const GET_PUZZLE = gql`
   query Puzzle($puzzleId: ID) {
     puzzle(id: $puzzleId) {
+      _id
       title
       author
       date
@@ -38,9 +38,9 @@ const FetchPuzzle = ({ match }) => {
         if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
         const puzzle = buildPlayableBoard(data.puzzle);
         return (
-          <WithApollo>
+          <ApolloConsumer>
             {client => <SolveSpace puzzle={puzzle} client={client} />}
-          </WithApollo>
+          </ApolloConsumer>
         );
       }}
     </Query>
