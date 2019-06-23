@@ -3,14 +3,14 @@ import mongoose from 'mongoose';
 import { UserInputError, AuthenticationError } from 'apollo-server-express';
 // import { signUp, signIn } from "../schemas";
 // import { attemptSignIn, signOut } from "../auth";
-import { Puzzle, User } from '../models';
+import { Puzzle, User, UserPuzzle } from '../models';
 
 export default {
   Query: {
-    puzzle: async (root, args, { req }, info) => {
+    playablePuzzle: async (root, args, { req }, info) => {
       const { id } = args;
       const [user, puzzle] = await Promise.all([
-        User.findById(req.user._id),
+        User.findById(req.user._id).populate('solvedPuzzles'),
         Puzzle.findById(args.id)
           .select('-clues._id')
           .populate({ path: 'clues.clue', select: 'text' })
@@ -26,18 +26,21 @@ export default {
         throw new Error('internal server error');
       }
 
-      const userPuzzle = user.solvedPuzzles.filter(p => {
-        p.puzzle.toString() === id;
+      let userPuzzle = user.solvedPuzzles.filter(sp => {
+        sp.puzzle._id.toString() === id;
       })[0];
 
       if (!userPuzzle) {
-        user.solvedPuzzles.push({ puzzle: id, board: puzzle.board });
-        user.save();
-      } else {
-        puzzle.board = userPuzzle.board;
+        userPuzzle = await UserPuzzle.create({
+          puzzle: id,
+          board: puzzle.board.map(row =>
+            row.map(cell => (cell === '#BlackSquare#' ? cell : ''))
+          ),
+          user: user._id,
+        });
       }
-
-      return puzzle;
+      console.log({ puzzle, userPuzzle });
+      return { puzzle, userPuzzle };
     },
     puzzles: (root, args, { req }, info) => {
       let regex = new RegExp(

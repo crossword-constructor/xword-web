@@ -22,12 +22,7 @@ const userSchema = new mongoose.Schema(
     password: String,
     isAdmin: { type: Boolean, default: false },
     constructedPuzzles: [],
-    solvedPuzzles: [
-      {
-        puzzle: { type: ObjectId, ref: 'Puzzle' },
-        board: [[{ type: String }]],
-      },
-    ],
+    solvedPuzzles: [{ type: ObjectId, ref: 'UserPuzzle' }],
   },
   {
     timestamps: true,

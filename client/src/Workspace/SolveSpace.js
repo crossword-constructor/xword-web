@@ -53,7 +53,11 @@ const Solvespace = ({ puzzle, client }) => {
         })
         .catch(err => console.log({ err }));
     };
-  }, []);
+  }, []); // The dependency here is the route?? because we want this to
+  //  fire when the user leaves, but a case could be made for playableBaord
+  //  as well because if that doesnt change we dont want to run the mutation...but
+  // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
+  // saving every time the user pauses typing...has the added benefit of not failing due to loss of conneciton
 
   const { currentClues } = selection;
   return (

@@ -6,24 +6,29 @@ import { buildPlayableBoard } from './Board.utils';
 import SolveSpace from './SolveSpace';
 
 const GET_PUZZLE = gql`
-  query Puzzle($puzzleId: ID) {
-    puzzle(id: $puzzleId) {
-      _id
-      title
-      author
-      date
-      publisher
-      board
-      clues {
-        answer {
-          _id
-          text
+  query PlayablePuzzle($puzzleId: ID) {
+    playablePuzzle(id: $puzzleId) {
+      puzzle {
+        _id
+        title
+        author
+        date
+        publisher
+        board
+        clues {
+          answer {
+            _id
+            text
+          }
+          clue {
+            _id
+            text
+          }
+          position
         }
-        clue {
-          _id
-          text
-        }
-        position
+      }
+      userPuzzle {
+        board
       }
     }
   }
@@ -35,8 +40,9 @@ const FetchPuzzle = ({ match }) => {
     <Query query={GET_PUZZLE} variables={{ puzzleId }}>
       {({ loading, error, data }) => {
         if (loading) return '...loading';
-        if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
-        const puzzle = buildPlayableBoard(data.puzzle);
+        if (error) return console.log(error);
+        if (data) console.log(data);
+        const puzzle = buildPlayableBoard(data.playablePuzzle.puzzle);
         return (
           <ApolloConsumer>
             {client => <SolveSpace puzzle={puzzle} client={client} />}
