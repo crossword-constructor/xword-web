@@ -126,3 +126,20 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
     }
   }
 };
+
+/**
+ * @param  {ObjectId} puzzleId
+ * @param  {Array} playableBoard
+ * @return {Array} saveableBoard
+ * @description maps over a playable board returning only the guesses
+ */
+export const buildSaveableBoard = playableBoard => {
+  return playableBoard.map(row => {
+    return row.map(cell => {
+      if (cell.answer === '#BlackSquare#') {
+        return cell.answer;
+      }
+      return cell.guess;
+    });
+  });
+};

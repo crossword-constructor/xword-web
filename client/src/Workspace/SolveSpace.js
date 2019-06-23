@@ -2,6 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import puzzleReducer from './puzzleReducer';
+import { buildSaveableBoard } from './Board.utils';
 import Sidebar from '../Layouts/Sidebar';
 import styles from './SolveSpace.module.css';
 import Board from './Board';
@@ -27,27 +28,33 @@ const Solvespace = ({ puzzle, client }) => {
     },
   });
 
+  const { playableBoard, clues, selection, direction } = state;
+
   useEffect(() => {
     dispatch({
       type: 'LOAD_PUZZLE',
       playableBoard: puzzle.playableBoard,
       clues: puzzle.clues,
     });
+  }, [puzzle]);
+
+  useEffect(() => {
     return () => {
-      // console.log(client);
       client
         .mutate({
           mutation: UPDATE_PLAYER_BOARD,
-          variables: { board: [['this is a board']], puzzleId: puzzle._id },
+          variables: {
+            board: buildSaveableBoard(state.playableBoard),
+            puzzleId: puzzle._id,
+          },
         })
         .then(result => {
           console.log(result);
         })
         .catch(err => console.log({ err }));
     };
-  }, [puzzle]);
+  }, []);
 
-  const { selection, direction } = state;
   const { currentClues } = selection;
   return (
     <div className={styles.page}>
@@ -71,10 +78,10 @@ const Solvespace = ({ puzzle, client }) => {
                 : null}
             </div>
             <Board
-              playableBoard={state.playableBoard}
-              currentCells={state.selection.currentCells}
-              focusedCell={state.selection.focusedCell}
-              direction={state.direction}
+              playableBoard={playableBoard}
+              currentCells={selection.currentCells}
+              focusedCell={selection.focusedCell}
+              direction={direction}
               selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
               navigate={(keyCode, options) =>
                 dispatch({ type: 'NAVIGATE', keyCode, options })
@@ -86,9 +93,9 @@ const Solvespace = ({ puzzle, client }) => {
         mainContent={
           <div className={styles.clues}>
             <Clues
-              clues={state ? state.clues : {}}
-              direction={state.direction}
-              currentClues={state.selection.currentClues}
+              clues={clues}
+              direction={direction}
+              currentClues={selection.currentClues}
               selectClue={clue => {
                 dispatch({ type: 'SELECT_CLUE', clue });
               }}
