@@ -53,26 +53,5 @@ export default {
     signOut: (root, args, { req, res }, info) => {
       return signOut(req, res);
     },
-
-    updatePlayerBoard: async (root, args, { req, res }, info) => {
-      const { puzzleId, board } = args;
-      const user = await User.findById(req.user._id);
-      if (!user) {
-        throw new Error('internal server error');
-      }
-      const puzzle = user.solvedPuzzles.filter(puz => {
-        return puz.puzzle.toString() === puzzleId;
-      })[0];
-      if (puzzle) {
-        console.log('this puzzle already exists');
-      } else {
-        user.solvedPuzzles.push({
-          board,
-          puzzle: puzzleId,
-        });
-        await user.save();
-      }
-      return { message: 'success' };
-    },
   },
 };

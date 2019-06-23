@@ -17,11 +17,6 @@ export default gql`
     ): User!
     signIn(email: String!, password: String!): User
     signOut: Boolean @auth
-    updatePlayerBoard(board: [[String!]], puzzleId: ID!): UserBoard!
-  }
-
-  type UserBoard {
-    message: String!
   }
 
   type User {

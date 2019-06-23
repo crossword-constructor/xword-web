@@ -7,7 +7,7 @@ import SolveSpace from './SolveSpace';
 
 const GET_PUZZLE = gql`
   query PlayablePuzzle($puzzleId: ID) {
-    playablePuzzle(id: $puzzleId) {
+    playablePuzzle(_id: $puzzleId) {
       puzzle {
         _id
         title
@@ -28,6 +28,7 @@ const GET_PUZZLE = gql`
         }
       }
       userPuzzle {
+        _id
         board
       }
     }
@@ -37,15 +38,26 @@ const GET_PUZZLE = gql`
 const FetchPuzzle = ({ match }) => {
   const puzzleId = match.params.id;
   return (
-    <Query query={GET_PUZZLE} variables={{ puzzleId }}>
+    <Query
+      query={GET_PUZZLE}
+      variables={{ puzzleId }}
+      // fetchPolicy="network-only"
+    >
       {({ loading, error, data }) => {
         if (loading) return '...loading';
         if (error) return console.log(error);
         if (data) console.log(data);
-        const puzzle = buildPlayableBoard(data.playablePuzzle.puzzle);
+        const { puzzle, userPuzzle } = data.playablePuzzle;
+        const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
         return (
           <ApolloConsumer>
-            {client => <SolveSpace puzzle={puzzle} client={client} />}
+            {client => (
+              <SolveSpace
+                puzzle={playablePuzzle}
+                userPuzzle={userPuzzle}
+                client={client}
+              />
+            )}
           </ApolloConsumer>
         );
       }}

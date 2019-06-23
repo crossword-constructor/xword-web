@@ -8,16 +8,20 @@ import { Puzzle, User, UserPuzzle } from '../models';
 export default {
   Query: {
     playablePuzzle: async (root, args, { req }, info) => {
-      const { id } = args;
+      console.log('in the qyerter');
+      const { _id } = args;
+      console.log({ _id });
+      console.log(req.user._id);
       const [user, puzzle] = await Promise.all([
         User.findById(req.user._id).populate('solvedPuzzles'),
-        Puzzle.findById(args.id)
+        Puzzle.findById(_id)
           .select('-clues._id')
           .populate({ path: 'clues.clue', select: 'text' })
           .populate({ path: 'clues.answer', select: 'text' })
           .lean(),
       ]);
-
+      // console.log(user);
+      // console.log(puzzle);
       if (!user) {
         throw new AuthenticationError();
       }
@@ -25,21 +29,23 @@ export default {
       if (!puzzle) {
         throw new Error('internal server error');
       }
-
+      console.log('we here');
       let userPuzzle = user.solvedPuzzles.filter(sp => {
-        sp.puzzle._id.toString() === id;
+        console.log(sp);
+        sp.puzzle.toString() === _id;
       })[0];
-
+      console.log({ userPuzzle });
+      console.log('userId', user._id);
       if (!userPuzzle) {
         userPuzzle = await UserPuzzle.create({
-          puzzle: id,
+          puzzle: _id,
           board: puzzle.board.map(row =>
             row.map(cell => (cell === '#BlackSquare#' ? cell : ''))
           ),
           user: user._id,
         });
       }
-      console.log({ puzzle, userPuzzle });
+      console.log('allGOod');
       return { puzzle, userPuzzle };
     },
     puzzles: (root, args, { req }, info) => {

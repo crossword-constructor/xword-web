@@ -1,5 +1,6 @@
-export const buildPlayableBoard = puzzle => {
+export const buildPlayableBoard = (puzzle, userPuzzle) => {
   const { board, clues } = puzzle;
+  const { board: userBoard } = userPuzzle;
 
   const cluesObj = {};
   for (let i = 0; i < clues.length; i += 1) {
@@ -46,8 +47,12 @@ export const buildPlayableBoard = puzzle => {
         currentNumber += 1;
       }
 
-      // acrossClue = currentNuber;
-      return { guess: '', answer: col, number, clues: [acrossClue, downClue] };
+      return {
+        guess: userBoard[rowCount][colCount],
+        answer: col,
+        number,
+        clues: [acrossClue, downClue],
+      };
     });
   });
   return { ...puzzle, playableBoard, clues: cluesObj };

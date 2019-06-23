@@ -9,14 +9,14 @@ import Board from './Board';
 import Clues from './Clues';
 
 const UPDATE_PLAYER_BOARD = gql`
-  mutation updatePlayerBoard($puzzleId: ID!, $board: [[String!]]) {
-    updatePlayerBoard(puzzleId: $puzzleId, board: $board) {
+  mutation updateUserPuzzle($_id: ID!, $board: [[String!]]) {
+    updateUserPuzzle(_id: $_id, board: $board) {
       message
     }
   }
 `;
 
-const Solvespace = ({ puzzle, client }) => {
+const Solvespace = ({ puzzle, userPuzzle, client }) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: [[]],
     clues: {},
@@ -44,8 +44,8 @@ const Solvespace = ({ puzzle, client }) => {
         .mutate({
           mutation: UPDATE_PLAYER_BOARD,
           variables: {
-            board: buildSaveableBoard(state.playableBoard),
-            puzzleId: puzzle._id,
+            _id: userPuzzle._id,
+            board: buildSaveableBoard(playableBoard),
           },
         })
         .then(result => {
@@ -53,7 +53,7 @@ const Solvespace = ({ puzzle, client }) => {
         })
         .catch(err => console.log({ err }));
     };
-  }, []); // The dependency here is the route?? because we want this to
+  }, [playableBoard]); // The dependency here is the route?? because we want this to
   //  fire when the user leaves, but a case could be made for playableBaord
   //  as well because if that doesnt change we dont want to run the mutation...but
   // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
@@ -130,6 +130,11 @@ Solvespace.propTypes = {
       cells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     }).isRequired,
     _id: PropTypes.string.isRequired,
+  }).isRequired,
+  userPuzzle: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    puzzle: PropTypes.string,
   }).isRequired,
   client: PropTypes.shape({}).isRequired,
 };

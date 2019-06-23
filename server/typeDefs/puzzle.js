@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    playablePuzzle(id: ID): PlayablePuzzle!
+    playablePuzzle(_id: ID): PlayablePuzzle!
     puzzles(month: String, year: String): [Puzzle!]
   }
 
@@ -32,13 +32,6 @@ export default gql`
     updatedAt: String
     privacySetting: String!
     comments: [Comment]
-  }
-
-  type UserPuzzle {
-    _id: ID!
-    puzzle: String!
-    board: [[String]]!
-    user: String
   }
 
   type ClueAnswer {
