@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     verifyLoggedIn: User
     me: User
+    profileInfo: User!
     user(id: ID!): User @auth
     users: [User!]!
   }

@@ -8,10 +8,7 @@ import { Puzzle, User, UserPuzzle } from '../models';
 export default {
   Query: {
     playablePuzzle: async (root, args, { req }, info) => {
-      console.log('in the qyerter');
       const { _id } = args;
-      console.log({ _id });
-      console.log(req.user._id);
       const [user, puzzle] = await Promise.all([
         User.findById(req.user._id).populate('solvedPuzzles'),
         Puzzle.findById(_id)
@@ -29,9 +26,8 @@ export default {
       if (!puzzle) {
         throw new Error('internal server error');
       }
-      console.log('we here');
       let userPuzzle = user.solvedPuzzles.filter(sp => {
-        sp.puzzle.toString() === _id;
+        return sp.puzzle.toString() === _id;
       })[0];
       if (!userPuzzle) {
         userPuzzle = await UserPuzzle.create({
@@ -42,9 +38,9 @@ export default {
           user: user._id,
         });
       }
-      console.log('allGOod');
       return { puzzle, userPuzzle };
     },
+
     puzzles: (root, args, { req }, info) => {
       let regex = new RegExp(
         `^(${args.month})(\/)([0-9]|[0-2][0-9]|(3)[0-1])(\/)(${args.year})`

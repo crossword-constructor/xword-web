@@ -15,7 +15,7 @@ export default gql`
 
   type UserPuzzle {
     _id: ID!
-    puzzle: String!
+    puzzle: Puzzle!
     board: [[String]]!
     user: String
   }

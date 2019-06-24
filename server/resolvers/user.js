@@ -27,6 +27,23 @@ export default {
       // TODO: projection, pagination
       return User.find({});
     },
+
+    profileInfo: async (root, args, { req }, info) => {
+      console.log('here we are');
+      try {
+        const user = await User.findById(req.user._id).populate({
+          path: 'solvedPuzzles',
+          populate: { path: 'puzzle' },
+        });
+        console.log('user: ', user);
+        if (!user) {
+          throw new AuthenticationError('No user found');
+        }
+        return user;
+      } catch (e) {
+        console.log(e);
+      }
+    },
     user: (root, { id }, context, info) => {
       // TODO: projection, sanitization
       if (!mongoose.Types.ObjectId.isValid(id)) {

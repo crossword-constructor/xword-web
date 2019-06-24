@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import User from './user';
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const UserPuzzle = new mongoose.Schema({
-  puzzle: { type: ObjectId, ref: 'puzzle' },
+  puzzle: { type: ObjectId, ref: 'Puzzle' },
   board: [[{ type: String }]],
-  user: { type: ObjectId, ref: 'user' },
+  user: { type: ObjectId, ref: 'User' },
 });
 
 UserPuzzle.pre('save', async function(doc) {
