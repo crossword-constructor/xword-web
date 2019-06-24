@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from '../Layouts/Sidebar';
 import Stack from '../Layouts/Stack';
 import PuzzleList from '../PuzzleList/PuzzleList';
+import ConstructedPreview from '../ConstructedPreview/ConstructedPreview';
 import ProfileCard from './ProfileCard';
 
 const solvedPuzzles = [
@@ -59,15 +60,19 @@ const Profile = () => {
   return (
     <Sidebar
       sideBar={
-        <ProfileCard
-          username="michael"
-          name="Michael 👾 McVeigh"
-          avatarImage="blah"
-          background="blah"
-        />
+        <>
+          <ProfileCard
+            username="michael"
+            name="Michael 👾 McVeigh"
+            avatarImage="blah"
+            background="blah"
+          />
+          <div>feed</div>
+        </>
       }
       mainContent={
         <Stack>
+          <ConstructedPreview />
           <PuzzleList title="Solved Puzzles" puzzles={solvedPuzzles} />
           <PuzzleList
             title="Constructed Puzzles"

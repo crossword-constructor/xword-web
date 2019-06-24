@@ -11,7 +11,7 @@ import { monthMap } from './utils';
 const FETCH_PUZZLES = gql`
   query Puzzles($month: String, $year: String) {
     puzzles(month: $month, year: $year) {
-      id
+      _id
       # author
       # title
       date

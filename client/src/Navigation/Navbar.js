@@ -8,7 +8,7 @@ const Navbar = () => {
   const USERNAME = gql`
     {
       me {
-        id
+        _id
         username
       }
     }

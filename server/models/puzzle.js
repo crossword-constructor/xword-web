@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const Puzzle = new mongoose.Schema(
   {
@@ -9,22 +9,22 @@ const Puzzle = new mongoose.Schema(
     clues: [
       {
         position: { type: String },
-        answer: { type: ObjectId, ref: "Answer" },
-        clue: { type: ObjectId, ref: "Clue" }
-      }
+        answer: { type: ObjectId, ref: 'Answer' },
+        clue: { type: ObjectId, ref: 'Clue' },
+      },
     ],
     date: { type: String },
     dimensions: {
       rows: { type: Number },
-      columns: { type: Number }
+      columns: { type: Number },
     },
     board: [],
     privacySetting: {
       type: String,
-      enum: ["PUBLIC", "PRIVATE", "SUPERPRIVATE"]
-    }
+      enum: ['PUBLIC', 'PRIVATE', 'SUPERPRIVATE'],
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("Puzzle", Puzzle);
+export default mongoose.model('Puzzle', Puzzle);

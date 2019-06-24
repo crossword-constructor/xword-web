@@ -16,7 +16,7 @@ const App = () => {
   const VERIFY_LOGGED_IN = gql`
     {
       verifyLoggedIn {
-        id
+        _id
         username
       }
     }
@@ -28,9 +28,7 @@ const App = () => {
     // the cookie attached if the user is logged in...so this is an extra request
     <Query query={VERIFY_LOGGED_IN}>
       {({ loading, error, data }) => {
-        console.log(error);
         if (loading) return <div>Loading..</div>;
-        console.log(data);
         return (
           <>
             <Navbar />

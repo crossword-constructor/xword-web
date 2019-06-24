@@ -25,7 +25,7 @@ const Signup = ({ history }) => {
         name: $name
         password: $password
       ) {
-        id
+        _id
         username
       }
     }
@@ -34,7 +34,7 @@ const Signup = ({ history }) => {
   const USERNAME = gql`
     {
       me {
-        id
+        _id
         username
       }
     }
@@ -83,7 +83,7 @@ const Signup = ({ history }) => {
           mutation={SIGNUP_MUTATION}
           variables={{ username, email, password, name }}
           // eslint-disable-next-line no-unused-vars
-          refetchQueries={['USERNAME']}
+          // refetchQueries={['USERNAME']}
           update={cache => {
             console.log('update ufnciton');
             const username2 = cache.readQuery({ query: USERNAME });
@@ -96,6 +96,8 @@ const Signup = ({ history }) => {
             if (res.error) {
               console.log(res.error);
               errorComponent = <div>{res.error.graphQLErrors[0].message}</div>;
+            } else if (res.data) {
+              history.push('/profile');
             }
             return (
               <>
@@ -107,7 +109,6 @@ const Signup = ({ history }) => {
                         variables: { email, username, password, name },
                         refetchQueries: ['USERNAME'],
                       });
-                      history.push('/profile');
                     }}
                     type="submit"
                   >

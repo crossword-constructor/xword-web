@@ -1,4 +1,6 @@
 .Container {
+  composes: Box from '../index.css';
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
@@ -6,6 +8,10 @@
 .Background {
   width: 100%;
   height: var(--s4);
+  background-image: url('./testBackground.jpg');
+  /* background-repeat: no-repeat; */
+  background-size: cover;
+  background-position-x: center;
 }
 
 .Bottom {
@@ -15,10 +21,10 @@
 
 .AvatarImage {
   border-radius: 50%;
-  height: var(--s4);
-  width: var(--s4);
+  height: var(--s3);
+  width: var(--s3);
   margin-left: var(--s1);
-  margin-top: calc(var(--s4) / -2);
+  margin-top: calc(var(--s3) / -2);
   border: 2px solid #0a2a3f;
 }
 
@@ -31,7 +37,7 @@
 }
 
 .Name {
-  font-size: calc(var(--s-2) * var(--ratio) * 2);
-  margin-bottom: var(--s-2);
+  font-size: var(--s0);
+  margin-bottom: var(--s-4);
   composes: TextTruncate from '../helpers.module.css';
 }

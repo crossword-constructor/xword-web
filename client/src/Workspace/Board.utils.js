@@ -1,5 +1,6 @@
-export const buildPlayableBoard = puzzle => {
+export const buildPlayableBoard = (puzzle, userPuzzle) => {
   const { board, clues } = puzzle;
+  const { board: userBoard } = userPuzzle;
 
   const cluesObj = {};
   for (let i = 0; i < clues.length; i += 1) {
@@ -46,11 +47,15 @@ export const buildPlayableBoard = puzzle => {
         currentNumber += 1;
       }
 
-      // acrossClue = currentNuber;
-      return { guess: '', answer: col, number, clues: [acrossClue, downClue] };
+      return {
+        guess: userBoard[rowCount][colCount],
+        answer: col,
+        number,
+        clues: [acrossClue, downClue],
+      };
     });
   });
-  return { playableBoard, clues: cluesObj };
+  return { ...puzzle, playableBoard, clues: cluesObj };
 };
 
 // Take the current position, direction, keypressed and finds the next cell in that row or col that isn't a blacksquare.
@@ -125,4 +130,21 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
       endCounter -= 1;
     }
   }
+};
+
+/**
+ * @param  {ObjectId} puzzleId
+ * @param  {Array} playableBoard
+ * @return {Array} saveableBoard
+ * @description maps over a playable board returning only the guesses
+ */
+export const buildSaveableBoard = playableBoard => {
+  return playableBoard.map(row => {
+    return row.map(cell => {
+      if (cell.answer === '#BlackSquare#') {
+        return cell.answer;
+      }
+      return cell.guess;
+    });
+  });
 };

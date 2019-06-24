@@ -1,26 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { Query, ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import { buildPlayableBoard } from './Board.utils';
 import SolveSpace from './SolveSpace';
-// import { buildPlayableBoard } from './Board.utils';
-// import styles from './Board.module.css';
-// import Board from './Board';
-// import Clues from './Clues';
 
 const GET_PUZZLE = gql`
-  query Puzzle($puzzleId: ID) {
-    puzzle(id: $puzzleId) {
-      title
-      author
-      date
-      publisher
-      board
-      clues {
-        answer
-        clue
-        position
+  query PlayablePuzzle($puzzleId: ID) {
+    playablePuzzle(_id: $puzzleId) {
+      puzzle {
+        _id
+        title
+        author
+        date
+        publisher
+        board
+        clues {
+          answer {
+            _id
+            text
+          }
+          clue {
+            _id
+            text
+          }
+          position
+        }
+      }
+      userPuzzle {
+        _id
+        board
       }
     }
   }
@@ -29,12 +38,29 @@ const GET_PUZZLE = gql`
 const FetchPuzzle = ({ match }) => {
   const puzzleId = match.params.id;
   return (
-    <Query query={GET_PUZZLE} variables={{ puzzleId }}>
+    <Query
+      query={GET_PUZZLE}
+      variables={{ puzzleId }}
+      // fetchPolicy="network-only"
+    >
       {({ loading, error, data }) => {
         if (loading) return '...loading';
-        if (error) return `ERROR ${JSON.stringify(error, null, 2)}`;
-        const puzzle = buildPlayableBoard(data.puzzle);
-        return <SolveSpace puzzle={puzzle} />;
+        if (error) return console.log(error);
+        if (data) console.log(data);
+        const { puzzle, userPuzzle } = data.playablePuzzle;
+        console.log({ userPuzzle });
+        const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
+        return (
+          <ApolloConsumer>
+            {client => (
+              <SolveSpace
+                puzzle={playablePuzzle}
+                userPuzzle={userPuzzle}
+                client={client}
+              />
+            )}
+          </ApolloConsumer>
+        );
       }}
     </Query>
   );

@@ -11,11 +11,14 @@ const Cell = ({
   isFocused,
   isHighlighted,
 }) => {
+  const highlightBlue = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue('--highlightBlue');
   let background = '#F6F6F6';
   if (isFocused) {
     background = 'yellow';
   } else if (isHighlighted) {
-    background = 'rgb(139, 190, 255)';
+    background = highlightBlue;
   }
   let color = 'black';
   if (isShowingAnswer) {
