@@ -148,3 +148,14 @@ export const buildSaveableBoard = playableBoard => {
     });
   });
 };
+
+// saves board reducer selection object to localStorage
+export const saveSelection = (selection, direction, userPuzzleId) => {
+  try {
+    selection.userPuzzleId = userPuzzleId;
+    window.localStorage.setItem('selection', JSON.stringify(selection));
+    window.localStorage.setItem('direction', direction);
+  } catch (err) {
+    console.log('error writing selection to local storage: ', err);
+  }
+};

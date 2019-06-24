@@ -7,12 +7,6 @@ export default (state, action) => {
         ...state,
         playableBoard: action.playableBoard,
         clues: action.clues,
-        direction: 'across',
-        selection: {
-          focusedCell: [0, 0],
-          currentCells: action.clues['1A'].cells,
-          currentClues: ['1A', '1D'],
-        },
       };
     }
     case 'SELECT_CLUE': {
@@ -75,7 +69,7 @@ export default (state, action) => {
       let nextCell = focusedCell; // Do I need to copy these so React knows its value has changed ? @ todo look into this
       let { direction } = state;
       if (options && options.clearFirst) {
-        updatedBoard[focusedCell[0]][focusedCell[1]].guess = null;
+        updatedBoard[focusedCell[0]][focusedCell[1]].guess = '';
       }
       if (keyCode % 2 !== 0 && state.direction === 'down') {
         direction = 'across';

@@ -19,13 +19,13 @@ const UPDATE_PLAYER_BOARD = gql`
 
 const Solvespace = ({ puzzle, userPuzzle, client }) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
-    playableBoard: [[]],
+    playableBoard: null,
     clues: {},
     direction: 'across',
     selection: {
       focusedCell: [0, 0],
       currentCells: puzzle.clues['1A'].cells,
-      currentClues: null,
+      currentClues: ['1A', '1D'],
     },
   });
 
@@ -39,21 +39,25 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
     });
   }, [puzzle]);
 
-  const save = () => {
-    client
-      .mutate({
-        mutation: UPDATE_PLAYER_BOARD,
-        variables: {
-          _id: userPuzzle._id,
-          board: buildSaveableBoard(playableBoard),
-        },
-      })
-      .then(result => {
-        // client.writeQuery({ query: UPDATE_PLAYER_BOARD, data: result.data });
-        console.log(result);
-      })
-      .catch(err => console.log({ err }));
-  }; // The dependency here is the route?? because we want this to
+  useEffect(() => {
+    if (playableBoard) {
+      client
+        .mutate({
+          mutation: UPDATE_PLAYER_BOARD,
+          variables: {
+            _id: userPuzzle,
+            board: buildSaveableBoard(playableBoard),
+          },
+        })
+        .then(() => {
+          // client.writeQuery({ query: UPDATE_PLAYER_BOARD, data: result.data });
+          // console.log(result);
+        })
+        .catch(err => console.log({ err }));
+    }
+  }, [playableBoard]);
+
+  const save = () => {}; // The dependency here is the route?? because we want this to
   //  fire when the user leaves, but a case could be made for playableBaord
   //  as well because if that doesnt change we dont want to run the mutation...but
   // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
@@ -84,29 +88,33 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
                     .clue.text
                 : null}
             </div>
-            <Board
-              playableBoard={playableBoard}
-              currentCells={selection.currentCells}
-              focusedCell={selection.focusedCell}
-              direction={direction}
-              selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
-              navigate={(keyCode, options) =>
-                dispatch({ type: 'NAVIGATE', keyCode, options })
-              }
-              guess={key => dispatch({ type: 'GUESS', key })}
-            />
+            {playableBoard ? (
+              <Board
+                playableBoard={playableBoard}
+                currentCells={selection.currentCells}
+                focusedCell={selection.focusedCell}
+                direction={direction}
+                selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
+                navigate={(keyCode, options) =>
+                  dispatch({ type: 'NAVIGATE', keyCode, options })
+                }
+                guess={key => dispatch({ type: 'GUESS', key })}
+              />
+            ) : null}
           </>
         }
         mainContent={
           <div className={styles.clues}>
-            <Clues
-              clues={clues}
-              direction={direction}
-              currentClues={selection.currentClues}
-              selectClue={clue => {
-                dispatch({ type: 'SELECT_CLUE', clue });
-              }}
-            />
+            {currentClues ? (
+              <Clues
+                clues={clues}
+                direction={direction}
+                currentClues={selection.currentClues}
+                selectClue={clue => {
+                  dispatch({ type: 'SELECT_CLUE', clue });
+                }}
+              />
+            ) : null}
           </div>
         }
       />
@@ -122,7 +130,7 @@ Solvespace.propTypes = {
           guess: PropTypes.string,
           answer: PropTypes.string.isRequired,
           number: PropTypes.number,
-          clues: PropTypes.arrayOf(PropTypes.string).isRequired,
+          clues: PropTypes.arrayOf(PropTypes.string),
         }).isRequired
       ).isRequired
     ).isRequired,
@@ -134,11 +142,7 @@ Solvespace.propTypes = {
     }).isRequired,
     _id: PropTypes.string.isRequired,
   }).isRequired,
-  userPuzzle: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-    puzzle: PropTypes.string,
-  }).isRequired,
+  userPuzzle: PropTypes.string.isRequired,
   client: PropTypes.shape({}).isRequired,
 };
 

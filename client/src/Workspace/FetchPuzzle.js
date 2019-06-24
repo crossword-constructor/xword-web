@@ -38,16 +38,13 @@ const GET_PUZZLE = gql`
 const FetchPuzzle = ({ match }) => {
   const puzzleId = match.params.id;
   return (
-    <Query
-      query={GET_PUZZLE}
-      variables={{ puzzleId }}
-      // fetchPolicy="network-only"
-    >
+    <Query query={GET_PUZZLE} variables={{ puzzleId }}>
       {({ loading, error, data }) => {
         if (loading) return '...loading';
         if (error) return console.log(error);
-        if (data) console.log(data);
         const { puzzle, userPuzzle } = data.playablePuzzle;
+        // console.log({ userPuzzle });
+        console.log('query running again');
         console.log({ userPuzzle });
         const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
         return (
@@ -55,7 +52,7 @@ const FetchPuzzle = ({ match }) => {
             {client => (
               <SolveSpace
                 puzzle={playablePuzzle}
-                userPuzzle={userPuzzle}
+                userPuzzle={userPuzzle._id}
                 client={client}
               />
             )}
