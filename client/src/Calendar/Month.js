@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { buildMonth } from './utils';
 import styles from './Month.module.css';
 import PuzzleIcon from '../Shared/PuzzleIcon';
@@ -30,13 +29,12 @@ const Month = ({ puzzles, month, year }) => {
             <div className={styles.day} key={day.date}>
               {/* <div className={styles.playRibbon}>Play</div> */}
               <div className={styles.number}>{day.number}</div>
-              <Link to={`solve/${puzzles[index]._id}`}>
-                <PuzzleIcon size={80} />
-                {/* <span className={styles.title}>
+
+              <PuzzleIcon size={80} id={puzzles[index]._id} />
+              {/* <span className={styles.title}>
                     {puzzles[index].title.toLowerCase()}
                   </span>
                   <div>{puzzles[index].author}</div> */}
-              </Link>
             </div>
           );
         }
