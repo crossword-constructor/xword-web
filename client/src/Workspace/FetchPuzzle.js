@@ -48,6 +48,7 @@ const FetchPuzzle = ({ match }) => {
         if (error) return console.log(error);
         if (data) console.log(data);
         const { puzzle, userPuzzle } = data.playablePuzzle;
+        console.log({ userPuzzle });
         const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
         return (
           <ApolloConsumer>

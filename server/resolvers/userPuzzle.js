@@ -15,9 +15,9 @@ export default {
         },
         { new: true }
       );
-      console.log(userPuzzle);
+      console.log('success uer puzzle');
       if (!userPuzzle) throw new Error('Internal Server Error');
-      return { message: 'success' };
+      return userPuzzle;
     },
   },
 };

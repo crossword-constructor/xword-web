@@ -31,11 +31,8 @@ export default {
       }
       console.log('we here');
       let userPuzzle = user.solvedPuzzles.filter(sp => {
-        console.log(sp);
         sp.puzzle.toString() === _id;
       })[0];
-      console.log({ userPuzzle });
-      console.log('userId', user._id);
       if (!userPuzzle) {
         userPuzzle = await UserPuzzle.create({
           puzzle: _id,

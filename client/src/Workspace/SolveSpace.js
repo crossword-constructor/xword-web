@@ -11,7 +11,8 @@ import Clues from './Clues';
 const UPDATE_PLAYER_BOARD = gql`
   mutation updateUserPuzzle($_id: ID!, $board: [[String!]]) {
     updateUserPuzzle(_id: $_id, board: $board) {
-      message
+      _id
+      board
     }
   }
 `;
@@ -38,22 +39,21 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
     });
   }, [puzzle]);
 
-  useEffect(() => {
-    return () => {
-      client
-        .mutate({
-          mutation: UPDATE_PLAYER_BOARD,
-          variables: {
-            _id: userPuzzle._id,
-            board: buildSaveableBoard(playableBoard),
-          },
-        })
-        .then(result => {
-          console.log(result);
-        })
-        .catch(err => console.log({ err }));
-    };
-  }, [playableBoard]); // The dependency here is the route?? because we want this to
+  const save = () => {
+    client
+      .mutate({
+        mutation: UPDATE_PLAYER_BOARD,
+        variables: {
+          _id: userPuzzle._id,
+          board: buildSaveableBoard(playableBoard),
+        },
+      })
+      .then(result => {
+        // client.writeQuery({ query: UPDATE_PLAYER_BOARD, data: result.data });
+        console.log(result);
+      })
+      .catch(err => console.log({ err }));
+  }; // The dependency here is the route?? because we want this to
   //  fire when the user leaves, but a case could be made for playableBaord
   //  as well because if that doesnt change we dont want to run the mutation...but
   // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
@@ -65,6 +65,9 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       <div>
         {puzzle.title}
         {puzzle.author}
+        <button onClick={save} type="button">
+          save
+        </button>
       </div>
       <Sidebar
         breakPointPercent={40}
@@ -119,9 +122,9 @@ Solvespace.propTypes = {
           guess: PropTypes.string,
           answer: PropTypes.string.isRequired,
           number: PropTypes.number,
-          clues: PropTypes.arrayOf(PropTypes.string),
-        })
-      )
+          clues: PropTypes.arrayOf(PropTypes.string).isRequired,
+        }).isRequired
+      ).isRequired
     ).isRequired,
     clues: PropTypes.shape({
       answer: PropTypes.string,
