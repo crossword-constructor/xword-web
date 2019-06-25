@@ -1,6 +1,7 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import debounce from 'lodash.debounce';
 import puzzleReducer from './puzzleReducer';
 import { buildSaveableBoard } from './Board.utils';
 import Sidebar from '../Layouts/Sidebar';
@@ -39,25 +40,27 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
     });
   }, [puzzle]);
 
+  const debouncedSave = useCallback(
+    debounce(board => {
+      client.mutate({
+        mutation: UPDATE_PLAYER_BOARD,
+        variables: {
+          _id: userPuzzle,
+          board: buildSaveableBoard(board),
+        },
+      });
+    }, 1000),
+    []
+  );
+
   useEffect(() => {
     if (playableBoard) {
-      client
-        .mutate({
-          mutation: UPDATE_PLAYER_BOARD,
-          variables: {
-            _id: userPuzzle,
-            board: buildSaveableBoard(playableBoard),
-          },
-        })
-        .then(() => {
-          // client.writeQuery({ query: UPDATE_PLAYER_BOARD, data: result.data });
-          // console.log(result);
-        })
-        .catch(err => console.log({ err }));
+      // debouncedSave.cancel();
+      debouncedSave(playableBoard);
     }
   }, [playableBoard]);
 
-  const save = () => {}; // The dependency here is the route?? because we want this to
+  // const save = () => {}; // The dependency here is the route?? because we want this to
   //  fire when the user leaves, but a case could be made for playableBaord
   //  as well because if that doesnt change we dont want to run the mutation...but
   // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
@@ -69,9 +72,9 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       <div>
         {puzzle.title}
         {puzzle.author}
-        <button onClick={save} type="button">
+        {/* <button onClick={save} type="button">
           save
-        </button>
+        </button> */}
       </div>
       <Sidebar
         breakPointPercent={40}
