@@ -78,11 +78,8 @@ const Profile = () => {
   return (
     <Query query={GET_PROFILE}>
       {({ error, loading, data }) => {
-        console.log({ error });
-        console.log({ loading });
         if (loading) return <div>loading</div>;
         if (error) return <div>error</div>;
-        console.log(data);
         if (data.profileInfo) {
           return (
             <Sidebar

@@ -10,7 +10,6 @@ import { SESS_SECRET, SESS_NAME } from './config';
  * @return {Bool} success
  */
 export const attemptSignUp = async (userInfo, res) => {
-  console.log('attempting signup');
   let user;
   try {
     user = await User.create(userInfo);
