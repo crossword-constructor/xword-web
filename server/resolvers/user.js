@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { UserInputError } from 'apollo-server-express';
 // import { signUp, signIn } from '../schemas';
 import { attemptSignUp, attemptSignIn, signOut } from '../auth';
-import { User } from '../models';
+import { User, Puzzle } from '../models';
 import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -33,7 +33,7 @@ export default {
       try {
         const user = await User.findById(req.user._id).populate({
           path: 'solvedPuzzles',
-          populate: { path: 'puzzle' },
+          populate: { path: 'puzzle', model: Puzzle },
         });
         console.log('user: ', user);
         if (!user) {

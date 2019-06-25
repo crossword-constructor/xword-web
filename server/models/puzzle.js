@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const Puzzle = new mongoose.Schema(
+const PuzzleSchema = new mongoose.Schema(
   {
     editor: { type: String },
     title: { type: String },
@@ -27,4 +27,8 @@ const Puzzle = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model('Puzzle', Puzzle);
+export const Puzzle = mongoose.connection
+  .useDb('historicalCrossword')
+  .model('Puzzle', PuzzleSchema);
+
+export const ccPuzzle = mongoose.connection.model('ccPuzzle', PuzzleSchema);

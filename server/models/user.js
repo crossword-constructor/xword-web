@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { hash, compare } from 'bcryptjs';
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const userSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -29,21 +29,21 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre('save', async function() {
+UserSchema.pre('save', async function() {
   if (this.isModified('password')) {
     this.password = await hash(this.password, 10);
   }
 });
 
-userSchema.statics.doesntExist = async function(options) {
+UserSchema.statics.doesntExist = async function(options) {
   return (await this.where(options).countDocuments()) === 0;
 };
 
-userSchema.methods.matchesPassword = function(password) {
+UserSchema.methods.matchesPassword = function(password) {
   return compare(password, this.password);
 };
 
-userSchema.methods.authSummary = function() {
+UserSchema.methods.authSummary = function() {
   return {
     _id: this._id,
     isAdmin: this.isAdmin,
@@ -51,10 +51,9 @@ userSchema.methods.authSummary = function() {
 };
 
 // Ensure virtual fields are serialised.
-userSchema.set('toJSON', {
+UserSchema.set('toJSON', {
   virtuals: true,
 });
 
-const User = mongoose.model('User', userSchema);
-
-export default User;
+// const User = mongoose.model('User', userSchema);
+export default mongoose.connection.model('User', UserSchema);

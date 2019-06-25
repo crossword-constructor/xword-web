@@ -48,6 +48,7 @@ const Calendar = () => {
               </div>
             );
           if (error) {
+            console.log(error);
             // console.log('ERROR: ', JSON.stringify(error, null, 2));
             return 'error';
           }

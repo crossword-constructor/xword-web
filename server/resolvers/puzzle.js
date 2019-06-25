@@ -42,13 +42,20 @@ export default {
     },
 
     puzzles: (root, args, { req }, info) => {
+      console.log('loooking for puzzles: ', args);
       let regex = new RegExp(
         `^(${args.month})(\/)([0-9]|[0-2][0-9]|(3)[0-1])(\/)(${args.year})`
       );
+      console.log({ date: regex });
       return Puzzle.find({ date: regex })
         .select('date title author')
         .then(puzzles => {
+          console.log('found puzzles');
+          console.log(puzzles);
           return puzzles;
+        })
+        .catch(err => {
+          console.log(err);
         });
     },
   },
