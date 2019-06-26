@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Query } from 'react-apollo';
@@ -32,9 +33,9 @@ const App = () => {
         return (
           <>
             <Navbar />
-            <div>{error ? error.message : data.username}</div>
             <Switch>
               <Route exact path="/" component={Signup} />
+              <Route exact path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/construct" component={Workspace} />
               <Route path="/solve/:id" component={FetchPuzzle} />

@@ -8,6 +8,9 @@ import { Puzzle, User, UserPuzzle } from '../models';
 export default {
   Query: {
     playablePuzzle: async (root, args, { req }, info) => {
+      if (!req.user.isAdmin) {
+        throw new AuthenticationError('only admins can view puzzles');
+      }
       const { _id } = args;
       const [user, puzzle] = await Promise.all([
         User.findById(req.user._id).populate('solvedPuzzles'),

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Button from '../Shared/Button';
+import Input from '../Shared/Input';
+import PuzzleIcon from '../Shared/PuzzleIcon';
 import styles from './Signup.module.css';
 
 const Signup = ({ history }) => {
@@ -40,45 +43,39 @@ const Signup = ({ history }) => {
     }
   `;
 
+  const form = [
+    {
+      name: 'Full Name',
+      value: name,
+      type: 'text',
+      onChange: e => setName(e.target.value),
+    },
+    {
+      name: 'Username',
+      value: username,
+      type: 'text',
+      onChange: e => setUsername(e.target.value),
+    },
+    {
+      name: 'Email',
+      value: email,
+      type: 'email',
+      onChange: e => setEmail(e.target.value),
+    },
+    {
+      name: 'Password',
+      value: password,
+      type: 'password',
+      onChange: e => setPassword(e.target.value),
+    },
+  ];
   return (
     <div className={styles.page}>
+      <PuzzleIcon />
       <form className={styles.form}>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          // className={step === 0 ? styles.activeStep : styles.hidden}
-          onChange={e => {
-            setName(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          name="username"
-          value={username}
-          // className={step === 1 ? styles.activeStep : styles.hidden}
-          onChange={e => {
-            setUsername(e.target.value);
-          }}
-        />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          // className={step === 2 ? styles.activeStep : styles.hidden}
-          onChange={e => {
-            setPassword(e.target.value);
-          }}
-        />
-        <input
-          type="email"
-          name="email"
-          value={email}
-          // className={step === 3 ? styles.activeStep : styles.hidden}
-          onChange={e => {
-            setEmail(e.target.value);
-          }}
-        />
+        {form.map(formItem => (
+          <Input key={formItem.name} {...formItem} theme="Big" />
+        ))}
         <Mutation
           mutation={SIGNUP_MUTATION}
           variables={{ username, email, password, name }}
@@ -92,36 +89,35 @@ const Signup = ({ history }) => {
         >
           {(signUp, res) => {
             console.log({ res });
-            let errorComponent = null;
+            // let errorComponent = null;
             if (res.error) {
               console.log(res.error);
-              errorComponent = <div>{res.error.graphQLErrors[0].message}</div>;
+              // errorComponent = <div>{res.error.graphQLErrors[0].message}</div>;
             } else if (res.data) {
               history.push('/profile');
             }
             return (
-              <>
-                <div>
-                  <button
-                    onClick={e => {
-                      e.preventDefault();
-                      signUp({
-                        variables: { email, username, password, name },
-                        refetchQueries: ['USERNAME'],
-                      });
-                    }}
-                    type="submit"
-                  >
-                    Submit
-                  </button>
-                  {/* {res.data ? res.data.signUp.username : null} */}
-                  {/* {Object.keys(error).map(key => key)} */}
-                </div>
-                {errorComponent}
-              </>
+              <div>
+                <Button
+                  onClick={e => {
+                    e.preventDefault();
+                    signUp({
+                      variables: { email, username, password, name },
+                      refetchQueries: ['USERNAME'],
+                    });
+                  }}
+                  type="submit"
+                  theme="Main"
+                >
+                  Signup
+                </Button>
+              </div>
             );
           }}
         </Mutation>
+        <div>
+          Already have an account? <Link to="/login">login</Link>
+        </div>
       </form>
     </div>
   );
