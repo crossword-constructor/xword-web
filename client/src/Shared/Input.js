@@ -7,7 +7,7 @@ const Input = ({
   type,
   name,
   placeholder,
-  change,
+  onChange,
   onKeyDown,
   value,
   theme,
@@ -22,7 +22,7 @@ const Input = ({
         id={name}
         name={name}
         placeholder={placeholder}
-        onChange={change}
+        onChange={onChange}
         onKeyDown={onKeyDown}
         value={value}
       />
@@ -38,7 +38,7 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  change: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,

@@ -9,7 +9,7 @@ import { SESS_SECRET, SESS_NAME } from './config';
  * @param  {Object} res express object
  * @return {Bool} success
  */
-export const attemptSignUp = async (userInfo, res) => {
+export const attemptSignup = async (userInfo, res) => {
   let user;
   try {
     user = await User.create(userInfo);
@@ -35,15 +35,26 @@ export const attemptSignUp = async (userInfo, res) => {
   return user;
 };
 
-export const attemptSignIn = async (email, password) => {
+export const attemptLogin = async ({ username, password }, res) => {
   const message = 'Incorrect email or password. Please try again.';
-
-  const user = await User.findOne({ email });
-
+  const user = await User.findOne({ username }).populate({
+    path: 'solvedPuzzles',
+    populate: 'puzzle',
+  });
   if (!user || !(await user.matchesPassword(password))) {
     throw new AuthenticationError(message);
   }
-
+  const populatedUser = await user;
+  console.log(user);
+  const payload = user.authSummary();
+  const token = jwt.sign(payload, process.env.SECRET, {
+    expiresIn: '2d',
+  });
+  res.cookie('user', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 2,
+  });
   return user;
 };
 
@@ -61,7 +72,7 @@ export const ensureSignedOut = req => {
   }
 };
 
-export const signOut = (req, res) =>
+export const signout = (req, res) =>
   new Promise((resolve, reject) => {
     req.session.destroy(err => {
       if (err) reject(err);

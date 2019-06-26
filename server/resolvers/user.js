@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { UserInputError } from 'apollo-server-express';
 // import { signUp, signIn } from '../schemas';
-import { attemptSignUp, attemptSignIn, signOut } from '../auth';
+import { attemptSignup, attemptLogin, signout } from '../auth';
 import { User, Puzzle } from '../models';
 import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
 
@@ -53,21 +53,17 @@ export default {
     },
   },
   Mutation: {
-    signUp: async (root, args, { req, res }, info) => {
-      const user = await attemptSignUp(args, res);
+    signup: async (root, args, { req, res }, info) => {
+      const user = await attemptSignup(args, res);
       return user;
     },
-    signIn: async (root, args, { req }, info) => {
-      // TODO: projection
-      await Joi.validate(args, signIn, { abortEarly: false });
-
-      const user = await attemptSignIn(args.email, args.password);
-
-      req.session.userId = user.id;
+    login: async (root, args, { req, res }, info) => {
+      console.log('attempting login');
+      const user = await attemptLogin(args, res);
 
       return user;
     },
-    signOut: (root, args, { req, res }, info) => {
+    signout: (root, args, { req, res }, info) => {
       return signOut(req, res);
     },
   },

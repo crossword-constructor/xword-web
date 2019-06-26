@@ -16,7 +16,7 @@ const Signup = ({ history }) => {
   // const [step, setStep] = useState(0);
 
   const SIGNUP_MUTATION = gql`
-    mutation signUp(
+    mutation signup(
       $email: String!
       $username: String!
       $name: String!
@@ -74,7 +74,7 @@ const Signup = ({ history }) => {
       <PuzzleIcon />
       <form className={styles.form}>
         {form.map(formItem => (
-          <Input key={formItem.name} {...formItem} theme="Big" />
+          <Input key={formItem.name} theme="Big" {...formItem} />
         ))}
         <Mutation
           mutation={SIGNUP_MUTATION}
@@ -87,7 +87,7 @@ const Signup = ({ history }) => {
             console.log(username2);
           }}
         >
-          {(signUp, res) => {
+          {(signup, res) => {
             console.log({ res });
             // let errorComponent = null;
             if (res.error) {
@@ -101,7 +101,7 @@ const Signup = ({ history }) => {
                 <Button
                   onClick={e => {
                     e.preventDefault();
-                    signUp({
+                    signup({
                       variables: { email, username, password, name },
                       refetchQueries: ['USERNAME'],
                     });

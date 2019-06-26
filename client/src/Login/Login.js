@@ -13,9 +13,9 @@ const Login = ({ history }) => {
   const [password, setPassword] = useState('');
   // const [step, setStep] = useState(0);
 
-  const SIGNUP_MUTATION = gql`
-    mutation Login($username: String!, $password: String!) {
-      Login(username: $username, password: $password) {
+  const LOGIN_MUTATION = gql`
+    mutation login($username: String!, $password: String!) {
+      login(username: $username, password: $password) {
         _id
         username
         solvedPuzzles {
@@ -50,8 +50,8 @@ const Login = ({ history }) => {
         {form.map(formItem => (
           <Input key={formItem.name} {...formItem} theme="Big" />
         ))}
-        <Mutation mutation={SIGNUP_MUTATION} variables={{ username, password }}>
-          {(signUp, res) => {
+        <Mutation mutation={LOGIN_MUTATION} variables={{ username, password }}>
+          {(login, res) => {
             // let errorComponent = null;
             if (res.error) {
               console.log(res.error);
@@ -64,7 +64,7 @@ const Login = ({ history }) => {
                 <Button
                   onClick={e => {
                     e.preventDefault();
-                    signUp({
+                    login({
                       variables: { username, password },
                     });
                   }}

@@ -10,14 +10,14 @@ export default gql`
   }
 
   extend type Mutation {
-    signUp(
+    signup(
       email: String!
       username: String!
       name: String!
       password: String!
     ): User!
-    signIn(email: String!, password: String!): User
-    signOut: Boolean @auth
+    login(username: String!, password: String!): User
+    signout: Boolean @auth
   }
 
   type User {
