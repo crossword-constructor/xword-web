@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Stack from '../Layouts/Stack';
 import PuzzleIcon from '../Shared/PuzzleIcon';
+import styles from './SolvedPuzzles.module.css';
 
 const SolvedPuzzlesPreview = ({ puzzles }) => {
   return (
-    <div>
+    <Stack>
       <h2>Solved puzzles</h2>
-      <div>
+      <div className={styles.Row}>
         {puzzles.map(p => (
           <PuzzleIcon
             id={p.puzzle._id}
@@ -16,7 +18,7 @@ const SolvedPuzzlesPreview = ({ puzzles }) => {
           />
         ))}
       </div>
-    </div>
+    </Stack>
   );
 };
 

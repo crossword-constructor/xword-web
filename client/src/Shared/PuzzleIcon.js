@@ -23,11 +23,7 @@ const PuzzleIcon = ({ name, author, date, id, size }) => {
             <span className={styles.Header}>Author:</span> {author}
           </div>
         ) : null}
-        {date ? (
-          <div className={styles.Detail}>
-            <span className={styles.Header}>Date:</span> {date}
-          </div>
-        ) : null}
+        {date ? <div className={styles.Detail}>{date}</div> : null}
       </Link>
     </div>
   );
