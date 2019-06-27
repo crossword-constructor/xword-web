@@ -33,9 +33,12 @@ export default {
       try {
         const user = await User.findById(req.user._id).populate({
           path: 'solvedPuzzles',
+          options: {
+            limit: 5,
+            // sort: { updatedAt: -1 },
+          },
           populate: { path: 'puzzle', model: Puzzle },
         });
-        console.log('user: ', user);
         if (!user) {
           throw new AuthenticationError('No user found');
         }

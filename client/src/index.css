@@ -19,7 +19,10 @@
 
   /* colors */
   --highlightBlue: rgb(139, 190, 255);
-  --black: rgb(32, 31, 31);
+  --black: #232323;
+
+  /* other */
+  --lightShadow: 0 6px 6px rgba(0, 0, 0, 0.36), 0 3px 3px rgba(0, 0, 0, 0.23);
 }
 
 * {

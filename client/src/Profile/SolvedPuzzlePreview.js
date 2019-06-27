@@ -5,18 +5,27 @@ import PuzzleIcon from '../Shared/PuzzleIcon';
 import styles from './SolvedPuzzles.module.css';
 
 const SolvedPuzzlesPreview = ({ puzzles }) => {
+  console.log({ puzzles });
   return (
     <Stack>
-      <h2>Solved puzzles</h2>
+      <h2>Recent puzzles</h2>
+      <div className={styles.stats}>
+        <div>games played: {puzzles.length}</div>
+      </div>
       <div className={styles.Row}>
-        {puzzles.map(p => (
-          <PuzzleIcon
-            id={p.puzzle._id}
-            key={p._id}
-            date={p.puzzle.date}
-            size={50}
-          />
-        ))}
+        {puzzles.map(p => {
+          // let fillPercent = 0;
+          // let total = p.board.length * p
+          return (
+            <PuzzleIcon
+              id={p.puzzle._id}
+              key={p._id}
+              date={p.puzzle.date}
+              fillPercent={0}
+              size={50}
+            />
+          );
+        })}
       </div>
     </Stack>
   );

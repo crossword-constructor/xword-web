@@ -8,9 +8,9 @@ import { Puzzle, User, UserPuzzle } from '../models';
 export default {
   Query: {
     playablePuzzle: async (root, args, { req }, info) => {
-      // if (!req.user.isAdmin) {
-      //   throw new AuthenticationError('only admins can view puzzles');
-      // }
+      if (!req.user.isAdmin) {
+        throw new AuthenticationError('only admins can view puzzles');
+      }
       const { _id } = args;
       const [user, puzzle] = await Promise.all([
         User.findById(req.user._id).populate('solvedPuzzles'),
@@ -45,9 +45,9 @@ export default {
     },
 
     puzzles: async (root, args, { req }, info) => {
-      // if (!req.user.isAdmin) {
-      //   throw new AuthenticationError('only admins can view these puzzles');
-      // }
+      if (!req.user.isAdmin) {
+        throw new AuthenticationError('only admins can view these puzzles');
+      }
       const { month, year } = args;
       let regex = new RegExp(
         `^(${month})(\/)([0-9]|[0-2][0-9]|(3)[0-1])(\/)(${year})`
