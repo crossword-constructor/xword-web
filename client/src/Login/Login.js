@@ -29,6 +29,15 @@ const Login = ({ history }) => {
     }
   `;
 
+  // const USERNAME = gql`
+  //   {
+  //     profileInfo {
+  //       _id
+  //       username
+  //     }
+  //   }
+  // `;
+
   const form = [
     {
       name: 'Username',
@@ -50,7 +59,17 @@ const Login = ({ history }) => {
         {form.map(formItem => (
           <Input key={formItem.name} {...formItem} theme="Big" />
         ))}
-        <Mutation mutation={LOGIN_MUTATION} variables={{ username, password }}>
+        <Mutation
+          mutation={LOGIN_MUTATION}
+          variables={{ username, password }}
+          refetchQueries={() => ['profileInfo']}
+          // update={cache => {
+          //   cache.writeQuery({
+          //     query: USERNAME,
+          //     data: { profileInfo: { username: 'DOES THIS EVEN WORK' } },
+          //   });
+          // }}
+        >
           {(login, res) => {
             // let errorComponent = null;
             if (res.error) {

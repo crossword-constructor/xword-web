@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     verifyLoggedIn: User
     me: User
-    profileInfo: User!
+    profileInfo: User
     user(id: ID!): User @auth
     users: [User!]!
   }
@@ -17,7 +17,7 @@ export default gql`
       password: String!
     ): User!
     login(username: String!, password: String!): User
-    signout: Boolean @auth
+    signout: AuthPayload!
   }
 
   type User {

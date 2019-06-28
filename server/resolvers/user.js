@@ -66,8 +66,14 @@ export default {
 
       return user;
     },
-    signout: (root, args, { req, res }, info) => {
-      return signOut(req, res);
+    signout: (root, args, { res }, info) => {
+      console.log('destroing cookie');
+      try {
+        signout(res);
+        return { loggedIn: false };
+      } catch (err) {
+        return { loggedIn: true };
+      }
     },
   },
 };

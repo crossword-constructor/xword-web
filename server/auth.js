@@ -72,13 +72,10 @@ export const ensureSignedOut = req => {
   }
 };
 
-export const signout = (req, res) =>
-  new Promise((resolve, reject) => {
-    req.session.destroy(err => {
-      if (err) reject(err);
+export const signout = res => res.clearCookie('user');
+//   new Promise((resolve, reject) => {
+//       console.log('clearing cookie');
 
-      res.clearCookie(SESS_NAME);
-
-      resolve(true);
-    });
-  });
+//       resolve(true);
+//     });
+//   });

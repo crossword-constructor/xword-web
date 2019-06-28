@@ -8,16 +8,18 @@ import DropdownNavItem from './DropdownNavItem';
 const Navbar = () => {
   const USERNAME = gql`
     {
-      me {
+      profileInfo {
         _id
         username
       }
     }
   `;
-
+  console.log('navbar rendeintg');
   return (
     <nav className={styles.container}>
-      <h1 className={styles.logo}>Crossword Constructor</h1>
+      <NavLink to="/">
+        <h1 className={styles.logo}>Crossword Constructor</h1>
+      </NavLink>
       <ul className={styles.menu}>
         <li className={styles.link}>
           <NavLink to="/calendar" activeClassName={styles.activeLink}>
@@ -29,11 +31,18 @@ const Navbar = () => {
             Construct
           </NavLink>
         </li>
-        <Query query={USERNAME}>
-          {({ data }) => {
-            return data ? (
+        <Query
+          query={USERNAME}
+          name="profileInfo"
+          fetchPolicy="cache-and-network"
+        >
+          {({ data, error, loading }) => {
+            console.log(error);
+            console.log(loading);
+            console.log('query: ', data);
+            return data && data.profileInfo ? (
               <DropdownNavItem
-                name={data && data.me ? data.me.username : 'Login'}
+                name={data.profileInfo ? data.profileInfo.username : 'Profile'}
                 list={[
                   {
                     name: 'profile',
@@ -45,9 +54,12 @@ const Navbar = () => {
             ) : (
               <li>
                 <NavLink
+                  to="/Login"
                   className={styles.link}
                   activeClassName={styles.activeLink}
-                />
+                >
+                  Login
+                </NavLink>
               </li>
             );
           }}
