@@ -14,7 +14,6 @@ const Navbar = () => {
       }
     }
   `;
-  console.log('navbar rendeintg');
   return (
     <nav className={styles.container}>
       <NavLink to="/">
@@ -31,15 +30,8 @@ const Navbar = () => {
             Construct
           </NavLink>
         </li>
-        <Query
-          query={USERNAME}
-          name="profileInfo"
-          fetchPolicy="cache-and-network"
-        >
-          {({ data, error, loading }) => {
-            console.log(error);
-            console.log(loading);
-            console.log('query: ', data);
+        <Query query={USERNAME} name="profileInfo">
+          {({ data }) => {
             return data && data.profileInfo ? (
               <DropdownNavItem
                 name={data.profileInfo ? data.profileInfo.username : 'Profile'}
@@ -50,6 +42,7 @@ const Navbar = () => {
                   },
                   { name: 'logout', link: '/logout' },
                 ]}
+                headerLink="/profile"
               />
             ) : (
               <li>

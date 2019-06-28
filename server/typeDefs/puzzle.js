@@ -14,6 +14,27 @@ export default gql`
     # ): Puzzle
   }
 
+  type PlayablePuzzleResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    playablePuzzle: PlayablePuzzle
+  }
+
+  type PuzzlesResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    puzzles: [Puzzle]
+  }
+
+  type CreatePuzzleResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    puzzle: Puzzle
+  }
+
   type PlayablePuzzle {
     puzzle: Puzzle!
     userPuzzle: UserPuzzle!

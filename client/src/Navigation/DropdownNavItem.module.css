@@ -1,15 +1,12 @@
 .Container {
-  position: relative;
-  /* border: 1px solid red; */
-  height: 100%;
-  /* border: 1px solid red; */
   display: flex;
+  align-items: center;
+  flex-flow: column;
+  justify-content: center;
+  position: relative;
+  height: 100%;
   color: #dadada;
   text-decoration: none;
-  transition: 0.2s;
-  z-index: 10;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -17,6 +14,12 @@
 .Container:hover {
   color: white;
 }
+
+.Header {
+  background: var(--black);
+  z-index: 20;
+}
+
 .DropdownContent {
   display: none;
   position: absolute;
@@ -24,20 +27,21 @@
   left: 0;
   right: 0;
   /* border: 1px solid red; */
-  z-index: -10;
   box-shadow: lightShadow;
   background: var(--black);
   color: white;
-  padding: var(--s-2);
   /* border: 1px solid #ddd; */
   border-top: none;
   box-shadow: var(--lightShadow);
   flex-flow: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 100px;
   transition: 0.2s;
 }
-/*  */
+
 .DropdownItem {
-  margin: 4px 0;
+  padding: 10px 20px;
   color: #dadada;
 }
 

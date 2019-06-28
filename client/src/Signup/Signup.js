@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
@@ -15,6 +15,8 @@ const Signup = ({ history }) => {
   const [email, setEmail] = useState('');
   // const [step, setStep] = useState(0);
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const SIGNUP_MUTATION = gql`
     mutation signup(
       $email: String!
@@ -22,26 +24,31 @@ const Signup = ({ history }) => {
       $name: String!
       $password: String!
     ) {
-      signUp(
+      signup(
         email: $email
         username: $username
         name: $name
         password: $password
       ) {
-        _id
-        username
+        success
+        message
+        code
+        user {
+          _id
+          username
+        }
       }
     }
   `;
 
-  const USERNAME = gql`
-    {
-      me {
-        _id
-        username
-      }
+  useEffect(() => {
+    if (errorMessage) {
+      console.log(errorMessage);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
     }
-  `;
+  }, [errorMessage]);
 
   const form = [
     {
@@ -69,56 +76,70 @@ const Signup = ({ history }) => {
       onChange: e => setPassword(e.target.value),
     },
   ];
+
   return (
     <div className={styles.page}>
       <PuzzleIcon />
-      <form className={styles.form}>
-        {form.map(formItem => (
-          <Input key={formItem.name} theme="Big" {...formItem} />
-        ))}
-        <Mutation
-          mutation={SIGNUP_MUTATION}
-          variables={{ username, email, password, name }}
-          // eslint-disable-next-line no-unused-vars
-          // refetchQueries={['USERNAME']}
-          update={cache => {
-            console.log('update ufnciton');
-            const username2 = cache.readQuery({ query: USERNAME });
-            console.log(username2);
-          }}
-        >
-          {(signup, res) => {
-            console.log({ res });
-            // let errorComponent = null;
-            if (res.error) {
-              console.log(res.error);
-              // errorComponent = <div>{res.error.graphQLErrors[0].message}</div>;
-            } else if (res.data) {
-              history.push('/profile');
-            }
-            return (
-              <div>
-                <Button
-                  onClick={e => {
-                    e.preventDefault();
-                    signup({
-                      variables: { email, username, password, name },
-                      refetchQueries: ['USERNAME'],
-                    });
-                  }}
-                  type="submit"
-                  theme="Main"
-                >
-                  Signup
-                </Button>
-              </div>
-            );
-          }}
-        </Mutation>
-        <div>
-          Already have an account? <Link to="/login">login</Link>
-        </div>
-      </form>
+      <div className={styles.CenterRow}>
+        <form className={styles.form}>
+          {form.map(formItem => (
+            <Input key={formItem.name} theme="Big" {...formItem} />
+          ))}
+          <Mutation
+            mutation={SIGNUP_MUTATION}
+            variables={{ username, email, password, name }}
+            update={(_, { data, error }) => {
+              console.log(data, error);
+              if (data) {
+                const {
+                  signup: { success, message, user },
+                } = data;
+                console.log(success, message);
+                if (!success && message) {
+                  console.log('setting error messgae');
+                  setErrorMessage(message);
+                } else if (user) {
+                  history.push('/profile');
+                }
+              } else if (error) {
+                setErrorMessage('Internal Server Error');
+              }
+            }}
+          >
+            {signup => {
+              return (
+                <>
+                  <div>
+                    <Button
+                      onClick={e => {
+                        e.preventDefault();
+                        signup({
+                          variables: { email, username, password, name },
+                          refetchQueries: ['USERNAME'],
+                        });
+                      }}
+                      type="submit"
+                      theme="Main"
+                    >
+                      Signup
+                    </Button>
+                  </div>
+                  <div
+                    className={
+                      errorMessage ? styles.ErrorMessage : styles.HiddenMessage
+                    }
+                  >
+                    {errorMessage}
+                  </div>
+                </>
+              );
+            }}
+          </Mutation>
+          <div>
+            Already have an account? <Link to="/login">login</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

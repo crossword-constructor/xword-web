@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Board.module.css';
 
@@ -11,6 +11,13 @@ const Cell = ({
   isFocused,
   isHighlighted,
 }) => {
+  const cell = useRef(null);
+
+  useEffect(() => {
+    if (cell.current) {
+      cell.current.focus();
+    }
+  }, []);
   const highlightBlue = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--highlightBlue');
@@ -30,6 +37,7 @@ const Cell = ({
     <td className={styles.cell}>
       <div className={styles.number}>{number}</div>
       <div
+        ref={cell}
         style={{
           background,
           color,

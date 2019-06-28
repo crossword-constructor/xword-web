@@ -15,9 +15,16 @@ export default gql`
       username: String!
       name: String!
       password: String!
-    ): User!
-    login(username: String!, password: String!): User
-    signout: AuthPayload!
+    ): AuthenticationResponse
+    login(username: String!, password: String!): AuthenticationResponse!
+    signout: AuthenticationResponse!
+  }
+
+  type AuthenticationResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User
   }
 
   type User {
@@ -31,10 +38,6 @@ export default gql`
     stats: Stats
     friends: [User]
     notifications: [Notification]
-  }
-
-  type AuthPayload {
-    loggedIn: Boolean!
   }
 
   type Notification {

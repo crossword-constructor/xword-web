@@ -17,14 +17,11 @@ const Logout = ({ client, history }) => {
   useEffect(() => {
     client
       .mutate({ mutation: LOGOUT })
-      .then(res => {
-        console.log({ res });
-        // return <Redirect to="/" />;
+      .then(() => {
         client.cache.reset();
         history.push('/');
       })
-      .catch(err => {
-        console.log({ err });
+      .catch(() => {
         // return <div>error</div>;
       });
   }, []);

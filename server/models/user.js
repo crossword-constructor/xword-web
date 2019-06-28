@@ -6,17 +6,17 @@ const UserSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      // validate: {
-      //   validator: email => User.doesntExist({ email }),
-      //   message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security
-      // },
+      validate: {
+        validator: email => User.doesntExist({ email }),
+        message: ({ value }) => `Email ${value} has already been taken.`, // TODO: security
+      },
     },
     username: {
       type: String,
-      // validate: {
-      //   validator: username => User.doesntExist({ username }),
-      //   message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security
-      // },
+      validate: {
+        validator: username => User.doesntExist({ username }),
+        message: ({ value }) => `Username ${value} has already been taken.`, // TODO: security
+      },
     },
     name: String,
     password: String,
@@ -51,9 +51,9 @@ UserSchema.methods.authSummary = function() {
 };
 
 // Ensure virtual fields are serialised.
-UserSchema.set('toJSON', {
-  virtuals: true,
-});
+// UserSchema.set('toJSON', {
+//   virtuals: true,
+// });
 
-// const User = mongoose.model('User', userSchema);
-export default mongoose.connection.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+export default User;

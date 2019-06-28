@@ -37,14 +37,16 @@ Input.propTypes = {
   autoComplete: PropTypes.string,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func,
   value: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
 };
 
 Input.defaultProps = {
   autoComplete: null,
+  placeholder: null,
+  onKeyDown: null,
 };
 export default Input;

@@ -1,46 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './DropdownNavItem.module.css';
 
 const DropdownNavItem = props => {
-  const { name, list } = props;
+  const { name, list, headerLink, 'data-testid': dataTestId } = props;
   return (
-    // eslint-disable-next-line react/destructuring-assignment
-    <li className={styles.Container} data-testid={props['data-testid']}>
-      <div className={styles.Header}>{name}</div>
-      <div className={styles.DropdownContent}>
+    <div className={styles.Container}>
+      <div className={styles.Header}>
+        <Link to={headerLink || ''}>{name}</Link>
+      </div>
+      <div className={styles.DropdownContent} data-testid={dataTestId}>
         {list.map(item => {
           return (
             <div className={styles.DropdownItem} key={item.name}>
-              <NavLink
-                className={styles.link}
-                to={item.link}
-                activeClassName={styles.activeLink}
-              >
-                {item.name}
-              </NavLink>
+              <Link to={item.link}>{item.name}</Link>
             </div>
           );
         })}
       </div>
-    </li>
+    </div>
   );
 };
 
 DropdownNavItem.propTypes = {
-  name: PropTypes.element.isRequired,
+  name: PropTypes.string.isRequired,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       link: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
+  headerLink: PropTypes.string,
   'data-testid': PropTypes.string,
 };
 
 DropdownNavItem.defaultProps = {
+  headerLink: null,
   'data-testid': 'dropdownNavItem',
 };
 

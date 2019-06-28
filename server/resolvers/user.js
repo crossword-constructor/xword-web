@@ -29,23 +29,24 @@ export default {
     },
 
     profileInfo: async (root, args, { req }, info) => {
-      console.log('here we are');
-      try {
-        const user = await User.findById(req.user._id).populate({
-          path: 'solvedPuzzles',
-          options: {
-            limit: 5,
-            // sort: { updatedAt: -1 },
-          },
-          populate: { path: 'puzzle', model: Puzzle },
-        });
-        if (!user) {
-          throw new AuthenticationError('No user found');
+      if (req.user) {
+        try {
+          const user = await User.findById(req.user._id).populate({
+            path: 'solvedPuzzles',
+            options: {
+              sort: { updatedAt: -1 },
+              limit: 5,
+            },
+            populate: { path: 'puzzle', model: Puzzle },
+          });
+          if (!user) {
+            throw new AuthenticationError('No user found');
+          }
+          return user;
+        } catch (e) {
+          return null;
         }
-        return user;
-      } catch (e) {
-        console.log(e);
-      }
+      } else return null;
     },
     user: (root, { id }, context, info) => {
       // TODO: projection, sanitization
@@ -57,17 +58,40 @@ export default {
   },
   Mutation: {
     signup: async (root, args, { req, res }, info) => {
-      const user = await attemptSignup(args, res);
-      return user;
+      try {
+        const { user, error } = await attemptSignup(args, res);
+        if (error) {
+          console.log({ error });
+          return {
+            code: '500',
+            message: error.message,
+            success: false,
+          };
+        }
+
+        if (user) {
+          return {
+            user,
+            code: '200',
+            message: 'success',
+            success: true,
+          };
+        }
+      } catch (err) {
+        console.log({ err });
+        return {
+          code: '500',
+          message: 'Internal Server Error',
+          success: false,
+        };
+      }
     },
     login: async (root, args, { req, res }, info) => {
-      console.log('attempting login');
       const user = await attemptLogin(args, res);
 
       return user;
     },
     signout: (root, args, { res }, info) => {
-      console.log('destroing cookie');
       try {
         signout(res);
         return { loggedIn: false };
