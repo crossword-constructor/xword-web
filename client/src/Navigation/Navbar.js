@@ -18,6 +18,18 @@ const Navbar = () => {
       }
     }
   `;
+
+  const LoginLink = (
+    <li>
+      <NavLink
+        to="/Login"
+        className={styles.link}
+        activeClassName={styles.activeLink}
+      >
+        Login
+      </NavLink>
+    </li>
+  );
   return (
     <nav className={styles.container}>
       <NavLink to="/">
@@ -36,29 +48,31 @@ const Navbar = () => {
         </li>
         <Query query={USERNAME} name="profileInfo">
           {({ data }) => {
-            return data && data.profileInfo ? (
-              <DropdownNavItem
-                name={data.profileInfo ? data.profileInfo.username : 'Profile'}
-                list={[
-                  {
-                    name: 'profile',
-                    link: '/profile',
-                  },
-                  { name: 'logout', link: '/logout' },
-                ]}
-                headerLink="/profile"
-              />
-            ) : (
-              <li>
-                <NavLink
-                  to="/Login"
-                  className={styles.link}
-                  activeClassName={styles.activeLink}
-                >
-                  Login
-                </NavLink>
-              </li>
-            );
+            console.log(data);
+            if (data && data.profileInfo) {
+              const {
+                profileInfo: { user, success, message },
+              } = data;
+              if (!success && message) {
+                return LoginLink;
+              }
+
+              const { username } = user;
+              return (
+                <DropdownNavItem
+                  name={username || 'Profile'}
+                  list={[
+                    {
+                      name: 'profile',
+                      link: '/profile',
+                    },
+                    { name: 'logout', link: '/logout' },
+                  ]}
+                  headerLink="/profile"
+                />
+              );
+            }
+            return LoginLink;
           }}
         </Query>
       </ul>

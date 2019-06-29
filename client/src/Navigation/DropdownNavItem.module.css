@@ -54,13 +54,13 @@
 
 .Container:hover .DropdownContent {
   display: flex;
-  animation: showDropdown 0.4s;
+  animation: showDropdown 0.2s;
 }
 
 @keyframes showDropdown {
   /* style rules */
   0% {
-    transform: translateY(-60px);
+    transform: translateY(-40px);
     opacity: 0;
   }
   75% {

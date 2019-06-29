@@ -27,7 +27,7 @@ export default gql`
     user: User
   }
 
-  type UserResponse implements MutationResponse {
+  type UserResponse implements QueryResponse {
     code: String!
     success: Boolean!
     message: String!

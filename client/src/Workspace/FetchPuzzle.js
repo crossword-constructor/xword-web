@@ -8,28 +8,32 @@ import SolveSpace from './SolveSpace';
 const GET_PUZZLE = gql`
   query PlayablePuzzle($puzzleId: ID) {
     playablePuzzle(_id: $puzzleId) {
-      puzzle {
-        _id
-        title
-        author
-        date
-        publisher
-        board
-        clues {
-          answer {
-            _id
-            text
+      success
+      message
+      playablePuzzle {
+        puzzle {
+          _id
+          title
+          author
+          date
+          publisher
+          board
+          clues {
+            answer {
+              _id
+              text
+            }
+            clue {
+              _id
+              text
+            }
+            position
           }
-          clue {
-            _id
-            text
-          }
-          position
         }
-      }
-      userPuzzle {
-        _id
-        board
+        userPuzzle {
+          _id
+          board
+        }
       }
     }
   }
@@ -41,23 +45,33 @@ const FetchPuzzle = ({ match }) => {
     <Query query={GET_PUZZLE} variables={{ puzzleId }}>
       {({ loading, error, data }) => {
         if (loading) return '...loading';
-        if (error) return console.log(error);
-        const { puzzle, userPuzzle } = data.playablePuzzle;
+        if (error) return console.log({ error });
+        if (data) {
+          const {
+            playablePuzzle: { puzzle, userPuzzle, success, message },
+          } = data.playablePuzzle;
+          if (!success && message) {
+            return message;
+          }
+          if (puzzle && userPuzzle) {
+            console.log('query running again');
+            console.log({ userPuzzle });
+            const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
+            return (
+              <ApolloConsumer>
+                {client => (
+                  <SolveSpace
+                    puzzle={playablePuzzle}
+                    userPuzzle={userPuzzle._id}
+                    client={client}
+                  />
+                )}
+              </ApolloConsumer>
+            );
+          }
+        }
+
         // console.log({ userPuzzle });
-        console.log('query running again');
-        console.log({ userPuzzle });
-        const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
-        return (
-          <ApolloConsumer>
-            {client => (
-              <SolveSpace
-                puzzle={playablePuzzle}
-                userPuzzle={userPuzzle._id}
-                client={client}
-              />
-            )}
-          </ApolloConsumer>
-        );
       }}
     </Query>
   );

@@ -1,63 +1,80 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import { UserInputError, AuthenticationError } from 'apollo-server-express';
-// import { signUp, signIn } from "../schemas";
-// import { attemptSignIn, signOut } from "../auth";
+import { generateResponse } from '../utils';
 import { Puzzle, User, UserPuzzle } from '../models';
 
 export default {
   Query: {
     playablePuzzle: async (root, args, { req }, info) => {
       if (!req.user.isAdmin) {
-        throw new AuthenticationError('only admins can view puzzles');
+        // @todo save error objects as constans somewhere
+        return {
+          success: false,
+          message: 'You must be an admin to view this page',
+          code: '403',
+        };
       }
       const { _id } = args;
-      const [user, puzzle] = await Promise.all([
-        User.findById(req.user._id).populate('solvedPuzzles'),
-        Puzzle.findById(_id)
-          .select('-clues._id')
-          .populate({ path: 'clues.clue', select: 'text' })
-          .populate({ path: 'clues.answer', select: 'text' })
-          .lean(),
-      ]);
-      // console.log(user);
-      // console.log(puzzle);
-      if (!user) {
-        throw new AuthenticationError();
+      let user;
+      let error;
+      let puzzle;
+      let userPuzzle;
+      try {
+        [user, puzzle] = await Promise.all([
+          User.findById(req.user._id).populate('solvedPuzzles'),
+          Puzzle.findById(_id)
+            .select('-clues._id')
+            .populate({ path: 'clues.clue', select: 'text' })
+            .populate({ path: 'clues.answer', select: 'text' })
+            .lean(),
+        ]);
+        userPuzzle = user.solvedPuzzles.filter(sp => {
+          return sp.puzzle.toString() === _id;
+        })[0];
+        if (!userPuzzle) {
+          userPuzzle = await UserPuzzle.create({
+            puzzle: _id,
+            board: puzzle.board.map(row =>
+              row.map(cell => (cell === '#BlackSquare#' ? cell : ''))
+            ),
+            user: user._id,
+          });
+        }
+      } catch (err) {
+        /** @todo handle mongo error */
+        error = err;
       }
-
-      if (!puzzle) {
-        throw new Error('internal server error');
-      }
-      let userPuzzle = user.solvedPuzzles.filter(sp => {
-        return sp.puzzle.toString() === _id;
-      })[0];
-      if (!userPuzzle) {
-        userPuzzle = await UserPuzzle.create({
-          puzzle: _id,
-          board: puzzle.board.map(row =>
-            row.map(cell => (cell === '#BlackSquare#' ? cell : ''))
-          ),
-          user: user._id,
-        });
-      }
-      return { puzzle, userPuzzle };
+      return generateResponse(
+        { playablePuzzle: { puzzle, userPuzzle } },
+        error
+      );
     },
 
     puzzles: async (root, args, { req }, info) => {
+      let error;
+      let puzzles;
       if (!req.user.isAdmin) {
-        throw new AuthenticationError('only admins can view these puzzles');
+        return {
+          success: false,
+          message: 'You must be an admin to view this page',
+          code: '403',
+        };
       }
       const { month, year } = args;
       let regex = new RegExp(
         `^(${month})(\/)([0-9]|[0-2][0-9]|(3)[0-1])(\/)(${year})`
       );
-      const puzzles = await Puzzle.find({ date: regex }).select(
-        'date title author'
-      );
-      if (!puzzles || puzzles.length === 0) {
+
+      try {
+        puzzles = await Puzzle.find({ date: regex }).select(
+          'date title author'
+        );
+      } catch (err) {
+        /** @todo handle mongo error */
+        error = err;
       }
-      return puzzles;
+      return generateResponse({ puzzles: puzzles }, error);
     },
   },
 };

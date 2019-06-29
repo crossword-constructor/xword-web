@@ -30,8 +30,10 @@ export default {
 
     profileInfo: async (root, args, { req }, info) => {
       if (req.user) {
+        let user;
+        let error;
         try {
-          const user = await User.findById(req.user._id).populate({
+          user = await User.findById(req.user._id).populate({
             path: 'solvedPuzzles',
             options: {
               sort: { updatedAt: -1 },
@@ -39,62 +41,34 @@ export default {
             },
             populate: { path: 'puzzle', model: Puzzle },
           });
-          if (!user) {
-            return {
-              success: false,
-              message: 'Internal Server Error',
-              code: '500',
-            };
-          }
-          console.log('all o goos');
-          console.log(user);
-          return { user, success: true, message: 'success', code: '200' };
-        } catch (e) {
-          return {
-            success: false,
-            message: 'Internal Server Error',
-            code: '500',
-          };
+        } catch (err) {
+          console.log(err);
+          error = err;
+          /** @todo process mongo error */
         }
-      } else return null;
+        return generateResponse({ user }, error);
+      }
     },
+
     user: (root, { id }, context, info) => {
-      // TODO: projection, sanitization
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new UserInputError(`${id} is not a valid user ID.`);
       }
       return User.findById(id);
     },
   },
+
   Mutation: {
     signup: async (root, args, { req, res }, info) => {
       const { user, error } = await attemptSignup(args, res);
-      const response = generateResponse({ user }, error);
-      console.log(response);
-      return response;
+      return generateResponse({ user }, error);
     },
 
     login: async (root, args, { req, res }, info) => {
-      try {
-        const { user, error } = await attemptLogin(args, res);
-        if (error) {
-          return {
-            code: '500',
-            message: error.message,
-            success: false,
-          };
-        }
-        if (user) {
-          return { user, message: 'success', success: true };
-        }
-      } catch (err) {
-        return {
-          code: '500',
-          message: 'Internal Server Error',
-          success: false,
-        };
-      }
+      const { user, error } = await attemptLogin(args, res);
+      return generateResponse({ user }, error);
     },
+
     signout: (root, args, { res }, info) => {
       try {
         signout(res);

@@ -61,6 +61,6 @@ Month.propTypes = {
 };
 
 Month.defaultProps = {
-  puzzles: null,
+  puzzles: [],
 };
 export default Month;
