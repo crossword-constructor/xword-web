@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import useErrorMessage from '../Hooks/useErrorMessage';
+import ErrorToast from '../Shared/ErrorToast';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
 import PuzzleIcon from '../Shared/PuzzleIcon';
@@ -78,8 +79,9 @@ const Signup = ({ history }) => {
           <Mutation
             mutation={SIGNUP_MUTATION}
             variables={{ username, email, password, name }}
+            // refetchQueries={['profileInfo']}
             update={(_, { data, error }) => {
-              console.log({ data, error });
+              /** @todo abstract seee matching note in login */
               if (data) {
                 const {
                   signup: { success, message, user },
@@ -113,13 +115,7 @@ const Signup = ({ history }) => {
                     </Button>
                   </div>
                   {/* @todo abstract this out */}
-                  <div
-                    className={
-                      errorMessage ? styles.ErrorMessage : styles.HiddenMessage
-                    }
-                  >
-                    {errorMessage}
-                  </div>
+                  <ErrorToast errorMessage={errorMessage} />
                 </>
               );
             }}

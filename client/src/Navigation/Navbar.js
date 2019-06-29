@@ -9,8 +9,12 @@ const Navbar = () => {
   const USERNAME = gql`
     {
       profileInfo {
-        _id
-        username
+        success
+        message
+        user {
+          _id
+          username
+        }
       }
     }
   `;

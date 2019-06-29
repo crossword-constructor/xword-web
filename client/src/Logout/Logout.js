@@ -9,7 +9,8 @@ const Logout = ({ client, history }) => {
   const LOGOUT = gql`
     mutation {
       signout {
-        loggedIn
+        success
+        message
       }
     }
   `;

@@ -3,6 +3,18 @@ import { AuthenticationError, ApolloError } from 'apollo-server-express';
 import { User } from './models';
 import { SESS_SECRET, SESS_NAME } from './config';
 
+const issueToken = (user, res) => {
+  const payload = user.authSummary();
+  const token = jwt.sign(payload, process.env.SECRET, {
+    expiresIn: '2d',
+  });
+  res.cookie('user', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 2,
+  });
+};
+
 /**
  * @function attemptSignIn
  * @description tries to create a user from uesrInfo and attaches a jwt to req.cookie
@@ -21,19 +33,10 @@ export const attemptSignup = async (userInfo, res) => {
     Object.keys(err.errors).forEach(key => {
       message += err.errors[key] + ' ';
     });
-    console.log({ message });
     return { error: { message } };
   }
-  console.log('all good??');
-  const payload = user.authSummary();
-  const token = jwt.sign(payload, process.env.SECRET, {
-    expiresIn: '2d',
-  });
-  res.cookie('user', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 1000 * 60 * 60 * 24 * 2,
-  });
+  // avstract to function
+  issueToken(user, res);
   return { user };
 };
 
@@ -44,7 +47,7 @@ export const attemptLogin = async ({ username, password }, res) => {
     populate: 'puzzle',
   });
   if (!user || !(await user.matchesPassword(password))) {
-    throw new AuthenticationError(message);
+    return { error: { message } };
   }
   const payload = user.authSummary();
   const token = jwt.sign(payload, process.env.SECRET, {
@@ -55,7 +58,7 @@ export const attemptLogin = async ({ username, password }, res) => {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 1000 * 60 * 60 * 24 * 2,
   });
-  return user;
+  return { user };
 };
 
 const signedIn = req => req.user._id;

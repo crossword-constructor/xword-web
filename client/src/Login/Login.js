@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import useErrorMessage from '../Hooks/useErrorMessage';
+import ErrorToast from '../Shared/ErrorToast';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
 import PuzzleIcon from '../Shared/PuzzleIcon';
@@ -11,6 +13,7 @@ import styles from './Login.module.css';
 const Login = ({ history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useErrorMessage(null);
   // const [step, setStep] = useState(0);
 
   const LOGIN_MUTATION = gql`
@@ -58,26 +61,41 @@ const Login = ({ history }) => {
           mutation={LOGIN_MUTATION}
           variables={{ username, password }}
           refetchQueries={() => ['profileInfo']}
-        >
-          {(login, res) => {
-            if (res.data) {
-              history.push('/profile');
+          update={(_, { data, error }) => {
+            /** @todo abstract to util function -- this is duplicated in signup */
+            if (data) {
+              const {
+                login: { success, message, user },
+              } = data;
+              if (!success && message) {
+                setErrorMessage(message);
+              } else if (user) {
+                history.push('/profile');
+              }
+            } else if (error) {
+              setErrorMessage('Internal Server Error');
             }
+          }}
+        >
+          {login => {
             return (
-              <div>
-                <Button
-                  onClick={e => {
-                    e.preventDefault();
-                    login({
-                      variables: { username, password },
-                    });
-                  }}
-                  type="submit"
-                  theme="Main"
-                >
-                  Login
-                </Button>
-              </div>
+              <>
+                <div>
+                  <Button
+                    onClick={e => {
+                      e.preventDefault();
+                      login({
+                        variables: { username, password },
+                      });
+                    }}
+                    type="submit"
+                    theme="Main"
+                  >
+                    Login
+                  </Button>
+                </div>
+                <ErrorToast errorMessage={errorMessage} />
+              </>
             );
           }}
         </Mutation>

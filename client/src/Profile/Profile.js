@@ -11,16 +11,20 @@ import styles from './Profile.module.css';
 const GET_PROFILE = gql`
   {
     profileInfo {
-      _id
-      name
-      username
-      solvedPuzzles {
+      success
+      message
+      user {
         _id
-        puzzle {
+        name
+        username
+        solvedPuzzles {
           _id
-          date
+          puzzle {
+            _id
+            date
+          }
+          board
         }
-        board
       }
     }
   }
@@ -32,15 +36,23 @@ const Profile = () => {
       {({ error, loading, data }) => {
         if (loading) return <div>loading</div>;
         if (error) return <div>error</div>;
-        if (data.profileInfo) {
+        if (data && data.profileInfo) {
+          const {
+            profileInfo: { user, success, message },
+          } = data;
+          if (!success && message) {
+            /** @todo consider how to handle...this should never happen...we only get redirected here if we have a user */
+            return <div>error</div>;
+          }
+          const { name, username, solvedPuzzles } = user;
           return (
             <div className={styles.Page}>
               <Sidebar
                 sideBar={
                   <>
                     <ProfileCard
-                      username={data.profileInfo.username}
-                      name={data.profileInfo.name}
+                      username={username}
+                      name={name}
                       avatarImage="blah"
                       background="blah"
                     />
@@ -53,13 +65,9 @@ const Profile = () => {
                     <div className={styles.Container}>
                       <SolvedPuzzlePreview
                         className={styles.Container}
-                        puzzles={data.profileInfo.solvedPuzzles}
+                        puzzles={solvedPuzzles}
                       />
                     </div>
-                    {/* <PuzzleList
-                      title="Constructed Puzzles"
-                      puzzles={constructedPuzzles}
-                    /> */}
                   </Stack>
                 }
               />

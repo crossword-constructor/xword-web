@@ -13,19 +13,23 @@ const SolvedPuzzlesPreview = ({ puzzles }) => {
         </div>
         <div>Recent puzzles</div>
         <div className={styles.Row}>
-          {puzzles.map(p => {
-            // let fillPercent = 0;
-            // let total = p.board.length * p
-            return (
-              <PuzzleIcon
-                id={p.puzzle._id}
-                key={p._id}
-                date={p.puzzle.date}
-                fillPercent={0}
-                size={50}
-              />
-            );
-          })}
+          {puzzles.length > 0 ? (
+            puzzles.map(p => {
+              // let fillPercent = 0;
+              // let total = p.board.length * p
+              return (
+                <PuzzleIcon
+                  id={p.puzzle._id}
+                  key={p._id}
+                  date={p.puzzle.date}
+                  fillPercent={0}
+                  size={50}
+                />
+              );
+            })
+          ) : (
+            <div>You dont have any recent puzzles yet</div>
+          )}
         </div>
       </div>
     </Stack>

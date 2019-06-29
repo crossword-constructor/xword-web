@@ -1,11 +1,11 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import { UserInputError } from 'apollo-server-express';
-// import { signUp, signIn } from '../schemas';
+import { UserInputError, addErrorLoggingToSchema } from 'apollo-server-express';
+import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
+import { generateResponse } from '../utils';
 import { attemptSignup, attemptLogin, signout } from '../auth';
 import { User, Puzzle } from '../models';
-import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -40,11 +40,21 @@ export default {
             populate: { path: 'puzzle', model: Puzzle },
           });
           if (!user) {
-            throw new AuthenticationError('No user found');
+            return {
+              success: false,
+              message: 'Internal Server Error',
+              code: '500',
+            };
           }
-          return user;
+          console.log('all o goos');
+          console.log(user);
+          return { user, success: true, message: 'success', code: '200' };
         } catch (e) {
-          return null;
+          return {
+            success: false,
+            message: 'Internal Server Error',
+            code: '500',
+          };
         }
       } else return null;
     },
@@ -58,27 +68,26 @@ export default {
   },
   Mutation: {
     signup: async (root, args, { req, res }, info) => {
+      const { user, error } = await attemptSignup(args, res);
+      const response = generateResponse({ user }, error);
+      console.log(response);
+      return response;
+    },
+
+    login: async (root, args, { req, res }, info) => {
       try {
-        const { user, error } = await attemptSignup(args, res);
+        const { user, error } = await attemptLogin(args, res);
         if (error) {
-          console.log({ error });
           return {
             code: '500',
             message: error.message,
             success: false,
           };
         }
-
         if (user) {
-          return {
-            user,
-            code: '200',
-            message: 'success',
-            success: true,
-          };
+          return { user, message: 'success', success: true };
         }
       } catch (err) {
-        console.log({ err });
         return {
           code: '500',
           message: 'Internal Server Error',
@@ -86,17 +95,16 @@ export default {
         };
       }
     },
-    login: async (root, args, { req, res }, info) => {
-      const user = await attemptLogin(args, res);
-
-      return user;
-    },
     signout: (root, args, { res }, info) => {
       try {
         signout(res);
-        return { loggedIn: false };
+        return { success: true, message: 'success', code: '200' };
       } catch (err) {
-        return { loggedIn: true };
+        return {
+          success: false,
+          message: 'Internal Server Error',
+          code: '500',
+        };
       }
     },
   },

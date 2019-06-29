@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     verifyLoggedIn: User
     me: User
-    profileInfo: User
+    profileInfo: UserResponse
     user(id: ID!): User @auth
     users: [User!]!
   }
@@ -16,11 +16,18 @@ export default gql`
       name: String!
       password: String!
     ): AuthenticationResponse
-    login(username: String!, password: String!): AuthenticationResponse!
-    signout: AuthenticationResponse!
+    login(username: String!, password: String!): AuthenticationResponse
+    signout: AuthenticationResponse
   }
 
   type AuthenticationResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User
+  }
+
+  type UserResponse implements MutationResponse {
     code: String!
     success: Boolean!
     message: String!
