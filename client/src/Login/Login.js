@@ -16,14 +16,18 @@ const Login = ({ history }) => {
   const LOGIN_MUTATION = gql`
     mutation login($username: String!, $password: String!) {
       login(username: $username, password: $password) {
-        _id
-        username
-        solvedPuzzles {
+        success
+        message
+        user {
           _id
-          puzzle {
+          username
+          solvedPuzzles {
             _id
+            puzzle {
+              _id
+            }
+            board
           }
-          board
         }
       }
     }

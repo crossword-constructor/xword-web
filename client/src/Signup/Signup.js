@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import useErrorMessage from '../Hooks/useErrorMessage';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
 import PuzzleIcon from '../Shared/PuzzleIcon';
@@ -13,9 +14,7 @@ const Signup = ({ history }) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  // const [step, setStep] = useState(0);
-
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useErrorMessage(null);
 
   const SIGNUP_MUTATION = gql`
     mutation signup(
@@ -40,15 +39,6 @@ const Signup = ({ history }) => {
       }
     }
   `;
-
-  useEffect(() => {
-    if (errorMessage) {
-      console.log(errorMessage);
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    }
-  }, [errorMessage]);
 
   const form = [
     {
@@ -89,14 +79,12 @@ const Signup = ({ history }) => {
             mutation={SIGNUP_MUTATION}
             variables={{ username, email, password, name }}
             update={(_, { data, error }) => {
-              console.log(data, error);
+              console.log({ data, error });
               if (data) {
                 const {
                   signup: { success, message, user },
                 } = data;
-                console.log(success, message);
                 if (!success && message) {
-                  console.log('setting error messgae');
                   setErrorMessage(message);
                 } else if (user) {
                   history.push('/profile');
@@ -124,6 +112,7 @@ const Signup = ({ history }) => {
                       Signup
                     </Button>
                   </div>
+                  {/* @todo abstract this out */}
                   <div
                     className={
                       errorMessage ? styles.ErrorMessage : styles.HiddenMessage
