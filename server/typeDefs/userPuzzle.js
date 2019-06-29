@@ -9,10 +9,6 @@ export default gql`
     updateUserPuzzle(_id: ID!, board: [[String!]]): UserPuzzle!
   }
 
-  # type Response {
-  #   message: String!
-  # }
-
   type UserPuzzle {
     _id: ID!
     puzzle: Puzzle!

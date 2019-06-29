@@ -2,27 +2,52 @@ import jwt from 'jsonwebtoken';
 import { AuthenticationError, ApolloError } from 'apollo-server-express';
 import { User } from './models';
 import { SESS_SECRET, SESS_NAME } from './config';
+
+const issueToken = (user, res) => {
+  const payload = user.authSummary();
+  const token = jwt.sign(payload, process.env.SECRET, {
+    expiresIn: '2d',
+  });
+  res.cookie('user', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 24 * 2,
+  });
+};
+
 /**
  * @function attemptSignIn
  * @description tries to create a user from uesrInfo and attaches a jwt to req.cookie
  * @param  {Object} userInfo -- see ./models/user
- * @param  {Object} res express object
- * @return {Bool} success
+ * @param  {Object} res Express Response object
+ * @return {Object} user
  */
-export const attemptSignUp = async (userInfo, res) => {
-  console.log('attempting signup');
+export const attemptSignup = async (userInfo, res) => {
   let user;
   try {
     user = await User.create(userInfo);
   } catch (err) {
-    console.log('errrrrrrr, ', err);
-    // move to util function formatMongoError
+    // console.log(err);
+    /** @todoo move to util function formatMongoError */
     let message = '';
     Object.keys(err.errors).forEach(key => {
       message += err.errors[key] + ' ';
     });
+    return { error: { message } };
+  }
+  // avstract to function
+  issueToken(user, res);
+  return { user };
+};
 
-    throw new AuthenticationError(message);
+export const attemptLogin = async ({ username, password }, res) => {
+  const message = 'Incorrect email or password. Please try again.';
+  const user = await User.findOne({ username }).populate({
+    path: 'solvedPuzzles',
+    populate: 'puzzle',
+  });
+  if (!user || !(await user.matchesPassword(password))) {
+    return { error: { message } };
   }
   const payload = user.authSummary();
   const token = jwt.sign(payload, process.env.SECRET, {
@@ -33,19 +58,7 @@ export const attemptSignUp = async (userInfo, res) => {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 1000 * 60 * 60 * 24 * 2,
   });
-  return user;
-};
-
-export const attemptSignIn = async (email, password) => {
-  const message = 'Incorrect email or password. Please try again.';
-
-  const user = await User.findOne({ email });
-
-  if (!user || !(await user.matchesPassword(password))) {
-    throw new AuthenticationError(message);
-  }
-
-  return user;
+  return { user };
 };
 
 const signedIn = req => req.user._id;
@@ -62,13 +75,10 @@ export const ensureSignedOut = req => {
   }
 };
 
-export const signOut = (req, res) =>
-  new Promise((resolve, reject) => {
-    req.session.destroy(err => {
-      if (err) reject(err);
+export const signout = res => res.clearCookie('user');
+//   new Promise((resolve, reject) => {
+//       console.log('clearing cookie');
 
-      res.clearCookie(SESS_NAME);
-
-      resolve(true);
-    });
-  });
+//       resolve(true);
+//     });
+//   });

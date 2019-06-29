@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const Clue = new mongoose.Schema({
+const ClueSchema = new mongoose.Schema({
   text: { type: String, index: true },
   answers: [
     {
@@ -12,4 +12,4 @@ const Clue = new mongoose.Schema({
   puzzles: [{ type: ObjectId, ref: 'Puzzle' }],
 });
 
-export default mongoose.model('Clue', Clue);
+export default mongoose.model('Clue', ClueSchema);

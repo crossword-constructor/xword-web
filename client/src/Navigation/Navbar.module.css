@@ -2,12 +2,11 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--s2);
+  height: var(--navbarHeight);
   background-color: #232323;
   color: white;
-  margin-bottom: var(--s2);
   justify-content: space-between;
-  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.36), 0 3px 3px rgba(0, 0, 0, 0.23);
+  box-shadow: var(--lightShadow);
   /* box-shadow:  */
   font-family: 'Shrikhand', cursive;
   font-size: 30px;
@@ -16,8 +15,10 @@
 .menu {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   margin-right: 150px;
   flex-grow: 1;
+  height: 100%;
   font-size: 20px;
   font-family: 'Roboto', sans-serif;
 }
@@ -28,7 +29,12 @@
 }
 
 .link {
-  color: white;
+  color: #dadada;
   text-decoration: none;
+  transition: 0.2s;
   /* flex */
+}
+
+.link:hover {
+  color: white;
 }

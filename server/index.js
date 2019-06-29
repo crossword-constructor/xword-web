@@ -22,7 +22,7 @@ import {
 (async () => {
   dotenv.config();
   try {
-    await mongoose.connect('mongodb://localhost/historicalCrossword', {
+    await mongoose.connect('mongodb://localhost/crossword-constructor', {
       useNewUrlParser: true,
     });
 

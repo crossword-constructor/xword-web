@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 import User from './user';
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const UserPuzzle = new mongoose.Schema({
-  puzzle: { type: ObjectId, ref: 'Puzzle' },
-  board: [[{ type: String }]],
-  user: { type: ObjectId, ref: 'User' },
-});
+const UserPuzzleSchema = new mongoose.Schema(
+  {
+    puzzle: { type: ObjectId, ref: 'Puzzle' },
+    board: [[{ type: String }]],
+    user: { type: ObjectId, ref: 'User' },
+  },
+  { timestamps: true }
+);
 
-UserPuzzle.pre('save', async function(doc) {
+UserPuzzleSchema.pre('save', async function(doc) {
   console.log('new: ', this.isNew);
   console.log(doc._id);
   console.log(this._id);
@@ -18,4 +21,4 @@ UserPuzzle.pre('save', async function(doc) {
   }
 });
 
-export default mongoose.model('UserPuzzle', UserPuzzle);
+export default mongoose.model('UserPuzzle', UserPuzzleSchema);

@@ -1,11 +1,11 @@
 .PuzzleIcon {
-  height: 30%;
-  letter-spacing: 0.05rem;
+  /* height: 30%; */
+  /* letter-spacing: 0.05rem;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   background: #f8f8f8;
-  border: 1px solid #ddd;
+  border: 1px solid #ddd; */
 }
 
 .Image {

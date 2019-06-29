@@ -1,0 +1,18 @@
+.ErrorMessage {
+  position: fixed;
+  bottom: 10%;
+  padding: 20px;
+  background: rgb(240, 183, 183);
+  border: 2px solid rgb(228, 77, 77);
+  color: rgb(219, 55, 55);
+  font-weight: 600;
+  border-radius: 2px;
+  box-shadow: var(--lightShadow);
+  transform: translateY(0);
+  transition: 0.3s;
+}
+
+.HiddenMessage {
+  composes: ErrorMessage;
+  transform: translateY(var(--s4));
+}

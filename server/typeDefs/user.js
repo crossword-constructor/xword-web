@@ -4,20 +4,34 @@ export default gql`
   extend type Query {
     verifyLoggedIn: User
     me: User
-    profileInfo: User!
+    profileInfo: UserResponse
     user(id: ID!): User @auth
     users: [User!]!
   }
 
   extend type Mutation {
-    signUp(
+    signup(
       email: String!
       username: String!
       name: String!
       password: String!
-    ): User!
-    signIn(email: String!, password: String!): User
-    signOut: Boolean @auth
+    ): AuthenticationResponse
+    login(username: String!, password: String!): AuthenticationResponse
+    signout: AuthenticationResponse
+  }
+
+  type AuthenticationResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User
+  }
+
+  type UserResponse implements QueryResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User
   }
 
   type User {
@@ -31,10 +45,6 @@ export default gql`
     stats: Stats
     friends: [User]
     notifications: [Notification]
-  }
-
-  type AuthPayload {
-    loggedIn: Boolean!
   }
 
   type Notification {

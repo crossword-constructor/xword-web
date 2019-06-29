@@ -1,15 +1,29 @@
 .page {
-  height: 100vh;
-  width: 100vw;
+  height: calc(100vh - var(--navbarHeight));
+  width: 100%;
   display: flex;
   flex-flow: column;
   align-items: center;
+  padding: 3px;
+  justify-content: center;
+}
+
+/* This is kind of a hack. We are creating a flex item direction set to row so that form.flex-grow grows in horizontal direction instead of vertical as it would if direct child of .page
+consider finding an alternative way of doing this or moving this to helpers.module.css and documenting it */
+.CenterRow {
+  display: flex;
+  width: 100%;
+  flex-basis: 43%;
   justify-content: center;
 }
 
 .form {
   display: flex;
+  flex-grow: 1;
   flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--s6);
 }
 
 .activeStep {

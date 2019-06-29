@@ -1,22 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Stack from '../Layouts/Stack';
 import PuzzleIcon from '../Shared/PuzzleIcon';
+import styles from './SolvedPuzzles.module.css';
 
 const SolvedPuzzlesPreview = ({ puzzles }) => {
   return (
-    <div>
-      <h2>Solved puzzles</h2>
+    <Stack>
       <div>
-        {puzzles.map(p => (
-          <PuzzleIcon
-            id={p.puzzle._id}
-            key={p._id}
-            date={p.puzzle.date}
-            size={50}
-          />
-        ))}
+        <div className={styles.stats}>
+          {/* <div>games played: {puzzles.length}</div> */}
+        </div>
+        <div>Recent puzzles</div>
+        <div className={styles.Row}>
+          {puzzles.length > 0 ? (
+            puzzles.map(p => {
+              // let fillPercent = 0;
+              // let total = p.board.length * p
+              return (
+                <PuzzleIcon
+                  id={p.puzzle._id}
+                  key={p._id}
+                  date={p.puzzle.date}
+                  fillPercent={0}
+                  size={50}
+                />
+              );
+            })
+          ) : (
+            <div>You dont have any recent puzzles yet</div>
+          )}
+        </div>
       </div>
-    </div>
+    </Stack>
   );
 };
 

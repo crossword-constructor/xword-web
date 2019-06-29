@@ -2,16 +2,37 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    playablePuzzle(_id: ID): PlayablePuzzle!
-    puzzles(month: String, year: String): [Puzzle!]
+    playablePuzzle(_id: ID): PlayablePuzzleResponse!
+    puzzles(month: String, year: String): PuzzlesResponse!
   }
 
   extend type Mutation {
-    createPuzzle(username: String!, name: String!, password: String!): Puzzle
+    createPuzzle(
+      username: String!
+      name: String!
+      password: String!
+    ): CreatePuzzleResponse
+  }
 
-    # updatePuzzle(
-    #   board: [[String]]
-    # ): Puzzle
+  type PlayablePuzzleResponse implements QueryResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    playablePuzzle: PlayablePuzzle
+  }
+
+  type PuzzlesResponse implements QueryResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    puzzles: [Puzzle]
+  }
+
+  type CreatePuzzleResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    puzzle: Puzzle
   }
 
   type PlayablePuzzle {

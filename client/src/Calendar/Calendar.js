@@ -11,10 +11,14 @@ import { monthMap } from './utils';
 const FETCH_PUZZLES = gql`
   query Puzzles($month: String, $year: String) {
     puzzles(month: $month, year: $year) {
-      _id
-      # author
-      # title
-      date
+      success
+      message
+      puzzles {
+        _id
+        # author
+        # title
+        date
+      }
     }
   }
 `;
@@ -38,6 +42,9 @@ const Calendar = () => {
         variables={{ month: currentMonth, year: currentYear }}
       >
         {({ loading, error, data }) => {
+          if (error) {
+            console.log(error);
+          }
           if (loading)
             return (
               <div className={styles.calendarContainer}>
@@ -47,23 +54,30 @@ const Calendar = () => {
                 <Month puzzles={null} month={currentMonth} year={currentYear} />
               </div>
             );
-          if (error) {
-            // console.log('ERROR: ', JSON.stringify(error, null, 2));
-            return 'error';
+          if (data) {
+            const {
+              puzzles: { success, message, puzzles },
+            } = data;
+            if (!success && message) {
+              return message;
+            }
+
+            if (puzzles) {
+              return (
+                <div className={styles.calendarContainer}>
+                  <h2 className={styles.currentMonth}>
+                    {monthMap[currentMonth]} {currentYear}
+                  </h2>
+                  <Month
+                    puzzles={puzzles}
+                    month={currentMonth}
+                    year={currentYear}
+                  />
+                </div>
+              );
+            }
           }
-          // console.log(data);
-          return (
-            <div className={styles.calendarContainer}>
-              <h2 className={styles.currentMonth}>
-                {monthMap[currentMonth]} {currentYear}
-              </h2>
-              <Month
-                puzzles={data.puzzles}
-                month={currentMonth}
-                year={currentYear}
-              />
-            </div>
-          );
+          return <div>Loading</div>;
         }}
       </Query>
     </div>

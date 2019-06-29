@@ -80,7 +80,8 @@ ruby,
 section,
 summary,
 time,
-mark,
+button,
+input,
 audio,
 video {
   margin: 0;
@@ -119,7 +120,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -129,7 +130,7 @@ table {
 
 html {
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 * *:before,
 *:after {
@@ -138,4 +139,11 @@ html {
 input {
   margin: 0;
   padding: 0;
+}
+
+a,
+a:hover,
+a:visited {
+  color: inherit;
+  text-decoration: none;
 }

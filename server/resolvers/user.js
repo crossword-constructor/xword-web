@@ -1,11 +1,11 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import { UserInputError } from 'apollo-server-express';
-// import { signUp, signIn } from '../schemas';
-import { attemptSignUp, attemptSignIn, signOut } from '../auth';
-import { User } from '../models';
+import { UserInputError, addErrorLoggingToSchema } from 'apollo-server-express';
 import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
+import { generateResponse } from '../utils';
+import { attemptSignup, attemptLogin, signout } from '../auth';
+import { User, Puzzle } from '../models';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -29,46 +29,57 @@ export default {
     },
 
     profileInfo: async (root, args, { req }, info) => {
-      console.log('here we are');
-      try {
-        const user = await User.findById(req.user._id).populate({
-          path: 'solvedPuzzles',
-          populate: { path: 'puzzle' },
-        });
-        console.log('user: ', user);
-        if (!user) {
-          throw new AuthenticationError('No user found');
+      if (req.user) {
+        let user;
+        let error;
+        try {
+          user = await User.findById(req.user._id).populate({
+            path: 'solvedPuzzles',
+            options: {
+              sort: { updatedAt: -1 },
+              limit: 5,
+            },
+            populate: { path: 'puzzle', model: Puzzle },
+          });
+        } catch (err) {
+          console.log(err);
+          error = err;
+          /** @todo process mongo error */
         }
-        return user;
-      } catch (e) {
-        console.log(e);
+        return generateResponse({ user }, error);
       }
     },
+
     user: (root, { id }, context, info) => {
-      // TODO: projection, sanitization
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new UserInputError(`${id} is not a valid user ID.`);
       }
       return User.findById(id);
     },
   },
+
   Mutation: {
-    signUp: async (root, args, { req, res }, info) => {
-      const user = await attemptSignUp(args, res);
-      return user;
+    signup: async (root, args, { req, res }, info) => {
+      const { user, error } = await attemptSignup(args, res);
+      return generateResponse({ user }, error);
     },
-    signIn: async (root, args, { req }, info) => {
-      // TODO: projection
-      await Joi.validate(args, signIn, { abortEarly: false });
 
-      const user = await attemptSignIn(args.email, args.password);
-
-      req.session.userId = user.id;
-
-      return user;
+    login: async (root, args, { req, res }, info) => {
+      const { user, error } = await attemptLogin(args, res);
+      return generateResponse({ user }, error);
     },
-    signOut: (root, args, { req, res }, info) => {
-      return signOut(req, res);
+
+    signout: (root, args, { res }, info) => {
+      try {
+        signout(res);
+        return { success: true, message: 'success', code: '200' };
+      } catch (err) {
+        return {
+          success: false,
+          message: 'Internal Server Error',
+          code: '500',
+        };
+      }
     },
   },
 };
