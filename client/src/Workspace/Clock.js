@@ -32,29 +32,37 @@ const formatTime = secNum => {
   return timeString;
 };
 
-const Clock = ({ startTime = 0 }) => {
+const Clock = ({ startTime, isPlaying, pause }) => {
   const [state, dispatch] = useReducer(reducer, { time: startTime });
   const { time } = state;
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      dispatch({ type: 'increment' });
-    }, 1000);
+    let timer;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        dispatch({ type: 'increment' });
+      }, 1000);
+    } else if (timer) {
+      clearInterval(timer);
+    }
     return () => {
       if (timer) {
         clearInterval(timer);
       }
     };
-  }, startTime);
+  }, [startTime, isPlaying]);
   return (
     <div className={styles.clock}>
       {formatTime(time)}
-      <Pause size={15} />
+      <Pause size={15} onClick={pause} />
     </div>
   );
 };
 
 Clock.propTypes = {
   startTime: PropTypes.number.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  pause: PropTypes.func.isRequired,
 };
 
 export default Clock;

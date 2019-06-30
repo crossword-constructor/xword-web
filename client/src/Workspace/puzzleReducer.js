@@ -126,6 +126,19 @@ export default (state, action) => {
         },
       };
     }
+
+    case 'PAUSE': {
+      return {
+        ...state,
+        isPlaying: false,
+      };
+    }
+    case 'PLAY': {
+      return {
+        ...state,
+        isPlaying: true,
+      };
+    }
     default:
       break;
   }

@@ -9,6 +9,7 @@ import styles from './SolveSpace.module.css';
 import Toolbar from './Toolbar';
 import Board from './Board';
 import Clues from './Clues';
+import Clock from './Clock';
 
 const UPDATE_PLAYER_BOARD = gql`
   mutation updateUserPuzzle($_id: ID!, $board: [[String!]]) {
@@ -29,9 +30,10 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       currentCells: puzzle.clues['1A'].cells,
       currentClues: ['1A', '1D'],
     },
+    isPlaying: true,
   });
 
-  const { playableBoard, clues, selection, direction } = state;
+  const { playableBoard, clues, selection, direction, isPlaying } = state;
 
   useEffect(() => {
     dispatch({
@@ -72,7 +74,17 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <Toolbar title={title} author={author} />
+        <Toolbar
+          title={title}
+          author={author}
+          Clock={
+            <Clock
+              startTime={0}
+              isPlaying={isPlaying}
+              pause={() => dispatch({ type: 'PAUSE' })}
+            />
+          }
+        />
         <Sidebar
           heightsAreEqual
           breakPointPercent={40}
