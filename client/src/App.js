@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
+import styles from './App.module.css';
 import Signup from './Signup/Signup';
 import Workspace from './Workspace/Workspace';
 import FetchPuzzle from './Workspace/FetchPuzzle';
@@ -32,7 +31,7 @@ const App = () => {
     //   {({ loading, error, data }) => {
     //     if (loading) return <div>Loading..</div>;
     // return (
-    <>
+    <div className={styles.app}>
       <Navbar />
       <Switch>
         <Route exact path="/" component={Signup} />
@@ -45,7 +44,7 @@ const App = () => {
         <Route path="/calendar" component={Calendar} />
         <Route path="/logout" component={Logout} />
       </Switch>
-    </>
+    </div>
     //     );
     //   }}
     // </Query>

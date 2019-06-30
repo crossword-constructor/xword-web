@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DropdownMenu from '../Shared/DropdownMenu';
+import Clock from './Clock';
 import styles from './Toolbar.module.css';
 
 const Toolbar = ({ title, author }) => {
@@ -9,6 +10,11 @@ const Toolbar = ({ title, author }) => {
       <div className={styles.subContainer}>
         <div className={styles.menuItem}>{title}</div>
         <div className={styles.menuItem}>{author}</div>
+      </div>
+      <div className={styles.subContainer}>
+        <div className={styles.menuItem}>
+          <Clock startTime={0} />
+        </div>
       </div>
       <div className={styles.subContainer}>
         <div className={styles.menuItem}>

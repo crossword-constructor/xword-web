@@ -1,0 +1,9 @@
+.clock {
+  color: var(--highlightBlue);
+  height: 100%;
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+  width: var(--s3);
+  letter-spacing: var(--s-5);
+}
