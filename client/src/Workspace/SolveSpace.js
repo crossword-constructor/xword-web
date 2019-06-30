@@ -6,6 +6,7 @@ import puzzleReducer from './puzzleReducer';
 import { buildSaveableBoard } from './Board.utils';
 import Sidebar from '../Layouts/Sidebar';
 import styles from './SolveSpace.module.css';
+import Toolbar from './Toolbar';
 import Board from './Board';
 import Clues from './Clues';
 
@@ -67,60 +68,58 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
   // saving every time the user pauses typing...has the added benefit of not failing due to loss of conneciton
 
   const { currentClues } = selection;
+  const { title, author } = puzzle;
   return (
     <div className={styles.page}>
-      <div>
-        {puzzle.title}
-        {puzzle.author}
-        {/* <button onClick={save} type="button">
-          save
-        </button> */}
-      </div>
-      <Sidebar
-        breakPointPercent={40}
-        sideBar={
-          <>
-            <div className={styles.focusedClue}>
-              <span className={styles.focusedCluePosition}>
+      <div className={styles.container}>
+        <Toolbar title={title} author={author} />
+        <Sidebar
+          heightsAreEqual
+          breakPointPercent={40}
+          sideBar={
+            <div className={styles.left}>
+              <div className={styles.focusedClue}>
+                <span className={styles.focusedCluePosition}>
+                  {currentClues
+                    ? currentClues[direction === 'across' ? 0 : 1]
+                    : null}
+                </span>
                 {currentClues
-                  ? currentClues[direction === 'across' ? 0 : 1]
+                  ? puzzle.clues[currentClues[direction === 'across' ? 0 : 1]]
+                      .clue.text
                   : null}
-              </span>
-              {currentClues
-                ? puzzle.clues[currentClues[direction === 'across' ? 0 : 1]]
-                    .clue.text
-                : null}
+              </div>
+              {playableBoard ? (
+                <Board
+                  playableBoard={playableBoard}
+                  currentCells={selection.currentCells}
+                  focusedCell={selection.focusedCell}
+                  direction={direction}
+                  selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
+                  navigate={(keyCode, options) =>
+                    dispatch({ type: 'NAVIGATE', keyCode, options })
+                  }
+                  guess={key => dispatch({ type: 'GUESS', key })}
+                />
+              ) : null}
             </div>
-            {playableBoard ? (
-              <Board
-                playableBoard={playableBoard}
-                currentCells={selection.currentCells}
-                focusedCell={selection.focusedCell}
-                direction={direction}
-                selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
-                navigate={(keyCode, options) =>
-                  dispatch({ type: 'NAVIGATE', keyCode, options })
-                }
-                guess={key => dispatch({ type: 'GUESS', key })}
-              />
-            ) : null}
-          </>
-        }
-        mainContent={
-          <div className={styles.clues}>
-            {currentClues ? (
-              <Clues
-                clues={clues}
-                direction={direction}
-                currentClues={selection.currentClues}
-                selectClue={clue => {
-                  dispatch({ type: 'SELECT_CLUE', clue });
-                }}
-              />
-            ) : null}
-          </div>
-        }
-      />
+          }
+          mainContent={
+            <div className={styles.clues}>
+              {currentClues ? (
+                <Clues
+                  clues={clues}
+                  direction={direction}
+                  currentClues={selection.currentClues}
+                  selectClue={clue => {
+                    dispatch({ type: 'SELECT_CLUE', clue });
+                  }}
+                />
+              ) : null}
+            </div>
+          }
+        />
+      </div>
     </div>
   );
 };

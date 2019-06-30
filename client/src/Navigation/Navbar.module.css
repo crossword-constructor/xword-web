@@ -10,6 +10,7 @@
   /* box-shadow:  */
   font-family: 'Shrikhand', cursive;
   font-size: 30px;
+  z-index: 2;
 }
 
 .menu {

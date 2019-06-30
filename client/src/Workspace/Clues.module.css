@@ -1,11 +1,20 @@
 .clue {
   padding: 5px;
   display: flex;
-  height: auto;
-  /* position: relative; */
-  /* border: 1px solid blue; */
 }
 
+.container {
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  font-weight: 600;
+}
+
+.clueText {
+  max-width: var(--s5);
+}
 .highlighted {
   composes: clue;
   background: rgb(99, 167, 255);
@@ -21,14 +30,18 @@
   composes: secondaryNoHighlight;
   background: rgb(99, 167, 255);
 }
+
 .clues {
-  overflow: scroll;
+  height: calc(100% - var(--s0));
+  margin-top: var(--s0);
+  overflow-y: scroll;
 }
 
-.acrossClues {
-  composes: clues;
+.clues::-webkit-scrollbar {
+  width: var(--s-3);
+  background-color: #ddd;
 }
 
-.downClues {
-  composes: clues;
+.clues::-webkit-scrollbar-thumb {
+  background-color: #aaa;
 }

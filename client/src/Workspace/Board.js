@@ -22,12 +22,8 @@ const Board = ({
   selectCell,
   navigate,
   guess,
-
-  isConstructing,
 }) => {
   // const currentCoords = [0, 0];
-  const showAnswers = () => {};
-  const toggleAnswers = () => {};
 
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
@@ -81,7 +77,7 @@ const Board = ({
               answer={cell.answer}
               guess={cell.guess}
               number={cell.number}
-              showAnswer={showAnswers}
+              showAnswers={false}
               coords={[rowNum, colNum]}
               click={() => selectCell([rowNum, colNum])}
             />
@@ -103,15 +99,6 @@ const Board = ({
           <tbody className="board">{rows}</tbody>
         </table>
       </div>
-      <div>{isConstructing}</div>
-      <div>{direction}</div>
-      <button
-        onClick={() => toggleAnswers(!showAnswers)}
-        className={styles.reveal}
-        type="button"
-      >
-        {showAnswers ? 'Hide Answers' : 'Reveal Answers'}
-      </button>
     </div>
   );
 };
@@ -131,7 +118,7 @@ Board.propTypes = {
   currentCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   selectCell: PropTypes.func.isRequired,
   focusedCell: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isConstructing: PropTypes.bool,
+  // isConstructing: PropTypes.bool,
   navigate: PropTypes.func.isRequired,
   guess: PropTypes.func.isRequired,
 };
@@ -139,7 +126,7 @@ Board.propTypes = {
 Board.defaultProps = {
   currentCells: [],
   playableBoard: [[]],
-  isConstructing: false,
+  // isConstructing: false,
 };
 // position = [row, col]
 // incOrDec = increment or decrement

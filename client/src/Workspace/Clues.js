@@ -7,38 +7,46 @@ import styles from './Clues.module.css';
 const Clues = ({ clues, currentClues, selectClue, direction }) => {
   return (
     <>
-      <ul className={styles.acrossClues}>
-        {Object.keys(clues)
-          .filter(clue => clues[clue].position.indexOf('A') > -1)
-          .map(clue => (
-            <Clue
-              key={clues[clue].position}
-              isHighlighted={currentClues[0] === clue && direction === 'across'}
-              isSecondaryHighlight={
-                currentClues[0] === clue && direction === 'down'
-              }
-              selectClue={() => selectClue(clues[clue])}
-              position={clues[clue].position}
-              text={clues[clue].clue.text}
-            />
-          ))}
-      </ul>
-      <ul className={styles.downClues}>
-        {Object.keys(clues)
-          .filter(clue => clues[clue].position.indexOf('D') > -1)
-          .map(clue => (
-            <Clue
-              key={clues[clue].position}
-              isHighlighted={currentClues[1] === clue && direction === 'down'}
-              isSecondaryHighlight={
-                currentClues[1] === clue && direction === 'across'
-              }
-              selectClue={() => selectClue(clues[clue])}
-              position={clues[clue].position}
-              text={clues[clue].clue.text}
-            />
-          ))}
-      </ul>
+      <div className={styles.container}>
+        <div className={styles.title}>Across</div>
+        <ul className={styles.clues}>
+          {Object.keys(clues)
+            .filter(clue => clues[clue].position.indexOf('A') > -1)
+            .map(clue => (
+              <Clue
+                key={clues[clue].position}
+                isHighlighted={
+                  currentClues[0] === clue && direction === 'across'
+                }
+                isSecondaryHighlight={
+                  currentClues[0] === clue && direction === 'down'
+                }
+                selectClue={() => selectClue(clues[clue])}
+                position={clues[clue].position}
+                text={clues[clue].clue.text}
+              />
+            ))}
+        </ul>
+      </div>
+      <div className={styles.container}>
+        <div className={styles.title}>Down</div>
+        <ul className={styles.clues}>
+          {Object.keys(clues)
+            .filter(clue => clues[clue].position.indexOf('D') > -1)
+            .map(clue => (
+              <Clue
+                key={clues[clue].position}
+                isHighlighted={currentClues[1] === clue && direction === 'down'}
+                isSecondaryHighlight={
+                  currentClues[1] === clue && direction === 'across'
+                }
+                selectClue={() => selectClue(clues[clue])}
+                position={clues[clue].position}
+                text={clues[clue].clue.text}
+              />
+            ))}
+        </ul>
+      </div>
     </>
   );
 };

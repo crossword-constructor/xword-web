@@ -16,7 +16,7 @@ const Clue = ({
     // if (isSecondaryHighlight) {
     //   setTimeout(() => {
     //     console.log('scrolling secondary');
-    clueRef.current.scrollIntoView({ behavior: 'smooth' });
+    clueRef.current.scrollIntoView();
     //   }, 260);
     // } else if (isHighlighted) {
     //   console.log('scrolling primary');
