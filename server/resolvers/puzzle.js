@@ -1,6 +1,3 @@
-import Joi from 'joi';
-import mongoose from 'mongoose';
-import { UserInputError, AuthenticationError } from 'apollo-server-express';
 import { generateResponse } from '../utils';
 import { Puzzle, User, UserPuzzle } from '../models';
 
