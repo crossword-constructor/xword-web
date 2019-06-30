@@ -1,18 +1,14 @@
-import Joi from 'joi';
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
-import { UserInputError, addErrorLoggingToSchema } from 'apollo-server-express';
-import { resolveGraphqlOptions, AuthenticationError } from 'apollo-server-core';
+import Joi from '@hapi/joi';
+import { UserInputError } from 'apollo-server-express';
+import { AuthenticationError } from 'apollo-server-core';
+import { signup, login } from '../schemas/user';
 import { generateResponse } from '../utils';
 import { attemptSignup, attemptLogin, signout } from '../auth';
 import { User, Puzzle } from '../models';
 
-const ObjectId = mongoose.Types.ObjectId;
-
 export default {
   Query: {
     me: (root, args, { req }, info) => {
-      // TODO: projection
       return User.findById(req.user._id);
     },
 
@@ -60,11 +56,23 @@ export default {
 
   Mutation: {
     signup: async (root, args, { req, res }, info) => {
+      const validated = Joi.validate(args, signup);
+      if (validated.error) {
+        return generateResponse(null, {
+          message: validated.error.details.map(e => e.message).join(' '),
+        });
+      }
       const { user, error } = await attemptSignup(args, res);
       return generateResponse({ user }, error);
     },
 
     login: async (root, args, { req, res }, info) => {
+      const validated = Joi.validate(args, login);
+      if (validated.error) {
+        return generateResponse(null, {
+          message: validated.error.details.map(e => e.message).join(' '),
+        });
+      }
       const { user, error } = await attemptLogin(args, res);
       return generateResponse({ user }, error);
     },

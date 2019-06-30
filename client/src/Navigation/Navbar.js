@@ -48,7 +48,6 @@ const Navbar = () => {
         </li>
         <Query query={USERNAME} name="profileInfo">
           {({ data }) => {
-            console.log(data);
             if (data && data.profileInfo) {
               const {
                 profileInfo: { user, success, message },

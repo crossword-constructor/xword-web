@@ -8,4 +8,12 @@ export default {
       }
     },
   },
+
+  QueryResponse: {
+    __resolveType(queryResponse, context, info) {
+      if (queryResponse.username) {
+        return 'ProfileInfoResponse';
+      }
+    },
+  },
 };

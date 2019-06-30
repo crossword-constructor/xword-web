@@ -14,10 +14,11 @@ const Cell = ({
   const cell = useRef(null);
 
   useEffect(() => {
-    if (cell.current) {
+    if (cell.current && isFocused) {
       cell.current.focus();
     }
-  }, []);
+  }, [isFocused]);
+
   const highlightBlue = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--highlightBlue');

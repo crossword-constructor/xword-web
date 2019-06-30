@@ -53,56 +53,58 @@ const Login = ({ history }) => {
   return (
     <div className={styles.page}>
       <PuzzleIcon />
-      <form className={styles.form}>
-        {form.map(formItem => (
-          <Input key={formItem.name} {...formItem} theme="Big" />
-        ))}
-        <Mutation
-          mutation={LOGIN_MUTATION}
-          variables={{ username, password }}
-          refetchQueries={() => ['profileInfo']}
-          update={(_, { data, error }) => {
-            /** @todo abstract to util function -- this is duplicated in signup */
-            if (data) {
-              const {
-                login: { success, message, user },
-              } = data;
-              if (!success && message) {
-                setErrorMessage(message);
-              } else if (user) {
-                history.push('/profile');
+      <div className={styles.CenterRow}>
+        <form className={styles.form}>
+          {form.map(formItem => (
+            <Input key={formItem.name} {...formItem} theme="Big" />
+          ))}
+          <Mutation
+            mutation={LOGIN_MUTATION}
+            variables={{ username, password }}
+            refetchQueries={() => ['profileInfo']}
+            update={(_, { data, error }) => {
+              /** @todo abstract to util function -- this is duplicated in signup */
+              if (data) {
+                const {
+                  login: { success, message, user },
+                } = data;
+                if (!success && message) {
+                  setErrorMessage(message);
+                } else if (user) {
+                  history.push('/profile');
+                }
+              } else if (error) {
+                setErrorMessage('Internal Server Error');
               }
-            } else if (error) {
-              setErrorMessage('Internal Server Error');
-            }
-          }}
-        >
-          {login => {
-            return (
-              <>
-                <div>
-                  <Button
-                    onClick={e => {
-                      e.preventDefault();
-                      login({
-                        variables: { username, password },
-                      });
-                    }}
-                    type="submit"
-                    theme="Main"
-                  >
-                    Login
-                  </Button>
-                </div>
-                <ErrorToast errorMessage={errorMessage} />
-              </>
-            );
-          }}
-        </Mutation>
-        <div>
-          Don&apos;t have an account yet? <Link to="/signup">signup</Link>
-        </div>
-      </form>
+            }}
+          >
+            {login => {
+              return (
+                <>
+                  <div>
+                    <Button
+                      onClick={e => {
+                        e.preventDefault();
+                        login({
+                          variables: { username, password },
+                        });
+                      }}
+                      type="submit"
+                      theme="Main"
+                    >
+                      Login
+                    </Button>
+                  </div>
+                  <ErrorToast errorMessage={errorMessage} />
+                </>
+              );
+            }}
+          </Mutation>
+          <div>
+            Don&apos;t have an account yet? <Link to="/signup">signup</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
