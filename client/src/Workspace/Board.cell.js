@@ -30,6 +30,7 @@ const Cell = ({
   }
   let color = 'black';
   if (isRevealed) {
+    console.log(answer, guess);
     if (answer.toLowerCase() !== guess.toLowerCase()) {
       color = 'red';
     }

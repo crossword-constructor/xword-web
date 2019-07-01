@@ -146,13 +146,22 @@ export default (state, action) => {
       return { ...state, time: state.time + 1 };
     }
 
-    // case 'REVEAL_SQUARE': {
-    // }
-    // case 'REVEAL_WORD': {
-    // }
+    case 'REVEAL_SQUARE': {
+      const updatedRevealedCells = [...state.revealedCells];
+      updatedRevealedCells.push(state.selection.focusedCell);
+      return { ...state, revealedCells: updatedRevealedCells };
+    }
+
+    case 'REVEAL_WORD': {
+      console.log(state.selection.currentCells);
+      const updatedRevealedCells = [...state.revealedCells].concat(
+        state.selection.currentCells
+      );
+      console.log({ updatedRevealedCells });
+      return { ...state, revealedCells: updatedRevealedCells };
+    }
 
     case 'REVEAL_PUZZLE': {
-      console.log('satting all');
       return {
         ...state,
         revealedCells: 'ALL',

@@ -15,6 +15,7 @@ const Board = ({
   isPlaying,
   revealedCells,
 }) => {
+  console.log(revealedCells);
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
       if (keyCode >= 37 && keyCode <= 40) {
@@ -56,7 +57,15 @@ const Board = ({
 
           const isRevealed =
             revealedCells === 'ALL' ||
-            revealedCells.indexOf([rowNum, colNum]) > -1;
+            revealedCells.filter(
+              cells => cells[0] === rowNum && cells[1] === colNum
+            ).length > 0;
+          // console.log(revealedCells[0]);
+          // console.log(
+          //   revealedCells.filter(
+          //     cells => cells[0] === rowNum && cells[1] === colNum
+          //   ).length
+          // );
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />
@@ -117,7 +126,7 @@ Board.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
   revealedCells: PropTypes.oneOf([
     PropTypes.oneOf(['All']),
-    PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+    PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number.isRequired)),
   ]),
 };
 

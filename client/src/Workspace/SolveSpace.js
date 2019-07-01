@@ -35,7 +35,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
-    cellsRevealed: null,
+    revealedCells: [],
     time: startTime,
   });
 
@@ -59,21 +59,21 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
   }, []);
 
   // Clock
-  useEffect(() => {
-    let timer;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        dispatch({ type: 'increment' });
-      }, 1000);
-    } else if (timer) {
-      clearInterval(timer);
-    }
-    return () => {
-      if (timer) {
-        clearInterval(timer);
-      }
-    };
-  }, [startTime, isPlaying]);
+  // useEffect(() => {
+  //   let timer;
+  //   if (isPlaying) {
+  //     timer = setInterval(() => {
+  //       dispatch({ type: 'increment' });
+  //     }, 1000);
+  //   } else if (timer) {
+  //     clearInterval(timer);
+  //   }
+  //   return () => {
+  //     if (timer) {
+  //       clearInterval(timer);
+  //     }
+  //   };
+  // }, [startTime, isPlaying]);
 
   const debouncedSave = useCallback(
     debounce((board, currentTime) => {
@@ -97,6 +97,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
+  console.log(revealedCells);
   return (
     <div className={styles.page}>
       <Modal isOpen={!isPlaying} close={() => dispatch({ type: 'PLAY' })}>
