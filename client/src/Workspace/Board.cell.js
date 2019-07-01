@@ -6,7 +6,7 @@ const Cell = ({
   answer,
   number,
   guess,
-  isShowingAnswer,
+  isRevealed,
   click,
   isFocused,
   isHighlighted,
@@ -29,7 +29,8 @@ const Cell = ({
     background = highlightBlue;
   }
   let color = 'black';
-  if (isShowingAnswer) {
+  if (isRevealed) {
+    console.log(answer, guess);
     if (answer.toLowerCase() !== guess.toLowerCase()) {
       color = 'red';
     }
@@ -48,7 +49,7 @@ const Cell = ({
         role="button"
         tabIndex="-1"
       >
-        {isShowingAnswer ? answer : guess}
+        {isRevealed ? answer : guess}
       </div>
     </td>
   );
@@ -59,7 +60,7 @@ Cell.propTypes = {
   guess: PropTypes.string,
   number: PropTypes.number,
   click: PropTypes.func.isRequired,
-  isShowingAnswer: PropTypes.bool,
+  isRevealed: PropTypes.bool,
   isHighlighted: PropTypes.bool,
   // coords: PropTypes.arrayOf(PropTypes.number).isRequired,
   isFocused: PropTypes.bool,
@@ -68,7 +69,7 @@ Cell.propTypes = {
 Cell.defaultProps = {
   guess: '',
   number: null,
-  isShowingAnswer: false,
+  isRevealed: false,
   isFocused: false,
   isHighlighted: false,
 };

@@ -9,6 +9,7 @@ export default (state, action) => {
         clues: action.clues,
       };
     }
+
     case 'SELECT_CLUE': {
       const newDirection =
         action.clue.position.indexOf('D') > -1 ? 'down' : 'across';
@@ -133,14 +134,39 @@ export default (state, action) => {
         isPlaying: false,
       };
     }
+
     case 'PLAY': {
       return {
         ...state,
         isPlaying: true,
       };
     }
-    case 'increment':
+
+    case 'increment': {
       return { ...state, time: state.time + 1 };
+    }
+
+    case 'REVEAL_SQUARE': {
+      const updatedRevealedCells = [...state.revealedCells];
+      updatedRevealedCells.push(state.selection.focusedCell);
+      return { ...state, revealedCells: updatedRevealedCells };
+    }
+
+    case 'REVEAL_WORD': {
+      console.log(state.selection.currentCells);
+      const updatedRevealedCells = [...state.revealedCells].concat(
+        state.selection.currentCells
+      );
+      console.log({ updatedRevealedCells });
+      return { ...state, revealedCells: updatedRevealedCells };
+    }
+
+    case 'REVEAL_PUZZLE': {
+      return {
+        ...state,
+        revealedCells: 'ALL',
+      };
+    }
     default:
       break;
   }

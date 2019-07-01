@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback, useRef } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
@@ -12,12 +12,14 @@ import Toolbar from './Toolbar';
 import Board from './Board';
 import Clues from './Clues';
 import Clock from './Clock';
+import DropdownMenu from '../Shared/DropdownMenu';
 
 const UPDATE_PLAYER_BOARD = gql`
-  mutation updateUserPuzzle($_id: ID!, $board: [[String!]]) {
-    updateUserPuzzle(_id: $_id, board: $board) {
+  mutation updateUserPuzzle($_id: ID!, $board: [[String!]], $time: Float) {
+    updateUserPuzzle(_id: $_id, board: $board, time: $time) {
       _id
       board
+      time
     }
   }
 `;
@@ -33,14 +35,21 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
+    revealedCells: [],
     time: startTime,
   });
 
-  const { playableBoard, clues, selection, direction, isPlaying, time } = state;
+  const {
+    playableBoard,
+    clues,
+    selection,
+    direction,
+    isPlaying,
+    time,
+    revealedCells,
+  } = state;
 
-  console.log({ time, startTime });
   useEffect(() => {
-    console.log('dispatching load puzzle');
     dispatch({
       type: 'LOAD_PUZZLE',
       playableBoard: puzzle.playableBoard,
@@ -49,39 +58,31 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
     });
   }, []);
 
-  // this is a hack...everything feels terrible this whole function running every second..
-  // dthe consequence of "lifting state" (in this case from the clock to here) means more rendering (in this case a lot more)
-  // so we don't redefine this function every render, but have an up to date value of time...we're using a ref
-  const timeData = useRef();
   // Clock
-  useEffect(() => {
-    let timer;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        console.log(timeData);
-        if (time) {
-          timeData.current = 1;
-        }
-        dispatch({ type: 'increment' });
-      }, 1000);
-    } else if (timer) {
-      clearInterval(timer);
-    }
-    return () => {
-      if (timer) {
-        clearInterval(timer);
-      }
-    };
-  }, [startTime, isPlaying]);
+  // useEffect(() => {
+  //   let timer;
+  //   if (isPlaying) {
+  //     timer = setInterval(() => {
+  //       dispatch({ type: 'increment' });
+  //     }, 1000);
+  //   } else if (timer) {
+  //     clearInterval(timer);
+  //   }
+  //   return () => {
+  //     if (timer) {
+  //       clearInterval(timer);
+  //     }
+  //   };
+  // }, [startTime, isPlaying]);
 
   const debouncedSave = useCallback(
-    debounce(board => {
+    debounce((board, currentTime) => {
       client.mutate({
         mutation: UPDATE_PLAYER_BOARD,
         variables: {
           _id: userPuzzle,
           board: buildSaveableBoard(board),
-          time: timeData.current,
+          time: currentTime,
         },
       });
     }, 1000),
@@ -90,19 +91,13 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
 
   useEffect(() => {
     if (playableBoard) {
-      // debouncedSave.cancel();
-      debouncedSave(playableBoard);
+      debouncedSave(playableBoard, time);
     }
   }, [playableBoard]);
 
-  // const save = () => {}; // The dependency here is the route?? because we want this to
-  //  fire when the user leaves, but a case could be made for playableBaord
-  //  as well because if that doesnt change we dont want to run the mutation...but
-  // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
-  // saving every time the user pauses typing...has the added benefit of not failing due to loss of conneciton
-
   const { currentClues } = selection;
   const { title, author } = puzzle;
+  console.log(revealedCells);
   return (
     <div className={styles.page}>
       <Modal isOpen={!isPlaying} close={() => dispatch({ type: 'PLAY' })}>
@@ -112,7 +107,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
             dispatch({ type: 'PLAY' });
           }}
         >
-          Start
+          {time === 0 ? 'start' : 'resume'}
         </Button>
       </Modal>
       <div className={styles.container}>
@@ -124,6 +119,29 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
               time={time}
               isPlaying={isPlaying}
               pause={() => dispatch({ type: 'PAUSE' })}
+            />
+          }
+          DropdownMenu={
+            <DropdownMenu
+              name="Reveal"
+              list={[
+                {
+                  name: 'square',
+                  onClick: () => dispatch({ type: 'REVEAL_SQUARE' }),
+                },
+                {
+                  name: 'word',
+                  onClick: () => dispatch({ type: 'REVEAL_WORD' }),
+                },
+                {
+                  name: 'puzzle',
+                  onClick: () => {
+                    console.log('revealing puzzle!');
+                    dispatch({ type: 'REVEAL_PUZZLE' });
+                  },
+                },
+              ]}
+              offSet={18}
             />
           }
         />
@@ -149,6 +167,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
                 <Board
                   isPlaying={isPlaying}
                   playableBoard={playableBoard}
+                  revealedCells={revealedCells}
                   currentCells={selection.currentCells}
                   focusedCell={selection.focusedCell}
                   direction={direction}

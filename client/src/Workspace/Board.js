@@ -3,17 +3,7 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import Cell from './Board.cell';
 import styles from './Board.module.css';
-// import Clock from "./Clock";
-// import crossword from "./crossword.json";
-// import _throttle from "lodash.throttle";
-// import // buildPlayableBoard,
-// searchForBoundaryCell,
-// searchForValidCell,
-// './Board.utils';
-// const crossword = { board: ["A"] };
-// Converts the object structure of board to store guesses next to answers
 
-// eslint-disable-next-line no-unused-vars
 const Board = ({
   playableBoard,
   direction,
@@ -23,9 +13,9 @@ const Board = ({
   navigate,
   guess,
   isPlaying,
+  revealedCells,
 }) => {
-  // const currentCoords = [0, 0];
-
+  console.log(revealedCells);
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
       if (keyCode >= 37 && keyCode <= 40) {
@@ -65,6 +55,17 @@ const Board = ({
             return false;
           });
 
+          const isRevealed =
+            revealedCells === 'ALL' ||
+            revealedCells.filter(
+              cells => cells[0] === rowNum && cells[1] === colNum
+            ).length > 0;
+          // console.log(revealedCells[0]);
+          // console.log(
+          //   revealedCells.filter(
+          //     cells => cells[0] === rowNum && cells[1] === colNum
+          //   ).length
+          // );
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />
@@ -78,6 +79,7 @@ const Board = ({
               guess={isPlaying ? cell.guess : ''}
               number={cell.number}
               showAnswers={false}
+              isRevealed={isRevealed}
               coords={[rowNum, colNum]}
               click={() => selectCell([rowNum, colNum])}
             />
@@ -122,11 +124,16 @@ Board.propTypes = {
   navigate: PropTypes.func.isRequired,
   guess: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  revealedCells: PropTypes.oneOf([
+    PropTypes.oneOf(['All']),
+    PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number.isRequired)),
+  ]),
 };
 
 Board.defaultProps = {
   currentCells: [],
   playableBoard: [[]],
+  revealedCells: [],
   // isConstructing: false,
 };
 // position = [row, col]
