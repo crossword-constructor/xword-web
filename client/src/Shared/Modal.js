@@ -1,8 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './Modal.module.css';
 
-const Modal = ({ isOpen, close, chilren }) => {
-  return <div>{children}</div>;
+const Modal = ({ isOpen, close, children }) => {
+  return (
+    <>
+      <div className={isOpen ? styles.background : styles.hiddenBackground} />
+      <div className={isOpen ? styles.modal : styles.hiddenModal}>
+        <div
+          data-testid="close-modal"
+          className={styles.close}
+          onClick={close}
+          onKeyPress={close}
+          tabIndex="-2"
+          role="button"
+        >
+          <i className="fas fa-times" />
+        </div>
+        {children}
+      </div>
+    </>
+  );
 };
 
 Modal.propTypes = {

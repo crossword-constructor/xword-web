@@ -1,0 +1,46 @@
+.background {
+  position: absolute;
+  top: var(--navbarHeight);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f8f8f8;
+  z-index: 800;
+  opacity: 1;
+  transition: 0.3s;
+}
+.hiddenBackground {
+  opacity: 0;
+  z-index: -1;
+}
+.modal {
+  position: absolute;
+  right: calc(50% - var(--modalWidth) / 2);
+  left: calc(50% - var(--modalWidth) / 2);
+  top: calc(50% - var(--navbarHeight));
+  min-height: var(--s4);
+  box-shadow: var(--lightShadow);
+  border-radius: 6px;
+  z-index: 900;
+  background: var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(0);
+  transition: 0.3s;
+}
+
+.hiddenModal {
+  composes: modal;
+  transform: translateY(-800px);
+}
+
+.close {
+  position: absolute;
+  right: 6px;
+  top: 10px;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}

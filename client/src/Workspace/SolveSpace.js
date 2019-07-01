@@ -6,6 +6,7 @@ import puzzleReducer from './puzzleReducer';
 import { buildSaveableBoard } from './Board.utils';
 import Sidebar from '../Layouts/Sidebar';
 import styles from './SolveSpace.module.css';
+import Modal from '../Shared/Modal';
 import Toolbar from './Toolbar';
 import Board from './Board';
 import Clues from './Clues';
@@ -30,7 +31,7 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       currentCells: puzzle.clues['1A'].cells,
       currentClues: ['1A', '1D'],
     },
-    isPlaying: true,
+    isPlaying: false,
   });
 
   const { playableBoard, clues, selection, direction, isPlaying } = state;
@@ -71,8 +72,20 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
+  console.log(isPlaying);
   return (
     <div className={styles.page}>
+      <Modal isOpen={!isPlaying} close={() => dispatch({ type: 'PLAY' })}>
+        <button
+          type="button"
+          tabIndex="0"
+          onClick={() => {
+            dispatch({ type: 'PLAY' });
+          }}
+        >
+          resume
+        </button>
+      </Modal>
       <div className={styles.container}>
         <Toolbar
           title={title}
