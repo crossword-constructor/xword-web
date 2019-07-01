@@ -9,7 +9,6 @@ const SidebarLayout = ({
   breakPointPercent,
   heightsAreEqual,
 }) => {
-  console.log({ heightsAreEqual });
   return (
     <div className={styles.Page}>
       <div className={styles.Sidebar}>{sideBar}</div>

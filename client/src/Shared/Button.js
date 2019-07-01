@@ -12,7 +12,7 @@ const Button = ({ theme, children, onClick }) => {
 };
 
 Button.propTypes = {
-  theme: PropTypes.oneOf(['Main', 'Danger', 'Cancel']).isRequired,
+  theme: PropTypes.oneOf(['Main', 'Danger', 'Cancel', 'Light']).isRequired,
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };

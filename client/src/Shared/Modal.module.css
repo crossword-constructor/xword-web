@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   background: #f8f8f8;
-  z-index: 800;
+  z-index: 400;
   opacity: 1;
   transition: 0.3s;
 }

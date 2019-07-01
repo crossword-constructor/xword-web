@@ -49,7 +49,7 @@ const Board = ({
       <tr
         // eslint-disable-next-line react/no-array-index-key
         key={rowNum}
-        className={styles.board}
+        // className={styles.board}
       >
         {row.map((cell, colNum) => {
           const black = cell.answer === '#BlackSquare#';
@@ -96,7 +96,7 @@ const Board = ({
         onKeyDown={keyListener}
       >
         <table>
-          <tbody className="board">{rows}</tbody>
+          <tbody className={styles.board}>{rows}</tbody>
         </table>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { buildSaveableBoard } from './Board.utils';
 import Sidebar from '../Layouts/Sidebar';
 import styles from './SolveSpace.module.css';
 import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
 import Toolbar from './Toolbar';
 import Board from './Board';
 import Clues from './Clues';
@@ -32,9 +33,19 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
+    time: 0,
+    startTime: 1000,
   });
 
-  const { playableBoard, clues, selection, direction, isPlaying } = state;
+  const {
+    playableBoard,
+    clues,
+    selection,
+    direction,
+    isPlaying,
+    startTime,
+    time,
+  } = state;
 
   useEffect(() => {
     dispatch({
@@ -43,6 +54,23 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       clues: puzzle.clues,
     });
   }, [puzzle]);
+
+  // Clock
+  useEffect(() => {
+    let timer;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        dispatch({ type: 'increment' });
+      }, 1000);
+    } else if (timer) {
+      clearInterval(timer);
+    }
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, [startTime, isPlaying]);
 
   const debouncedSave = useCallback(
     debounce(board => {
@@ -72,19 +100,17 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
-  console.log(isPlaying);
   return (
     <div className={styles.page}>
       <Modal isOpen={!isPlaying} close={() => dispatch({ type: 'PLAY' })}>
-        <button
-          type="button"
-          tabIndex="0"
+        <Button
+          theme="Light"
           onClick={() => {
             dispatch({ type: 'PLAY' });
           }}
         >
-          resume
-        </button>
+          Start
+        </Button>
       </Modal>
       <div className={styles.container}>
         <Toolbar
@@ -92,7 +118,7 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
           author={author}
           Clock={
             <Clock
-              startTime={0}
+              time={time}
               isPlaying={isPlaying}
               pause={() => dispatch({ type: 'PAUSE' })}
             />

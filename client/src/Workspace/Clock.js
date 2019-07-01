@@ -1,16 +1,7 @@
-import React, { useReducer, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Clock.module.css';
 import Pause from '../Shared/Pause';
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'increment':
-      return { time: state.time + 1 };
-    default:
-      return state;
-  }
-};
 
 const formatTime = secNum => {
   let timeString = '';
@@ -32,25 +23,7 @@ const formatTime = secNum => {
   return timeString;
 };
 
-const Clock = ({ startTime, isPlaying, pause }) => {
-  const [state, dispatch] = useReducer(reducer, { time: startTime });
-  const { time } = state;
-
-  useEffect(() => {
-    let timer;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        dispatch({ type: 'increment' });
-      }, 1000);
-    } else if (timer) {
-      clearInterval(timer);
-    }
-    return () => {
-      if (timer) {
-        clearInterval(timer);
-      }
-    };
-  }, [startTime, isPlaying]);
+const Clock = ({ time, pause }) => {
   return (
     <div className={styles.clock}>
       {formatTime(time)}
@@ -60,8 +33,7 @@ const Clock = ({ startTime, isPlaying, pause }) => {
 };
 
 Clock.propTypes = {
-  startTime: PropTypes.number.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
+  time: PropTypes.number.isRequired,
   pause: PropTypes.func.isRequired,
 };
 

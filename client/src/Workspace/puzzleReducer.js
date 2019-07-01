@@ -139,6 +139,8 @@ export default (state, action) => {
         isPlaying: true,
       };
     }
+    case 'increment':
+      return { ...state, time: state.time + 1 };
     default:
       break;
   }

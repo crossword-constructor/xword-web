@@ -4,7 +4,7 @@
   /* border: 1px solid red; */
   display: flex;
   justify-content: space-between;
-  width: var(--s3);
+  width: 120px;
   padding: 6px;
 
   border: 1px solid var(--highlightBlue);
