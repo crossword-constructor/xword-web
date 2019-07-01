@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styles from './DropdownNavItem.module.css';
+import styles from './DropdownMenu.module.css';
 
-const DropdownNavItem = props => {
-  const { name, list, headerLink, 'data-testid': dataTestId } = props;
+const DropdownMenu = props => {
+  const { name, list, headerLink, offSet, 'data-testid': dataTestId } = props;
   return (
     <div className={styles.Container}>
       <div className={styles.Header}>
         <Link to={headerLink || ''}>{name}</Link>
       </div>
-      <div className={styles.DropdownContent} data-testid={dataTestId}>
+      <div
+        className={styles.DropdownContent}
+        style={{ top: offSet }}
+        data-testid={dataTestId}
+      >
         {list.map(item => {
           return (
             <div className={styles.DropdownItem} key={item.name}>
-              <Link to={item.link}>{item.name}</Link>
+              <Link to={item.link || ''}>{item.name}</Link>
             </div>
           );
         })}
@@ -23,11 +27,12 @@ const DropdownNavItem = props => {
   );
 };
 
-DropdownNavItem.propTypes = {
+DropdownMenu.propTypes = {
   name: PropTypes.string.isRequired,
+  offSet: PropTypes.number,
   list: PropTypes.arrayOf(
     PropTypes.shape({
-      link: PropTypes.string.isRequired,
+      link: PropTypes.string,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
@@ -35,9 +40,10 @@ DropdownNavItem.propTypes = {
   'data-testid': PropTypes.string,
 };
 
-DropdownNavItem.defaultProps = {
+DropdownMenu.defaultProps = {
+  offSet: 12,
   headerLink: null,
   'data-testid': 'dropdownNavItem',
 };
 
-export default DropdownNavItem;
+export default DropdownMenu;

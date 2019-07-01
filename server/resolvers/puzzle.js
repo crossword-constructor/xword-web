@@ -36,6 +36,7 @@ export default {
               row.map(cell => (cell === '#BlackSquare#' ? cell : ''))
             ),
             user: user._id,
+            time: 0,
           });
         }
       } catch (err) {

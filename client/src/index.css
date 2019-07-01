@@ -16,6 +16,7 @@
 
   /* fixed dimensions */
   --navbarHeight: var(--s2);
+  --modalWidth: var(--s6);
 
   /* colors */
   --highlightBlue: rgb(139, 190, 255);
@@ -27,7 +28,6 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Libre Franklin', sans-serif !important;
 }
 
 .Box {

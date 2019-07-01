@@ -4,7 +4,6 @@
   flex-flow: column;
   justify-content: center;
   position: relative;
-  height: 100%;
   color: #dadada;
   text-decoration: none;
   cursor: pointer;
@@ -17,13 +16,13 @@
 
 .Header {
   background: var(--black);
-  z-index: 20;
 }
 
 .DropdownContent {
   display: none;
+  /* border: 1px solid red; */
   position: absolute;
-  top: calc(var(--navbarHeight) - 3px);
+  /* top is set in JS based on parent height */
   left: 0;
   right: 0;
   /* border: 1px solid red; */
@@ -32,6 +31,7 @@
   color: white;
   /* border: 1px solid #ddd; */
   border-top: none;
+  z-index: 20;
   box-shadow: var(--lightShadow);
   flex-flow: column;
   align-items: flex-start;

@@ -22,12 +22,9 @@ const Board = ({
   selectCell,
   navigate,
   guess,
-
-  isConstructing,
+  isPlaying,
 }) => {
   // const currentCoords = [0, 0];
-  const showAnswers = () => {};
-  const toggleAnswers = () => {};
 
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
@@ -53,11 +50,12 @@ const Board = ({
       <tr
         // eslint-disable-next-line react/no-array-index-key
         key={rowNum}
-        className={styles.board}
+        // className={styles.board}
       >
         {row.map((cell, colNum) => {
           const black = cell.answer === '#BlackSquare#';
           let isHighlighted = false;
+
           currentCells.some(coords => {
             // console.log('coords: ', coords);
             if (coords[0] === rowNum && coords[1] === colNum) {
@@ -66,9 +64,7 @@ const Board = ({
             }
             return false;
           });
-          // if (rowNum === 0 && colNum > 3 && colNum < 9) {
-          // console.log('highlighted after ', highlighted);
-          // }
+
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />
@@ -79,9 +75,9 @@ const Board = ({
               isHighlighted={isHighlighted}
               isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
               answer={cell.answer}
-              guess={cell.guess}
+              guess={isPlaying ? cell.guess : ''}
               number={cell.number}
-              showAnswer={showAnswers}
+              showAnswers={false}
               coords={[rowNum, colNum]}
               click={() => selectCell([rowNum, colNum])}
             />
@@ -100,18 +96,9 @@ const Board = ({
         onKeyDown={keyListener}
       >
         <table>
-          <tbody className="board">{rows}</tbody>
+          <tbody className={styles.board}>{rows}</tbody>
         </table>
       </div>
-      <div>{isConstructing}</div>
-      <div>{direction}</div>
-      <button
-        onClick={() => toggleAnswers(!showAnswers)}
-        className={styles.reveal}
-        type="button"
-      >
-        {showAnswers ? 'Hide Answers' : 'Reveal Answers'}
-      </button>
     </div>
   );
 };
@@ -131,15 +118,16 @@ Board.propTypes = {
   currentCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   selectCell: PropTypes.func.isRequired,
   focusedCell: PropTypes.arrayOf(PropTypes.number).isRequired,
-  isConstructing: PropTypes.bool,
+  // isConstructing: PropTypes.bool,
   navigate: PropTypes.func.isRequired,
   guess: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {
   currentCells: [],
   playableBoard: [[]],
-  isConstructing: false,
+  // isConstructing: false,
 };
 // position = [row, col]
 // incOrDec = increment or decrement

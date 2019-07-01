@@ -33,6 +33,7 @@ const GET_PUZZLE = gql`
         userPuzzle {
           _id
           board
+          time
         }
       }
     }
@@ -56,13 +57,15 @@ const FetchPuzzle = ({ match }) => {
           if (puzzle && userPuzzle) {
             console.log('query running again');
             console.log({ userPuzzle });
+            const { _id, time } = userPuzzle;
             const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
             return (
               <ApolloConsumer>
                 {client => (
                   <SolveSpace
                     puzzle={playablePuzzle}
-                    userPuzzle={userPuzzle._id}
+                    userPuzzle={_id}
+                    startTime={time}
                     client={client}
                   />
                 )}

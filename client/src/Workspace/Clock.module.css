@@ -1,0 +1,12 @@
+.clock {
+  color: var(--highlightBlue);
+  /* height: 100%; */
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+  padding: 6px;
+
+  border: 1px solid var(--highlightBlue);
+  letter-spacing: var(--s-5);
+}

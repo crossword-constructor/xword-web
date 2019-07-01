@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import styles from './Navbar.module.css';
-import DropdownNavItem from './DropdownNavItem';
+import DropdownMenu from '../Shared/DropdownMenu';
 
 const Navbar = () => {
   const USERNAME = gql`
@@ -58,7 +58,7 @@ const Navbar = () => {
 
               const { username } = user;
               return (
-                <DropdownNavItem
+                <DropdownMenu
                   name={username || 'Profile'}
                   list={[
                     {
@@ -68,6 +68,7 @@ const Navbar = () => {
                     { name: 'logout', link: '/logout' },
                   ]}
                   headerLink="/profile"
+                  offSet={25}
                 />
               );
             }
