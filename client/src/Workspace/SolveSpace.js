@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
+import React, { useReducer, useEffect, useCallback, useRef } from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
@@ -22,7 +22,7 @@ const UPDATE_PLAYER_BOARD = gql`
   }
 `;
 
-const Solvespace = ({ puzzle, userPuzzle, client }) => {
+const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: null,
     clues: {},
@@ -33,33 +33,35 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
-    time: 0,
-    startTime: 1000,
+    time: startTime,
   });
 
-  const {
-    playableBoard,
-    clues,
-    selection,
-    direction,
-    isPlaying,
-    startTime,
-    time,
-  } = state;
+  const { playableBoard, clues, selection, direction, isPlaying, time } = state;
 
+  console.log({ time, startTime });
   useEffect(() => {
+    console.log('dispatching load puzzle');
     dispatch({
       type: 'LOAD_PUZZLE',
       playableBoard: puzzle.playableBoard,
+      time: startTime,
       clues: puzzle.clues,
     });
-  }, [puzzle]);
+  }, []);
 
+  // this is a hack...everything feels terrible this whole function running every second..
+  // dthe consequence of "lifting state" (in this case from the clock to here) means more rendering (in this case a lot more)
+  // so we don't redefine this function every render, but have an up to date value of time...we're using a ref
+  const timeData = useRef();
   // Clock
   useEffect(() => {
     let timer;
     if (isPlaying) {
       timer = setInterval(() => {
+        console.log(timeData);
+        if (time) {
+          timeData.current = 1;
+        }
         dispatch({ type: 'increment' });
       }, 1000);
     } else if (timer) {
@@ -79,6 +81,7 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
         variables: {
           _id: userPuzzle,
           board: buildSaveableBoard(board),
+          time: timeData.current,
         },
       });
     }, 1000),
@@ -129,7 +132,9 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
           breakPointPercent={40}
           sideBar={
             <div className={styles.left}>
-              <div className={styles.focusedClue}>
+              <div
+                className={isPlaying ? styles.focusedClue : styles.hiddenClue}
+              >
                 <span className={styles.focusedCluePosition}>
                   {currentClues
                     ? currentClues[direction === 'across' ? 0 : 1]
@@ -142,6 +147,7 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
               </div>
               {playableBoard ? (
                 <Board
+                  isPlaying={isPlaying}
                   playableBoard={playableBoard}
                   currentCells={selection.currentCells}
                   focusedCell={selection.focusedCell}
@@ -159,6 +165,7 @@ const Solvespace = ({ puzzle, userPuzzle, client }) => {
             <div className={styles.clues}>
               {currentClues ? (
                 <Clues
+                  isPlaying={isPlaying}
                   clues={clues}
                   direction={direction}
                   currentClues={selection.currentClues}
@@ -196,6 +203,7 @@ Solvespace.propTypes = {
     _id: PropTypes.string.isRequired,
   }).isRequired,
   userPuzzle: PropTypes.string.isRequired,
+  startTime: PropTypes.number.isRequired,
   client: PropTypes.shape({}).isRequired,
 };
 

@@ -4,7 +4,8 @@ import Clue from './Clue';
 // import { Aux } from '../Shared';
 import styles from './Clues.module.css';
 
-const Clues = ({ clues, currentClues, selectClue, direction }) => {
+/** consider recomposing this so we dont have to drill props down this far */
+const Clues = ({ clues, currentClues, selectClue, direction, isPlaying }) => {
   return (
     <>
       <div className={styles.container}>
@@ -15,6 +16,7 @@ const Clues = ({ clues, currentClues, selectClue, direction }) => {
             .map(clue => (
               <Clue
                 key={clues[clue].position}
+                isPlaying={isPlaying}
                 isHighlighted={
                   currentClues[0] === clue && direction === 'across'
                 }
@@ -36,6 +38,7 @@ const Clues = ({ clues, currentClues, selectClue, direction }) => {
             .map(clue => (
               <Clue
                 key={clues[clue].position}
+                isPlaying={isPlaying}
                 isHighlighted={currentClues[1] === clue && direction === 'down'}
                 isSecondaryHighlight={
                   currentClues[1] === clue && direction === 'across'
@@ -56,6 +59,7 @@ Clues.propTypes = {
   clues: PropTypes.shape({}).isRequired,
   currentClues: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectClue: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
 };
 
 export default Clues;

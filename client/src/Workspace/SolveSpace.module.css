@@ -30,6 +30,12 @@
   padding: var(--s-1);
   font-size: calc(var(--s-2) * 2);
   margin-bottom: var(--s-2);
+  transition: 0.2s;
+}
+
+.hiddenClue {
+  composes: focusedClue;
+  color: var(--highlightBlue);
 }
 
 .clues {

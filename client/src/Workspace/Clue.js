@@ -8,6 +8,7 @@ const Clue = ({
   selectClue,
   position,
   text,
+  isPlaying,
 }) => {
   const clueRef = useRef(null);
 
@@ -38,7 +39,7 @@ const Clue = ({
       <div
         role="button"
         tabIndex="-1"
-        className={styles.clueText}
+        className={isPlaying ? styles.clueText : styles.hiddenClueText}
         onClick={selectClue}
         onKeyPress={selectClue}
       >
@@ -54,6 +55,7 @@ Clue.propTypes = {
   selectClue: PropTypes.func.isRequired,
   position: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
 };
 
 export default Clue;

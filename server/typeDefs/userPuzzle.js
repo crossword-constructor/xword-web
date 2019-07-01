@@ -6,7 +6,7 @@ export default gql`
   #   puzzles(month: String, year: String): [Puzzle!]
   # }
   extend type Mutation {
-    updateUserPuzzle(_id: ID!, board: [[String!]]): UserPuzzle!
+    updateUserPuzzle(_id: ID!, board: [[String!]], time: Float): UserPuzzle!
   }
 
   type UserPuzzle {
@@ -14,5 +14,6 @@ export default gql`
     puzzle: Puzzle!
     board: [[String]]!
     user: String
+    time: Float
   }
 `;

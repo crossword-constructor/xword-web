@@ -14,7 +14,18 @@
 
 .clueText {
   max-width: var(--s5);
+  background: inherit;
+  color: var(--black);
+  transition: 0.2s;
 }
+
+.hiddenClueText {
+  composes: clueText;
+  background: #999;
+  color: #999;
+  border-radius: 3px;
+}
+
 .highlighted {
   composes: clue;
   background: rgb(99, 167, 255);

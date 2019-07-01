@@ -22,6 +22,7 @@ const Board = ({
   selectCell,
   navigate,
   guess,
+  isPlaying,
 }) => {
   // const currentCoords = [0, 0];
 
@@ -54,6 +55,7 @@ const Board = ({
         {row.map((cell, colNum) => {
           const black = cell.answer === '#BlackSquare#';
           let isHighlighted = false;
+
           currentCells.some(coords => {
             // console.log('coords: ', coords);
             if (coords[0] === rowNum && coords[1] === colNum) {
@@ -62,9 +64,7 @@ const Board = ({
             }
             return false;
           });
-          // if (rowNum === 0 && colNum > 3 && colNum < 9) {
-          // console.log('highlighted after ', highlighted);
-          // }
+
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />
@@ -75,7 +75,7 @@ const Board = ({
               isHighlighted={isHighlighted}
               isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
               answer={cell.answer}
-              guess={cell.guess}
+              guess={isPlaying ? cell.guess : ''}
               number={cell.number}
               showAnswers={false}
               coords={[rowNum, colNum]}
@@ -121,6 +121,7 @@ Board.propTypes = {
   // isConstructing: PropTypes.bool,
   navigate: PropTypes.func.isRequired,
   guess: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {
