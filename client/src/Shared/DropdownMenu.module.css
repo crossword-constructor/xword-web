@@ -43,6 +43,7 @@
 .DropdownItem {
   padding: 10px 20px;
   color: #dadada;
+  cursor: pointer;
 }
 
 .DropdownItem:hover {

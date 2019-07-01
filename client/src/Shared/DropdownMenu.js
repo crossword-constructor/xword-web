@@ -8,7 +8,7 @@ const DropdownMenu = props => {
   return (
     <div className={styles.Container}>
       <div className={styles.Header}>
-        <Link to={headerLink || ''}>{name}</Link>
+        {headerLink ? <Link to={headerLink || ''}>{name}</Link> : name}
       </div>
       <div
         className={styles.DropdownContent}
@@ -18,7 +18,13 @@ const DropdownMenu = props => {
         {list.map(item => {
           return (
             <div className={styles.DropdownItem} key={item.name}>
-              <Link to={item.link || ''}>{item.name}</Link>
+              {item.link ? (
+                <Link to={item.link || ''}>{item.name}</Link>
+              ) : (
+                <button type="button" onClick={item.onClick}>
+                  {item.name}
+                </button>
+              )}
             </div>
           );
         })}
@@ -33,6 +39,7 @@ DropdownMenu.propTypes = {
   list: PropTypes.arrayOf(
     PropTypes.shape({
       link: PropTypes.string,
+      onClick: PropTypes.func,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,

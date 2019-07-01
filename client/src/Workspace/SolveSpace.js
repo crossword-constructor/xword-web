@@ -12,6 +12,7 @@ import Toolbar from './Toolbar';
 import Board from './Board';
 import Clues from './Clues';
 import Clock from './Clock';
+import DropdownMenu from '../Shared/DropdownMenu';
 
 const UPDATE_PLAYER_BOARD = gql`
   mutation updateUserPuzzle($_id: ID!, $board: [[String!]], $time: Float) {
@@ -34,10 +35,19 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
+    cellsRevealed: null,
     time: startTime,
   });
 
-  const { playableBoard, clues, selection, direction, isPlaying, time } = state;
+  const {
+    playableBoard,
+    clues,
+    selection,
+    direction,
+    isPlaying,
+    time,
+    revealedCells,
+  } = state;
 
   useEffect(() => {
     dispatch({
@@ -67,7 +77,6 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
 
   const debouncedSave = useCallback(
     debounce((board, currentTime) => {
-      console.log(currentTime);
       client.mutate({
         mutation: UPDATE_PLAYER_BOARD,
         variables: {
@@ -79,17 +88,12 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
     }, 1000),
     []
   );
+
   useEffect(() => {
     if (playableBoard) {
       debouncedSave(playableBoard, time);
     }
   }, [playableBoard]);
-
-  // const save = () => {}; // The dependency here is the route?? because we want this to
-  //  fire when the user leaves, but a case could be made for playableBaord
-  //  as well because if that doesnt change we dont want to run the mutation...but
-  // we also dont want to run it every time the board updates // maybe we do an we could debounce it and then we 're
-  // saving every time the user pauses typing...has the added benefit of not failing due to loss of conneciton
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
@@ -102,7 +106,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
             dispatch({ type: 'PLAY' });
           }}
         >
-          Start
+          {time === 0 ? 'start' : 'resume'}
         </Button>
       </Modal>
       <div className={styles.container}>
@@ -114,6 +118,29 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
               time={time}
               isPlaying={isPlaying}
               pause={() => dispatch({ type: 'PAUSE' })}
+            />
+          }
+          DropdownMenu={
+            <DropdownMenu
+              name="Reveal"
+              list={[
+                {
+                  name: 'square',
+                  onClick: () => dispatch({ type: 'REVEAL_SQUARE' }),
+                },
+                {
+                  name: 'word',
+                  onClick: () => dispatch({ type: 'REVEAL_WORD' }),
+                },
+                {
+                  name: 'puzzle',
+                  onClick: () => {
+                    console.log('revealing puzzle!');
+                    dispatch({ type: 'REVEAL_PUZZLE' });
+                  },
+                },
+              ]}
+              offSet={18}
             />
           }
         />
@@ -139,6 +166,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
                 <Board
                   isPlaying={isPlaying}
                   playableBoard={playableBoard}
+                  revealedCells={revealedCells}
                   currentCells={selection.currentCells}
                   focusedCell={selection.focusedCell}
                   direction={direction}
