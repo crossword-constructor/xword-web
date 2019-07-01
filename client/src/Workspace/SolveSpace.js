@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback, useRef } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
@@ -14,10 +14,11 @@ import Clues from './Clues';
 import Clock from './Clock';
 
 const UPDATE_PLAYER_BOARD = gql`
-  mutation updateUserPuzzle($_id: ID!, $board: [[String!]]) {
-    updateUserPuzzle(_id: $_id, board: $board) {
+  mutation updateUserPuzzle($_id: ID!, $board: [[String!]], $time: Float) {
+    updateUserPuzzle(_id: $_id, board: $board, time: $time) {
       _id
       board
+      time
     }
   }
 `;
@@ -38,9 +39,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
 
   const { playableBoard, clues, selection, direction, isPlaying, time } = state;
 
-  console.log({ time, startTime });
   useEffect(() => {
-    console.log('dispatching load puzzle');
     dispatch({
       type: 'LOAD_PUZZLE',
       playableBoard: puzzle.playableBoard,
@@ -49,19 +48,11 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
     });
   }, []);
 
-  // this is a hack...everything feels terrible this whole function running every second..
-  // dthe consequence of "lifting state" (in this case from the clock to here) means more rendering (in this case a lot more)
-  // so we don't redefine this function every render, but have an up to date value of time...we're using a ref
-  const timeData = useRef();
   // Clock
   useEffect(() => {
     let timer;
     if (isPlaying) {
       timer = setInterval(() => {
-        console.log(timeData);
-        if (time) {
-          timeData.current = 1;
-        }
         dispatch({ type: 'increment' });
       }, 1000);
     } else if (timer) {
@@ -75,23 +66,22 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
   }, [startTime, isPlaying]);
 
   const debouncedSave = useCallback(
-    debounce(board => {
+    debounce((board, currentTime) => {
+      console.log(currentTime);
       client.mutate({
         mutation: UPDATE_PLAYER_BOARD,
         variables: {
           _id: userPuzzle,
           board: buildSaveableBoard(board),
-          time: timeData.current,
+          time: currentTime,
         },
       });
     }, 1000),
     []
   );
-
   useEffect(() => {
     if (playableBoard) {
-      // debouncedSave.cancel();
-      debouncedSave(playableBoard);
+      debouncedSave(playableBoard, time);
     }
   }, [playableBoard]);
 

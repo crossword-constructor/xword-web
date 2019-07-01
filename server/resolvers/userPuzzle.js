@@ -16,11 +16,12 @@ export default {
           message: validated.error.details.map(e => e.message).join(' '),
         });
       }
-      const { _id, board } = args;
+      const { _id, board, time } = args;
       const userPuzzle = await UserPuzzle.findByIdAndUpdate(
         _id,
         {
           board,
+          time,
         },
         { new: true }
       );
