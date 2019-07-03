@@ -24,13 +24,12 @@ const Cell = ({
     .getPropertyValue('--highlightBlue');
   let background = '#F6F6F6';
   if (isFocused) {
-    background = 'yellow';
+    background = 'rgb(255, 200, 100)';
   } else if (isHighlighted) {
     background = highlightBlue;
   }
   let color = 'black';
   if (isRevealed) {
-    console.log(answer, guess);
     if (answer.toLowerCase() !== guess.toLowerCase()) {
       color = 'red';
     }

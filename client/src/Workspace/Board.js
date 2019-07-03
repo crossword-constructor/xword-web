@@ -14,6 +14,7 @@ const Board = ({
   guess,
   isPlaying,
   revealedCells,
+  isPuzzleRevealed,
 }) => {
   console.log(revealedCells);
   const throttledKeyListener = useCallback(
@@ -56,7 +57,7 @@ const Board = ({
           });
 
           const isRevealed =
-            revealedCells === 'ALL' ||
+            isPuzzleRevealed ||
             revealedCells.filter(
               cells => cells[0] === rowNum && cells[1] === colNum
             ).length > 0;
@@ -128,6 +129,7 @@ Board.propTypes = {
     PropTypes.oneOf(['All']),
     PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number.isRequired)),
   ]),
+  isPuzzleRevealed: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {

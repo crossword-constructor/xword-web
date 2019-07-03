@@ -164,7 +164,7 @@ export default (state, action) => {
     case 'REVEAL_PUZZLE': {
       return {
         ...state,
-        revealedCells: 'ALL',
+        isPuzzleRevealed: true,
       };
     }
     default:

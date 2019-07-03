@@ -6,13 +6,21 @@ export default gql`
   #   puzzles(month: String, year: String): [Puzzle!]
   # }
   extend type Mutation {
-    updateUserPuzzle(_id: ID!, board: [[String!]], time: Float): UserPuzzle!
+    updateUserPuzzle(
+      _id: ID!
+      board: [[String!]]
+      time: Float
+      revealedCells: [[Float]]
+      puzzleRevealed: Boolean
+    ): UserPuzzle!
   }
 
   type UserPuzzle {
     _id: ID!
     puzzle: Puzzle!
     board: [[String]]!
+    revealedCells: [[Float]]
+    puzzleRevealed: Boolean
     user: String
     time: Float
   }

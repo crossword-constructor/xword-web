@@ -33,6 +33,8 @@ const GET_PUZZLE = gql`
         userPuzzle {
           _id
           board
+          revealedCells
+          puzzleRevealed
           time
         }
       }
@@ -57,7 +59,7 @@ const FetchPuzzle = ({ match }) => {
           if (puzzle && userPuzzle) {
             console.log('query running again');
             console.log({ userPuzzle });
-            const { _id, time } = userPuzzle;
+            const { _id, time, revealedCells, puzzleRevealed } = userPuzzle;
             const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
             return (
               <ApolloConsumer>
@@ -66,6 +68,8 @@ const FetchPuzzle = ({ match }) => {
                     puzzle={playablePuzzle}
                     userPuzzle={_id}
                     startTime={time}
+                    initRevealedCells={revealedCells}
+                    puzzleRevealed={puzzleRevealed}
                     client={client}
                   />
                 )}

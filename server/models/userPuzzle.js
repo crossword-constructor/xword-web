@@ -1,12 +1,14 @@
 import mongoose from 'mongoose';
 import User from './user';
-const ObjectId = mongoose.Schema.Types.ObjectId;
+const { ObjectId, Mixed } = mongoose.Schema.Types;
 const UserPuzzleSchema = new mongoose.Schema(
   {
     puzzle: { type: ObjectId, ref: 'Puzzle' },
     board: [[{ type: String }]],
     user: { type: ObjectId, ref: 'User' },
     time: { type: Number, default: 0 },
+    revealedCells: [{ type: Array }],
+    puzzleRevealed: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

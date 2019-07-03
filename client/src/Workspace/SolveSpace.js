@@ -15,16 +15,37 @@ import Clock from './Clock';
 import DropdownMenu from '../Shared/DropdownMenu';
 
 const UPDATE_PLAYER_BOARD = gql`
-  mutation updateUserPuzzle($_id: ID!, $board: [[String!]], $time: Float) {
-    updateUserPuzzle(_id: $_id, board: $board, time: $time) {
+  mutation updateUserPuzzle(
+    $_id: ID!
+    $board: [[String!]]
+    $time: Float
+    $currentRevealedCells: [[Float]]
+    $puzzleRevealed: Boolean
+  ) {
+    updateUserPuzzle(
+      _id: $_id
+      board: $board
+      time: $time
+      revealedCells: $currentRevealedCells
+      puzzleRevealed: $puzzleRevealed
+    ) {
       _id
       board
       time
+      revealedCells
+      puzzleRevealed
     }
   }
 `;
 
-const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
+const Solvespace = ({
+  puzzle,
+  userPuzzle,
+  startTime,
+  initRevealedCells,
+  puzzleRevealed,
+  client,
+}) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: null,
     clues: {},
@@ -35,7 +56,8 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
-    revealedCells: [],
+    revealedCells: initRevealedCells,
+    isPuzzleRevealed: puzzleRevealed,
     time: startTime,
   });
 
@@ -47,6 +69,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
     isPlaying,
     time,
     revealedCells,
+    isPuzzleRevealed,
   } = state;
 
   useEffect(() => {
@@ -59,45 +82,49 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
   }, []);
 
   // Clock
-  // useEffect(() => {
-  //   let timer;
-  //   if (isPlaying) {
-  //     timer = setInterval(() => {
-  //       dispatch({ type: 'increment' });
-  //     }, 1000);
-  //   } else if (timer) {
-  //     clearInterval(timer);
-  //   }
-  //   return () => {
-  //     if (timer) {
-  //       clearInterval(timer);
-  //     }
-  //   };
-  // }, [startTime, isPlaying]);
+  useEffect(() => {
+    let timer;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        dispatch({ type: 'increment' });
+      }, 1000);
+    } else if (timer) {
+      clearInterval(timer);
+    }
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, [startTime, isPlaying]);
 
   const debouncedSave = useCallback(
-    debounce((board, currentTime) => {
-      client.mutate({
-        mutation: UPDATE_PLAYER_BOARD,
-        variables: {
-          _id: userPuzzle,
-          board: buildSaveableBoard(board),
-          time: currentTime,
-        },
-      });
-    }, 1000),
+    debounce(
+      (board, currentTime, currentRevealedCells, currentPuzzleRevealed) => {
+        client.mutate({
+          mutation: UPDATE_PLAYER_BOARD,
+          variables: {
+            _id: userPuzzle,
+            board: buildSaveableBoard(board),
+            time: currentTime,
+            currentRevealedCells,
+            puzzleRevealed: currentPuzzleRevealed,
+          },
+        });
+      },
+      1000
+    ),
     []
   );
 
   useEffect(() => {
     if (playableBoard) {
-      debouncedSave(playableBoard, time);
+      debouncedSave(playableBoard, time, revealedCells, isPuzzleRevealed);
     }
   }, [playableBoard]);
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
-  console.log(revealedCells);
   return (
     <div className={styles.page}>
       <Modal isOpen={!isPlaying} close={() => dispatch({ type: 'PLAY' })}>
@@ -168,6 +195,7 @@ const Solvespace = ({ puzzle, userPuzzle, startTime, client }) => {
                   isPlaying={isPlaying}
                   playableBoard={playableBoard}
                   revealedCells={revealedCells}
+                  isPuzzleRevealed={isPuzzleRevealed}
                   currentCells={selection.currentCells}
                   focusedCell={selection.focusedCell}
                   direction={direction}
@@ -223,7 +251,13 @@ Solvespace.propTypes = {
   }).isRequired,
   userPuzzle: PropTypes.string.isRequired,
   startTime: PropTypes.number.isRequired,
+  initRevealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  puzzleRevealed: PropTypes.bool.isRequired,
   client: PropTypes.shape({}).isRequired,
+};
+
+Solvespace.defaultProps = {
+  initRevealedCells: [],
 };
 
 export default Solvespace;
