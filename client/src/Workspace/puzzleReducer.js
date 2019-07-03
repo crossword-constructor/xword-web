@@ -128,24 +128,6 @@ export default (state, action) => {
       };
     }
 
-    case 'PAUSE': {
-      return {
-        ...state,
-        isPlaying: false,
-      };
-    }
-
-    case 'PLAY': {
-      return {
-        ...state,
-        isPlaying: true,
-      };
-    }
-
-    case 'increment': {
-      return { ...state, time: state.time + 1 };
-    }
-
     case 'REVEAL_SQUARE': {
       const updatedRevealedCells = [...state.revealedCells];
       updatedRevealedCells.push(state.selection.focusedCell);
@@ -165,6 +147,7 @@ export default (state, action) => {
       return {
         ...state,
         isPuzzleRevealed: true,
+        isPuzzleSolved: true,
       };
     }
     default:

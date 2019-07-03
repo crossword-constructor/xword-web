@@ -27,13 +27,15 @@ const UPDATE_PLAYER_BOARD = gql`
       board: $board
       time: $time
       revealedCells: $currentRevealedCells
-      puzzleRevealed: $puzzleRevealed
+      isRevealed: $puzzleRevealed
+      isSolved: $puzzleSolved
     ) {
       _id
       board
       time
       revealedCells
-      puzzleRevealed
+      isRevealed
+      isSolved
     }
   }
 `;
@@ -43,7 +45,8 @@ const Solvespace = ({
   userPuzzle,
   startTime,
   initRevealedCells,
-  puzzleRevealed,
+  puzzleRevealed = false,
+  puzzleSolved = false,
   client,
 }) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
@@ -58,6 +61,7 @@ const Solvespace = ({
     isPlaying: false,
     revealedCells: initRevealedCells,
     isPuzzleRevealed: puzzleRevealed,
+    isPuzzleSolved: puzzleSolved,
     time: startTime,
   });
 
@@ -70,6 +74,7 @@ const Solvespace = ({
     time,
     revealedCells,
     isPuzzleRevealed,
+    isPuzzleSolved,
   } = state;
 
   useEffect(() => {
@@ -81,26 +86,15 @@ const Solvespace = ({
     });
   }, []);
 
-  // Clock
-  useEffect(() => {
-    let timer;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        dispatch({ type: 'increment' });
-      }, 1000);
-    } else if (timer) {
-      clearInterval(timer);
-    }
-    return () => {
-      if (timer) {
-        clearInterval(timer);
-      }
-    };
-  }, [startTime, isPlaying]);
-
   const debouncedSave = useCallback(
     debounce(
-      (board, currentTime, currentRevealedCells, currentPuzzleRevealed) => {
+      (
+        board,
+        currentTime,
+        currentRevealedCells,
+        currentPuzzleRevealed,
+        currentPuzzleSolved
+      ) => {
         client.mutate({
           mutation: UPDATE_PLAYER_BOARD,
           variables: {
@@ -109,6 +103,7 @@ const Solvespace = ({
             time: currentTime,
             currentRevealedCells,
             puzzleRevealed: currentPuzzleRevealed,
+            puzzleSolved: currentPuzzleSolved,
           },
         });
       },
@@ -119,9 +114,15 @@ const Solvespace = ({
 
   useEffect(() => {
     if (playableBoard) {
-      debouncedSave(playableBoard, time, revealedCells, isPuzzleRevealed);
+      debouncedSave(
+        playableBoard,
+        time,
+        revealedCells,
+        isPuzzleRevealed,
+        isPuzzleSolved
+      );
     }
-  }, [playableBoard]);
+  }, [playableBoard, revealedCells, isPuzzleSolved]);
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
@@ -252,11 +253,14 @@ Solvespace.propTypes = {
   userPuzzle: PropTypes.string.isRequired,
   startTime: PropTypes.number.isRequired,
   initRevealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  puzzleRevealed: PropTypes.bool.isRequired,
+  puzzleRevealed: PropTypes.bool,
+  puzzleSolved: PropTypes.bool,
   client: PropTypes.shape({}).isRequired,
 };
 
 Solvespace.defaultProps = {
+  puzzleRevealed: false,
+  puzzleSolved: false,
   initRevealedCells: [],
 };
 

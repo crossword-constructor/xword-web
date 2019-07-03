@@ -11,7 +11,8 @@ export default gql`
       board: [[String!]]
       time: Float
       revealedCells: [[Float]]
-      puzzleRevealed: Boolean
+      isRevealed: Boolean
+      isSolved: Boolean
     ): UserPuzzle!
   }
 
@@ -20,7 +21,8 @@ export default gql`
     puzzle: Puzzle!
     board: [[String]]!
     revealedCells: [[Float]]
-    puzzleRevealed: Boolean
+    isRevealed: Boolean
+    isSolved: Boolean
     user: String
     time: Float
   }

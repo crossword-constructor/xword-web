@@ -9,6 +9,7 @@ const ObjectId = mongoose.Types.ObjectId;
 export default {
   Mutation: {
     updateUserPuzzle: async (root, args, { req, res }, info) => {
+      console.log({ args });
       const { _id } = args;
       const validated = Joi.validate(args, updateUserPuzzle);
       if (validated.error) {

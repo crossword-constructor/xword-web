@@ -125,10 +125,7 @@ Board.propTypes = {
   navigate: PropTypes.func.isRequired,
   guess: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  revealedCells: PropTypes.oneOf([
-    PropTypes.oneOf(['All']),
-    PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number.isRequired)),
-  ]),
+  revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   isPuzzleRevealed: PropTypes.bool.isRequired,
 };
 

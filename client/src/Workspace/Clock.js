@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import useInterval from '../Hooks/useInterval';
 import styles from './Clock.module.css';
 import Pause from '../Shared/Pause';
 
@@ -23,10 +24,19 @@ const formatTime = secNum => {
   return timeString;
 };
 
-const Clock = ({ time, pause }) => {
+const Clock = ({ time, pause, isPlaying }) => {
+  const [currentTime, setCurrentTime] = useState(time);
+  // Clock
+  useInterval(
+    () => {
+      setCurrentTime(currentTime + 1);
+    },
+    isPlaying ? 1000 : null
+  );
+
   return (
     <div className={styles.clock}>
-      {formatTime(time)}
+      {formatTime(currentTime)}
       <Pause size={15} onClick={pause} />
     </div>
   );
@@ -35,6 +45,7 @@ const Clock = ({ time, pause }) => {
 Clock.propTypes = {
   time: PropTypes.number.isRequired,
   pause: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
 };
 
 export default Clock;
