@@ -142,10 +142,6 @@ export default (state, action) => {
       };
     }
 
-    case 'increment': {
-      return { ...state, time: state.time + 1 };
-    }
-
     case 'REVEAL_SQUARE': {
       const updatedRevealedCells = [...state.revealedCells];
       updatedRevealedCells.push(state.selection.focusedCell);
@@ -153,18 +149,18 @@ export default (state, action) => {
     }
 
     case 'REVEAL_WORD': {
-      console.log(state.selection.currentCells);
       const updatedRevealedCells = [...state.revealedCells].concat(
         state.selection.currentCells
       );
-      console.log({ updatedRevealedCells });
       return { ...state, revealedCells: updatedRevealedCells };
     }
 
     case 'REVEAL_PUZZLE': {
       return {
         ...state,
-        revealedCells: 'ALL',
+        isPuzzleRevealed: true,
+        isPuzzleSolved: true,
+        isPlaying: false,
       };
     }
     default:

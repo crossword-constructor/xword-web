@@ -14,20 +14,29 @@ const Board = ({
   guess,
   isPlaying,
   revealedCells,
+  isPuzzleRevealed,
+  isPuzzleSolved,
 }) => {
-  console.log(revealedCells);
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
       if (keyCode >= 37 && keyCode <= 40) {
         navigate(keyCode);
         // @todo add conditional for rebus
       } else if (keyCode >= 45 && keyCode <= 90) {
-        guess(key);
+        if (
+          revealedCells.filter(
+            coords =>
+              coords[0] === focusedCell[0] && coords[0] === focusedCell[1]
+          ).length > 0
+        ) {
+          return;
+        }
+        if (!isPuzzleSolved) guess(key);
       } else if (keyCode === 8) {
         navigate(direction === 'across' ? 37 : 38, { clearFirst: true });
       }
     }, 50),
-    [direction]
+    [direction, isPuzzleSolved]
   );
 
   const keyListener = event => {
@@ -56,16 +65,10 @@ const Board = ({
           });
 
           const isRevealed =
-            revealedCells === 'ALL' ||
+            isPuzzleRevealed ||
             revealedCells.filter(
               cells => cells[0] === rowNum && cells[1] === colNum
             ).length > 0;
-          // console.log(revealedCells[0]);
-          // console.log(
-          //   revealedCells.filter(
-          //     cells => cells[0] === rowNum && cells[1] === colNum
-          //   ).length
-          // );
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />
@@ -75,7 +78,8 @@ const Board = ({
               key={`${rowNum}${colNum}`}
               isHighlighted={isHighlighted}
               isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
-              answer={cell.answer}
+              answer={isPlaying || isPuzzleSolved ? cell.answer : ''}
+              isPlaying={isPlaying}
               guess={isPlaying ? cell.guess : ''}
               number={cell.number}
               showAnswers={false}
@@ -124,10 +128,9 @@ Board.propTypes = {
   navigate: PropTypes.func.isRequired,
   guess: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  revealedCells: PropTypes.oneOf([
-    PropTypes.oneOf(['All']),
-    PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number.isRequired)),
-  ]),
+  revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  isPuzzleRevealed: PropTypes.bool.isRequired,
+  isPuzzleSolved: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {

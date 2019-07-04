@@ -10,27 +10,28 @@ const Cell = ({
   click,
   isFocused,
   isHighlighted,
+  isPlaying,
 }) => {
   const cell = useRef(null);
 
   useEffect(() => {
-    if (cell.current && isFocused) {
+    if (cell.current && isFocused && isPlaying) {
       cell.current.focus();
     }
-  }, [isFocused]);
+  }, [isFocused, isPlaying]);
 
+  /** @consider doing this with a className so we keep the stling to css */
   const highlightBlue = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--highlightBlue');
   let background = '#F6F6F6';
   if (isFocused) {
-    background = 'yellow';
+    background = 'rgb(255, 200, 100)';
   } else if (isHighlighted) {
     background = highlightBlue;
   }
   let color = 'black';
   if (isRevealed) {
-    console.log(answer, guess);
     if (answer.toLowerCase() !== guess.toLowerCase()) {
       color = 'red';
     }
@@ -62,6 +63,7 @@ Cell.propTypes = {
   click: PropTypes.func.isRequired,
   isRevealed: PropTypes.bool,
   isHighlighted: PropTypes.bool,
+  isPlaying: PropTypes.bool.isRequired,
   // coords: PropTypes.arrayOf(PropTypes.number).isRequired,
   isFocused: PropTypes.bool,
 };

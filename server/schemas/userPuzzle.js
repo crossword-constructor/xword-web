@@ -1,10 +1,16 @@
 import Joi from '@hapi/joi';
 
 const board = Joi.array().items(Joi.array().items(Joi.string().allow('')));
-const _id = Joi.string();
+const _id = Joi.string(); // should check if this is a valid mongo_id
 const time = Joi.number();
+const revealedCells = Joi.array().items(Joi.array().items(Joi.number()));
+const isRevealed = Joi.boolean();
+const isSolved = Joi.boolean();
 export const updateUserPuzzle = Joi.object().keys({
-  board,
   _id,
+  board,
   time,
+  revealedCells,
+  isRevealed,
+  isSolved,
 });

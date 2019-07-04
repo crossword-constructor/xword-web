@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query, ApolloConsumer } from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { buildPlayableBoard } from './Board.utils';
 import SolveSpace from './SolveSpace';
@@ -33,6 +33,9 @@ const GET_PUZZLE = gql`
         userPuzzle {
           _id
           board
+          revealedCells
+          isRevealed
+          isSolved
           time
         }
       }
@@ -55,26 +58,17 @@ const FetchPuzzle = ({ match }) => {
             return message;
           }
           if (puzzle && userPuzzle) {
-            console.log('query running again');
-            console.log({ userPuzzle });
-            const { _id, time } = userPuzzle;
+            const { _id } = userPuzzle;
             const playablePuzzle = buildPlayableBoard(puzzle, userPuzzle);
             return (
-              <ApolloConsumer>
-                {client => (
-                  <SolveSpace
-                    puzzle={playablePuzzle}
-                    userPuzzle={_id}
-                    startTime={time}
-                    client={client}
-                  />
-                )}
-              </ApolloConsumer>
+              <SolveSpace
+                puzzle={playablePuzzle}
+                userPuzzle={_id}
+                {...userPuzzle}
+              />
             );
           }
         }
-
-        // console.log({ userPuzzle });
       }}
     </Query>
   );

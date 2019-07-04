@@ -6,7 +6,7 @@
   right: 0;
   background: #f8f8f8;
   z-index: 400;
-  opacity: 0.9;
+  opacity: 0.7;
   transition: 0.3s;
 }
 .hiddenBackground {
@@ -22,6 +22,7 @@
   box-shadow: var(--lightShadow);
   border-radius: 6px;
   z-index: 900;
+  color: rgb(255, 236, 61);
   background: var(--black);
   display: flex;
   justify-content: center;
