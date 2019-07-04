@@ -23,6 +23,14 @@ const Board = ({
         navigate(keyCode);
         // @todo add conditional for rebus
       } else if (keyCode >= 45 && keyCode <= 90) {
+        if (
+          revealedCells.filter(
+            coords =>
+              coords[0] === focusedCell[0] && coords[0] === focusedCell[1]
+          ).length > 0
+        ) {
+          return;
+        }
         if (!isPuzzleSolved) guess(key);
       } else if (keyCode === 8) {
         navigate(direction === 'across' ? 37 : 38, { clearFirst: true });
@@ -61,12 +69,6 @@ const Board = ({
             revealedCells.filter(
               cells => cells[0] === rowNum && cells[1] === colNum
             ).length > 0;
-          // console.log(revealedCells[0]);
-          // console.log(
-          //   revealedCells.filter(
-          //     cells => cells[0] === rowNum && cells[1] === colNum
-          //   ).length
-          // );
           return black ? (
             // eslint-disable-next-line react/no-array-index-key
             <td className={styles.black} key={`${rowNum}${colNum}`} />

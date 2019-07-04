@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
@@ -18,16 +19,16 @@ const UPDATE_PLAYER_BOARD = gql`
   mutation updateUserPuzzle(
     $_id: ID!
     $board: [[String!]]
-    $currentRevealedCells: [[Float]]
-    $puzzleRevealed: Boolean
-    $puzzleSolved: Boolean
+    $revealedCells: [[Float]]
+    $isRevealed: Boolean
+    $isSolved: Boolean
   ) {
     updateUserPuzzle(
       _id: $_id
       board: $board
-      revealedCells: $currentRevealedCells
-      isRevealed: $puzzleRevealed
-      isSolved: $puzzleSolved
+      revealedCells: $revealedCells
+      isRevealed: $isRevealed
+      isSolved: $isSolved
     ) {
       _id
       board
@@ -42,10 +43,10 @@ const UPDATE_PLAYER_BOARD = gql`
 const Solvespace = ({
   puzzle,
   userPuzzle,
-  startTime,
-  initRevealedCells,
-  puzzleRevealed = false,
-  puzzleSolved = false,
+  time,
+  revealedCells,
+  isRevealed = false,
+  isSolved = false,
   client,
 }) => {
   const [state, dispatch] = useReducer(puzzleReducer, {
@@ -58,72 +59,65 @@ const Solvespace = ({
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
-    revealedCells: initRevealedCells,
-    isPuzzleRevealed: puzzleRevealed,
-    isPuzzleSolved: puzzleSolved,
   });
 
-  const {
-    playableBoard,
-    clues,
-    selection,
-    direction,
-    isPlaying,
-    revealedCells,
-    isPuzzleRevealed,
-    isPuzzleSolved,
-  } = state;
+  const { playableBoard, clues, selection, direction, isPlaying } = state;
 
   useEffect(() => {
     dispatch({
       type: 'LOAD_PUZZLE',
       playableBoard: puzzle.playableBoard,
-      time: startTime,
       clues: puzzle.clues,
+      time,
     });
   }, []);
 
   const debouncedSave = useCallback(
-    debounce(
-      (
-        board,
-        currentRevealedCells,
-        currentPuzzleRevealed,
-        currentPuzzleSolved
-      ) => {
-        client.mutate({
-          mutation: UPDATE_PLAYER_BOARD,
-          variables: {
-            _id: userPuzzle,
-            board: buildSaveableBoard(board),
-            currentRevealedCells,
-            puzzleRevealed: currentPuzzleRevealed,
-            puzzleSolved: currentPuzzleSolved,
-          },
-        });
-      },
-      1000
-    ),
+    debounce(board => {
+      client.mutate({
+        mutation: UPDATE_PLAYER_BOARD,
+        variables: {
+          _id: userPuzzle,
+          board: buildSaveableBoard(board),
+        },
+      });
+    }, 1000),
     []
   );
 
   useEffect(() => {
     if (playableBoard) {
-      debouncedSave(
-        playableBoard,
-        revealedCells,
-        isPuzzleRevealed,
-        isPuzzleSolved
-      );
+      debouncedSave(playableBoard);
     }
-  }, [playableBoard, revealedCells, isPuzzleSolved, isPuzzleRevealed]);
+  }, [playableBoard]);
 
+  const updateRevealed = scope => {
+    let updatedRevealedCells = [...revealedCells];
+    const { currentCells, focusedCell } = selection;
+    if (scope === 'puzzle') {
+      isRevealed = true;
+      isSolved = true;
+    } else if (scope === 'word') {
+      updatedRevealedCells = updatedRevealedCells.concat(currentCells);
+    } else if (scope === 'square') {
+      updatedRevealedCells.push(focusedCell);
+    }
+    client.mutate({
+      mutation: UPDATE_PLAYER_BOARD,
+      variables: {
+        _id: userPuzzle,
+        revealedCells: updatedRevealedCells,
+        isRevealed,
+        isSolved,
+      },
+    });
+  };
   const { currentClues } = selection;
   const { title, author } = puzzle;
   return (
     <div className={styles.page}>
       <Modal
-        isOpen={!isPlaying && !isPuzzleSolved}
+        isOpen={!isPlaying && !isSolved}
         close={() => dispatch({ type: 'PLAY' })}
       >
         <Button
@@ -132,7 +126,7 @@ const Solvespace = ({
             dispatch({ type: 'PLAY' });
           }}
         >
-          {startTime === 0 ? 'start' : 'resume'}
+          {time === 0 ? 'start' : 'resume'}
         </Button>
       </Modal>
       <div className={styles.container}>
@@ -141,7 +135,7 @@ const Solvespace = ({
           author={author}
           Clock={
             <Clock
-              time={startTime}
+              time={time}
               isPlaying={isPlaying}
               pause={() => dispatch({ type: 'PAUSE' })}
               userPuzzleId={userPuzzle}
@@ -153,18 +147,15 @@ const Solvespace = ({
               list={[
                 {
                   name: 'square',
-                  onClick: () => dispatch({ type: 'REVEAL_SQUARE' }),
+                  onClick: () => updateRevealed('square'),
                 },
                 {
                   name: 'word',
-                  onClick: () => dispatch({ type: 'REVEAL_WORD' }),
+                  onClick: () => updateRevealed('word'),
                 },
                 {
                   name: 'puzzle',
-                  onClick: () => {
-                    console.log('revealing puzzle!');
-                    dispatch({ type: 'REVEAL_PUZZLE' });
-                  },
+                  onClick: () => updateRevealed('puzzle'),
                 },
               ]}
               offSet={18}
@@ -178,9 +169,7 @@ const Solvespace = ({
             <div className={styles.left}>
               <div
                 className={
-                  isPlaying || isPuzzleSolved
-                    ? styles.focusedClue
-                    : styles.hiddenClue
+                  isPlaying || isSolved ? styles.focusedClue : styles.hiddenClue
                 }
               >
                 <span className={styles.focusedCluePosition}>
@@ -195,11 +184,11 @@ const Solvespace = ({
               </div>
               {playableBoard ? (
                 <Board
-                  isPlaying={isPuzzleSolved || isPlaying}
+                  isPlaying={isSolved || isPlaying}
                   playableBoard={playableBoard}
                   revealedCells={revealedCells}
-                  isPuzzleRevealed={isPuzzleRevealed}
-                  isPuzzleSolved={isPuzzleSolved}
+                  isPuzzleRevealed={isRevealed}
+                  isPuzzleSolved={isSolved}
                   currentCells={selection.currentCells}
                   focusedCell={selection.focusedCell}
                   direction={direction}
@@ -216,7 +205,7 @@ const Solvespace = ({
             <div className={styles.clues}>
               {currentClues ? (
                 <Clues
-                  isPlaying={isPlaying || isPuzzleSolved}
+                  isPlaying={isPlaying || isSolved}
                   clues={clues}
                   direction={direction}
                   currentClues={selection.currentClues}
@@ -254,17 +243,17 @@ Solvespace.propTypes = {
     _id: PropTypes.string.isRequired,
   }).isRequired,
   userPuzzle: PropTypes.string.isRequired,
-  startTime: PropTypes.number.isRequired,
-  initRevealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  puzzleRevealed: PropTypes.bool,
-  puzzleSolved: PropTypes.bool,
+  time: PropTypes.number.isRequired,
+  revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  isRevealed: PropTypes.bool,
+  isSolved: PropTypes.bool,
   client: PropTypes.shape({}).isRequired,
 };
 
 Solvespace.defaultProps = {
-  puzzleRevealed: false,
-  puzzleSolved: false,
-  initRevealedCells: [],
+  isRevealed: false,
+  isSolved: false,
+  revealedCells: [],
 };
 
-export default Solvespace;
+export default withApollo(Solvespace);

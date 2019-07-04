@@ -1,5 +1,4 @@
 export const buildPlayableBoard = (puzzle, userPuzzle) => {
-  console.log('building playable board');
   const { board, clues } = puzzle;
   const { board: userBoard } = userPuzzle;
 

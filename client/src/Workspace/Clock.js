@@ -41,6 +41,7 @@ const Clock = ({ time, pause, isPlaying, userPuzzleId, client }) => {
       client.mutate({
         mutation: UPDATE_TIME,
         variables: { _id: userPuzzleId, time: time + 1 },
+        networkPolicy: 'cache-only',
       });
       // setCurrentTime(currentTime + 1);
     },

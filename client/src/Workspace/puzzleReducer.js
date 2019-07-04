@@ -99,27 +99,10 @@ export default (state, action) => {
     }
 
     case 'GUESS': {
-      const {
-        playableBoard,
-        selection,
-        direction,
-        clues,
-        revealedCells,
-      } = state;
+      const { playableBoard, selection, direction, clues } = state;
       const updatedPlayableBoard = [...playableBoard];
       const { focusedCell } = selection;
       const [currentRow, currentCol] = selection.focusedCell;
-      // make sure this cell has not been revealed yet
-      if (
-        revealedCells.filter(
-          coords => coords[0] === currentRow && coords[1] === currentCol
-        ).length > 0
-      ) {
-        return {
-          ...state,
-        };
-      }
-
       updatedPlayableBoard[currentRow][
         currentCol
       ].guess = action.key.toUpperCase();
@@ -166,11 +149,9 @@ export default (state, action) => {
     }
 
     case 'REVEAL_WORD': {
-      console.log(state.selection.currentCells);
       const updatedRevealedCells = [...state.revealedCells].concat(
         state.selection.currentCells
       );
-      console.log({ updatedRevealedCells });
       return { ...state, revealedCells: updatedRevealedCells };
     }
 
