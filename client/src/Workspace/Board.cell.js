@@ -10,14 +10,17 @@ const Cell = ({
   click,
   isFocused,
   isHighlighted,
+  isPlaying,
 }) => {
   const cell = useRef(null);
 
   useEffect(() => {
-    if (cell.current && isFocused) {
+    console.log('setting foucs');
+    if (cell.current && isFocused && isPlaying) {
       cell.current.focus();
+      console.log('focus set');
     }
-  }, [isFocused]);
+  }, [isFocused, isPlaying]);
 
   const highlightBlue = window
     .getComputedStyle(document.documentElement)
@@ -61,6 +64,7 @@ Cell.propTypes = {
   click: PropTypes.func.isRequired,
   isRevealed: PropTypes.bool,
   isHighlighted: PropTypes.bool,
+  isPlaying: PropTypes.bool.isRequired,
   // coords: PropTypes.arrayOf(PropTypes.number).isRequired,
   isFocused: PropTypes.bool,
 };

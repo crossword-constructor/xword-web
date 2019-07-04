@@ -8,7 +8,7 @@ const UserPuzzleSchema = new mongoose.Schema(
     user: { type: ObjectId, ref: 'User' },
     time: { type: Number, default: 0 },
     revealedCells: [{ type: Array }],
-    isRvealed: { type: Boolean, default: false },
+    isRevealed: { type: Boolean, default: false },
     isSolved: { type: Boolean, default: false },
   },
   { timestamps: true }

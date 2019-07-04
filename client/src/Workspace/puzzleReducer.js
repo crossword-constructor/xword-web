@@ -99,10 +99,27 @@ export default (state, action) => {
     }
 
     case 'GUESS': {
-      const { playableBoard, selection, direction, clues } = state;
+      const {
+        playableBoard,
+        selection,
+        direction,
+        clues,
+        revealedCells,
+      } = state;
       const updatedPlayableBoard = [...playableBoard];
       const { focusedCell } = selection;
       const [currentRow, currentCol] = selection.focusedCell;
+      // make sure this cell has not been revealed yet
+      if (
+        revealedCells.filter(
+          coords => coords[0] === currentRow && coords[1] === currentCol
+        ).length > 0
+      ) {
+        return {
+          ...state,
+        };
+      }
+
       updatedPlayableBoard[currentRow][
         currentCol
       ].guess = action.key.toUpperCase();
@@ -128,6 +145,20 @@ export default (state, action) => {
       };
     }
 
+    case 'PAUSE': {
+      return {
+        ...state,
+        isPlaying: false,
+      };
+    }
+
+    case 'PLAY': {
+      return {
+        ...state,
+        isPlaying: true,
+      };
+    }
+
     case 'REVEAL_SQUARE': {
       const updatedRevealedCells = [...state.revealedCells];
       updatedRevealedCells.push(state.selection.focusedCell);
@@ -148,6 +179,7 @@ export default (state, action) => {
         ...state,
         isPuzzleRevealed: true,
         isPuzzleSolved: true,
+        isPlaying: false,
       };
     }
     default:

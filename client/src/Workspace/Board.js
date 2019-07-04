@@ -15,20 +15,20 @@ const Board = ({
   isPlaying,
   revealedCells,
   isPuzzleRevealed,
+  isPuzzleSolved,
 }) => {
-  console.log(revealedCells);
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
       if (keyCode >= 37 && keyCode <= 40) {
         navigate(keyCode);
         // @todo add conditional for rebus
       } else if (keyCode >= 45 && keyCode <= 90) {
-        guess(key);
+        if (!isPuzzleSolved) guess(key);
       } else if (keyCode === 8) {
         navigate(direction === 'across' ? 37 : 38, { clearFirst: true });
       }
     }, 50),
-    [direction]
+    [direction, isPuzzleSolved]
   );
 
   const keyListener = event => {
@@ -77,6 +77,7 @@ const Board = ({
               isHighlighted={isHighlighted}
               isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
               answer={cell.answer}
+              isPlaying={isPlaying}
               guess={isPlaying ? cell.guess : ''}
               number={cell.number}
               showAnswers={false}
@@ -127,6 +128,7 @@ Board.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
   revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   isPuzzleRevealed: PropTypes.bool.isRequired,
+  isPuzzleSolved: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {

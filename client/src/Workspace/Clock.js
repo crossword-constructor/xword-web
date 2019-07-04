@@ -37,7 +37,7 @@ const Clock = ({ time, pause, isPlaying }) => {
   return (
     <div className={styles.clock}>
       {formatTime(currentTime)}
-      <Pause size={15} onClick={pause} />
+      {isPlaying ? <Pause size={15} onClick={pause} /> : null}
     </div>
   );
 };

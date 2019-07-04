@@ -18,14 +18,13 @@ const UPDATE_PLAYER_BOARD = gql`
   mutation updateUserPuzzle(
     $_id: ID!
     $board: [[String!]]
-    $time: Float
     $currentRevealedCells: [[Float]]
     $puzzleRevealed: Boolean
+    $puzzleSolved: Boolean
   ) {
     updateUserPuzzle(
       _id: $_id
       board: $board
-      time: $time
       revealedCells: $currentRevealedCells
       isRevealed: $puzzleRevealed
       isSolved: $puzzleSolved
@@ -62,7 +61,6 @@ const Solvespace = ({
     revealedCells: initRevealedCells,
     isPuzzleRevealed: puzzleRevealed,
     isPuzzleSolved: puzzleSolved,
-    time: startTime,
   });
 
   const {
@@ -71,7 +69,6 @@ const Solvespace = ({
     selection,
     direction,
     isPlaying,
-    time,
     revealedCells,
     isPuzzleRevealed,
     isPuzzleSolved,
@@ -90,7 +87,6 @@ const Solvespace = ({
     debounce(
       (
         board,
-        currentTime,
         currentRevealedCells,
         currentPuzzleRevealed,
         currentPuzzleSolved
@@ -100,7 +96,6 @@ const Solvespace = ({
           variables: {
             _id: userPuzzle,
             board: buildSaveableBoard(board),
-            time: currentTime,
             currentRevealedCells,
             puzzleRevealed: currentPuzzleRevealed,
             puzzleSolved: currentPuzzleSolved,
@@ -116,26 +111,28 @@ const Solvespace = ({
     if (playableBoard) {
       debouncedSave(
         playableBoard,
-        time,
         revealedCells,
         isPuzzleRevealed,
         isPuzzleSolved
       );
     }
-  }, [playableBoard, revealedCells, isPuzzleSolved]);
+  }, [playableBoard, revealedCells, isPuzzleSolved, isPuzzleRevealed]);
 
   const { currentClues } = selection;
   const { title, author } = puzzle;
   return (
     <div className={styles.page}>
-      <Modal isOpen={!isPlaying} close={() => dispatch({ type: 'PLAY' })}>
+      <Modal
+        isOpen={!isPlaying && !isPuzzleSolved}
+        close={() => dispatch({ type: 'PLAY' })}
+      >
         <Button
           theme="Light"
           onClick={() => {
             dispatch({ type: 'PLAY' });
           }}
         >
-          {time === 0 ? 'start' : 'resume'}
+          {startTime === 0 ? 'start' : 'resume'}
         </Button>
       </Modal>
       <div className={styles.container}>
@@ -144,9 +141,10 @@ const Solvespace = ({
           author={author}
           Clock={
             <Clock
-              time={time}
+              time={startTime}
               isPlaying={isPlaying}
               pause={() => dispatch({ type: 'PAUSE' })}
+              client={client}
             />
           }
           DropdownMenu={
@@ -179,7 +177,11 @@ const Solvespace = ({
           sideBar={
             <div className={styles.left}>
               <div
-                className={isPlaying ? styles.focusedClue : styles.hiddenClue}
+                className={
+                  isPlaying || isPuzzleSolved
+                    ? styles.focusedClue
+                    : styles.hiddenClue
+                }
               >
                 <span className={styles.focusedCluePosition}>
                   {currentClues
@@ -193,10 +195,11 @@ const Solvespace = ({
               </div>
               {playableBoard ? (
                 <Board
-                  isPlaying={isPlaying}
+                  isPlaying={isPuzzleSolved || isPlaying}
                   playableBoard={playableBoard}
                   revealedCells={revealedCells}
                   isPuzzleRevealed={isPuzzleRevealed}
+                  isPuzzleSolved={isPuzzleSolved}
                   currentCells={selection.currentCells}
                   focusedCell={selection.focusedCell}
                   direction={direction}
@@ -213,7 +216,7 @@ const Solvespace = ({
             <div className={styles.clues}>
               {currentClues ? (
                 <Clues
-                  isPlaying={isPlaying}
+                  isPlaying={isPlaying || isPuzzleSolved}
                   clues={clues}
                   direction={direction}
                   currentClues={selection.currentClues}
