@@ -15,13 +15,12 @@ const Cell = ({
   const cell = useRef(null);
 
   useEffect(() => {
-    console.log('setting foucs');
     if (cell.current && isFocused && isPlaying) {
       cell.current.focus();
-      console.log('focus set');
     }
   }, [isFocused, isPlaying]);
 
+  /** @consider doing this with a className so we keep the stling to css */
   const highlightBlue = window
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--highlightBlue');

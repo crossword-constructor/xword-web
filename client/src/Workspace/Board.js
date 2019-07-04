@@ -76,7 +76,7 @@ const Board = ({
               key={`${rowNum}${colNum}`}
               isHighlighted={isHighlighted}
               isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
-              answer={cell.answer}
+              answer={isPlaying || isPuzzleSolved ? cell.answer : ''}
               isPlaying={isPlaying}
               guess={isPlaying ? cell.guess : ''}
               number={cell.number}

@@ -144,7 +144,7 @@ const Solvespace = ({
               time={startTime}
               isPlaying={isPlaying}
               pause={() => dispatch({ type: 'PAUSE' })}
-              client={client}
+              userPuzzleId={userPuzzle}
             />
           }
           DropdownMenu={

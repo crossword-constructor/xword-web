@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
 import useInterval from '../Hooks/useInterval';
 import styles from './Clock.module.css';
 import Pause from '../Shared/Pause';
 
+const UPDATE_TIME = gql`
+  mutation updateUserPuzzle($_id: ID!, $time: Float!) {
+    updateUserPuzzle(_id: $_id, time: $time) {
+      _id
+      time
+    }
+  }
+`;
 const formatTime = secNum => {
   let timeString = '';
   let hours = Math.floor(secNum / 3600);
@@ -24,19 +34,22 @@ const formatTime = secNum => {
   return timeString;
 };
 
-const Clock = ({ time, pause, isPlaying }) => {
-  const [currentTime, setCurrentTime] = useState(time);
+const Clock = ({ time, pause, isPlaying, userPuzzleId, client }) => {
   // Clock
   useInterval(
     () => {
-      setCurrentTime(currentTime + 1);
+      client.mutate({
+        mutation: UPDATE_TIME,
+        variables: { _id: userPuzzleId, time: time + 1 },
+      });
+      // setCurrentTime(currentTime + 1);
     },
     isPlaying ? 1000 : null
   );
 
   return (
     <div className={styles.clock}>
-      {formatTime(currentTime)}
+      {formatTime(time)}
       {isPlaying ? <Pause size={15} onClick={pause} /> : null}
     </div>
   );
@@ -46,6 +59,8 @@ Clock.propTypes = {
   time: PropTypes.number.isRequired,
   pause: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  userPuzzleId: PropTypes.string.isRequired,
+  client: PropTypes.shape({ mutate: PropTypes.func }).isRequired,
 };
 
-export default Clock;
+export default withApollo(Clock);
