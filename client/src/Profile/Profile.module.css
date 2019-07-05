@@ -1,8 +1,10 @@
 .Page {
-  padding-top: var(--s2);
+  padding: var(--s2) var(--s0);
 }
 
-.Container {
+.container {
   background: #f8f8f8;
   border: 1px solid #ddd;
+  padding: var(--s-1);
+  position: relative;
 }

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const ObjectId = mongoose.Schema.Types.ObjectId;
+const ObjectId = mongoose.Types.ObjectId;
 const PuzzleSchema = new mongoose.Schema(
   {
     editor: { type: String },

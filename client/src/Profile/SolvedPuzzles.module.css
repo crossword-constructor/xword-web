@@ -1,5 +1,30 @@
-.Row {
+.row {
   display: flex;
   flex-flow: wrap;
+  align-items: center;
+}
+
+.puzzleRow {
+  display: flex;
+  flex: 1;
+  flex-flow: wrap;
   justify-content: space-around;
+  align-items: center;
+}
+
+.next {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 30px);
+  padding: var(--s-2);
+  color: var(--black);
+  background: #f8f8f8;
+  cursor: pointer;
+  font-size: var(--s1);
+  transition: 0.2s;
+}
+
+.next:hover {
+  background: var(--black);
+  color: #f8f8f8;
 }

@@ -15,7 +15,6 @@ export default gql`
       isSolved: Boolean
     ): UserPuzzle!
   }
-
   type UserPuzzle {
     _id: ID!
     puzzle: Puzzle!
@@ -25,5 +24,9 @@ export default gql`
     isSolved: Boolean
     user: String
     time: Float
+  }
+
+  type Stats {
+    total: Float!
   }
 `;

@@ -25,7 +25,7 @@ import {
     await mongoose.connect('mongodb://localhost/crossword-constructor', {
       useNewUrlParser: true,
     });
-
+    // mongoose.set('debug', true);
     const app = express();
 
     // app.disable('x-powered-by');

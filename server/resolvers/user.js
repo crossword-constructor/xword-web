@@ -1,10 +1,13 @@
 import Joi from '@hapi/joi';
+import mongoose from 'mongoose';
 import { UserInputError } from 'apollo-server-express';
 import { AuthenticationError } from 'apollo-server-core';
 import { signup, login } from '../schemas/user';
 import { generateResponse } from '../utils';
 import { attemptSignup, attemptLogin, signout } from '../auth';
 import { User, Puzzle } from '../models';
+
+const { ObjectId } = mongoose.Types;
 
 export default {
   Query: {
@@ -26,23 +29,37 @@ export default {
 
     profileInfo: async (root, args, { req }, info) => {
       if (req.user) {
+        let users;
         let user;
+        let populatedUser;
         let error;
         try {
-          user = await User.findById(req.user._id).populate({
-            path: 'solvedPuzzles',
-            options: {
-              sort: { updatedAt: -1 },
-              limit: 5,
+          populatedUser = await User.findById(req.user._id)
+            .populate({
+              path: 'solvedPuzzles',
+              select: 'puzzle',
+              options: { limit: 5 },
+              populate: { path: 'puzzle', model: Puzzle, select: 'date' },
+            })
+            .lean();
+          users = await User.aggregate([
+            {
+              $match: { _id: ObjectId(req.user._id) },
             },
-            populate: { path: 'puzzle', model: Puzzle },
-          });
+            {
+              $addFields: {
+                solvedPuzzleStats: { total: { $size: '$solvedPuzzles' } },
+              },
+            },
+          ]).exec();
+          user = users[0];
+          populatedUser.solvedPuzzleStats = user.solvedPuzzleStats;
         } catch (err) {
           console.log(err);
           error = err;
           /** @todo process mongo error */
         }
-        return generateResponse({ user }, error);
+        return generateResponse({ user: populatedUser }, error);
       }
     },
 

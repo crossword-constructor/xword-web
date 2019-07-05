@@ -23,7 +23,9 @@ const GET_PROFILE = gql`
             _id
             date
           }
-          board
+        }
+        solvedPuzzleStats {
+          total
         }
       }
     }
@@ -44,7 +46,8 @@ const Profile = () => {
             /** @todo consider how to handle...this should never happen...we only get redirected here if we have a user */
             return <div>error</div>;
           }
-          const { name, username, solvedPuzzles } = user;
+          const { name, username, solvedPuzzles, solvedPuzzleStats } = user;
+          console.log(solvedPuzzles);
           return (
             <div className={styles.Page}>
               <Sidebar
@@ -61,13 +64,14 @@ const Profile = () => {
                 }
                 mainContent={
                   <Stack>
-                    {/* <ConstructedPreview /> */}
-                    <div className={styles.Container}>
-                      <SolvedPuzzlePreview
-                        className={styles.Container}
-                        puzzles={solvedPuzzles}
-                      />
-                    </div>
+                    {solvedPuzzles ? (
+                      <div className={styles.container}>
+                        <SolvedPuzzlePreview
+                          puzzles={solvedPuzzles}
+                          stats={solvedPuzzleStats}
+                        />
+                      </div>
+                    ) : null}
                   </Stack>
                 }
               />

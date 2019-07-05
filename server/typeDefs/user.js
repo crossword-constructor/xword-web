@@ -41,6 +41,7 @@ export default gql`
     name: String!
     createdAt: String!
     solvedPuzzles: [UserPuzzle]
+    solvedPuzzleStats: Stats
     createdPuzzles: [UserPuzzle]
     stats: Stats
     friends: [User]
@@ -53,11 +54,5 @@ export default gql`
     toUser: User!
     message: String
     puzzle: Puzzle
-  }
-
-  type Stats {
-    averageSolveTime: Float
-    noSolved: Float
-    noAttempted: Float
   }
 `;
