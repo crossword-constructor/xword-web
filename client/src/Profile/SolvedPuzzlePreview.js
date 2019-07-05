@@ -9,7 +9,12 @@ const SolvedPuzzlesPreview = ({ puzzles, stats }) => {
     <>
       <Stack>
         <>
-          <div className={styles.stats}>{stats.total}</div>
+          <div className={styles.stats}>
+            <div>total attempted: {stats.total}</div>
+            <div>total solved: {stats.solved}</div>
+            <div> total revealed: {stats.revealed}</div>
+            <div>solve %: {(stats.solved / stats.total).toFixed(2)}</div>
+          </div>
           <div>Recent puzzles</div>
           <div className={styles.row}>
             <div className={styles.puzzleRow}>
@@ -31,26 +36,30 @@ const SolvedPuzzlesPreview = ({ puzzles, stats }) => {
                 <div>You dont have any recent puzzles yet</div>
               )}
             </div>
+            <div
+              className={styles.next}
+              onClick={() => console.log('load more puzzles')}
+              onKeyUp={event =>
+                event.key === 'Enter' ? console.log('load more puzzles') : null
+              }
+              role="button"
+              tabIndex="0"
+            >
+              <i className="fas fa-chevron-right" />
+            </div>
           </div>
         </>
       </Stack>
-      <div
-        className={styles.next}
-        onClick={() => console.log('load more puzzles')}
-        onKeyUp={event =>
-          event.key === 'Enter' ? console.log('load more puzzles') : null
-        }
-        role="button"
-        tabIndex="0"
-      >
-        <i className="fas fa-chevron-right" />
-      </div>
     </>
   );
 };
 
 SolvedPuzzlesPreview.propTypes = {
-  stats: PropTypes.shape({ total: PropTypes.number }).isRequired,
+  stats: PropTypes.shape({
+    total: PropTypes.number.isRequired,
+    solved: PropTypes.number.isRequired,
+    revealed: PropTypes.number.isRequired,
+  }).isRequired,
   puzzles: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,

@@ -26,6 +26,8 @@ const GET_PROFILE = gql`
         }
         solvedPuzzleStats {
           total
+          solved
+          revealed
         }
       }
     }

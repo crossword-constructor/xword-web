@@ -28,5 +28,7 @@ export default gql`
 
   type Stats {
     total: Float!
+    solved: Float!
+    revealed: Float!
   }
 `;

@@ -2,6 +2,13 @@
   display: flex;
   flex-flow: wrap;
   align-items: center;
+  position: relative;
+}
+
+.stats {
+  display: flex;
+  flex-flow: column;
+  border: 1px solid red;
 }
 
 .puzzleRow {
@@ -25,6 +32,6 @@
 }
 
 .next:hover {
-  background: var(--black);
+  background: rgba(0, 0, 0, 0.5);
   color: #f8f8f8;
 }

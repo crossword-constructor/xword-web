@@ -34,11 +34,12 @@ export default {
         let populatedUser;
         let error;
         try {
+          /** Unfortunately we need to query twice because model.aggregate cannot $lookup across databases */
           populatedUser = await User.findById(req.user._id)
             .populate({
               path: 'solvedPuzzles',
               select: 'puzzle',
-              options: { limit: 5 },
+              options: { limit: 5, skip: 0 },
               populate: { path: 'puzzle', model: Puzzle, select: 'date' },
             })
             .lean();
@@ -47,12 +48,46 @@ export default {
               $match: { _id: ObjectId(req.user._id) },
             },
             {
+              $lookup: {
+                from: 'userpuzzles',
+                localField: 'solvedPuzzles',
+                foreignField: '_id',
+                as: 'solvedPuzzleObjects',
+              },
+            },
+            {
               $addFields: {
-                solvedPuzzleStats: { total: { $size: '$solvedPuzzles' } },
+                solvedPuzzleStats: {
+                  total: { $size: '$solvedPuzzles' },
+                  solved: {
+                    $size: {
+                      $filter: {
+                        input: '$solvedPuzzleObjects',
+                        as: 'sp',
+                        cond: {
+                          $and: [
+                            '$$sp.isSolved',
+                            { $ne: ['$$sp.isRevealed', true] },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                  revealed: {
+                    $size: {
+                      $filter: {
+                        input: '$solvedPuzzleObjects',
+                        as: 'sp',
+                        cond: '$$sp.isRevealed',
+                      },
+                    },
+                  },
+                },
               },
             },
           ]).exec();
           user = users[0];
+          console.log(user);
           populatedUser.solvedPuzzleStats = user.solvedPuzzleStats;
         } catch (err) {
           console.log(err);
