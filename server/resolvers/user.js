@@ -38,8 +38,8 @@ export default {
           populatedUser = await User.findById(req.user._id)
             .populate({
               path: 'solvedPuzzles',
-              select: 'puzzle',
-              options: { limit: 5, skip: 0 },
+              select: 'puzzle board updatedAt',
+              options: { limit: 5, sort: { updatedAt: -1 } },
               populate: { path: 'puzzle', model: Puzzle, select: 'date' },
             })
             .lean();
@@ -87,14 +87,15 @@ export default {
             },
           ]).exec();
           user = users[0];
-          console.log(user);
           populatedUser.solvedPuzzleStats = user.solvedPuzzleStats;
         } catch (err) {
           console.log(err);
           error = err;
           /** @todo process mongo error */
         }
-        return generateResponse({ user: populatedUser }, error);
+        const result = generateResponse({ user: populatedUser }, error);
+        console.log(result);
+        return result;
       }
     },
 

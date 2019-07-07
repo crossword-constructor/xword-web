@@ -19,6 +19,8 @@ const GET_PROFILE = gql`
         username
         solvedPuzzles {
           _id
+          board
+          updatedAt
           puzzle {
             _id
             date
@@ -36,8 +38,8 @@ const GET_PROFILE = gql`
 
 const Profile = () => {
   return (
-    <Query query={GET_PROFILE} fetchPolicy="network-only">
-      {({ error, loading, data }) => {
+    <Query query={GET_PROFILE}>
+      {({ error, loading, data, fetchMore }) => {
         if (loading) return <div>loading</div>;
         if (error) return <div>error</div>;
         if (data && data.profileInfo) {
@@ -49,7 +51,6 @@ const Profile = () => {
             return <div>error</div>;
           }
           const { name, username, solvedPuzzles, solvedPuzzleStats } = user;
-          console.log(solvedPuzzles);
           return (
             <div className={styles.Page}>
               <Sidebar
@@ -71,6 +72,7 @@ const Profile = () => {
                         <SolvedPuzzlePreview
                           puzzles={solvedPuzzles}
                           stats={solvedPuzzleStats}
+                          fetchMore={fetchMore}
                         />
                       </div>
                     ) : null}
@@ -80,6 +82,7 @@ const Profile = () => {
             </div>
           );
         }
+        return 'something went wrong';
       }}
     </Query>
   );

@@ -1,10 +1,12 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
-  # extend type Query {
-  #   playablePuzzle(id: ID): PlayablePuzzle!
-  #   puzzles(month: String, year: String): [Puzzle!]
-  # }
+  extend type Query {
+    getSolvedPuzzles(cursor: String): UserPuzzleResponse!
+    # playablePuzzle(id: ID): PlayablePuzzle!
+    # puzzles(month: String, year: String): [Puzzle!]
+  }
+
   extend type Mutation {
     updateUserPuzzle(
       _id: ID!
@@ -15,6 +17,14 @@ export default gql`
       isSolved: Boolean
     ): UserPuzzle!
   }
+
+  type UserPuzzleResponse implements QueryResponse {
+    message: String!
+    success: Boolean!
+    code: String!
+    solvedPuzzles: [UserPuzzle]
+  }
+
   type UserPuzzle {
     _id: ID!
     puzzle: Puzzle!
@@ -24,6 +34,7 @@ export default gql`
     isSolved: Boolean
     user: String
     time: Float
+    updatedAt: String
   }
 
   type Stats {

@@ -2,11 +2,27 @@ import mongoose from 'mongoose';
 import Joi from '@hapi/joi';
 import { updateUserPuzzle } from '../schemas/userPuzzle';
 import { generateResponse } from '../utils';
-import { UserPuzzle } from '../models';
+import { UserPuzzle, Puzzle } from '../models';
 
 const ObjectId = mongoose.Types.ObjectId;
 
 export default {
+  Query: {
+    getSolvedPuzzles: async (root, args, { req, res }, info) => {
+      const { user } = req;
+      const { cursor } = args;
+      console.log(cursor);
+      let error;
+      const puzzles = await UserPuzzle.find(
+        { user: user._id, updatedAt: { $lt: cursor } },
+        'updatedAt puzzle isSolved board isRevealed',
+        { limit: 5 }
+      ).populate({ path: 'puzzle', model: Puzzle, select: 'date' });
+      const result = generateResponse({ solvedPuzzles: puzzles }, error);
+      console.log({ result });
+      return result;
+    },
+  },
   Mutation: {
     // @todo authorization
     updateUserPuzzle: async (root, args, { req, res }, info) => {
