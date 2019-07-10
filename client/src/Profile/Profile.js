@@ -1,40 +1,12 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { GET_PROFILE } from '../Utils/queries';
 import Sidebar from '../Layouts/Sidebar';
 import Stack from '../Layouts/Stack';
 import SolvedPuzzlePreview from './SolvedPuzzlePreview';
 // import ConstructedPreview from '../ConstructedPreview/ConstructedPreview';
 import ProfileCard from './ProfileCard';
 import styles from './Profile.module.css';
-
-const GET_PROFILE = gql`
-  {
-    profileInfo {
-      success
-      message
-      user {
-        _id
-        name
-        username
-        solvedPuzzles {
-          _id
-          board
-          updatedAt
-          puzzle {
-            _id
-            date
-          }
-        }
-        solvedPuzzleStats {
-          total
-          solved
-          revealed
-        }
-      }
-    }
-  }
-`;
 
 const Profile = () => {
   return (
@@ -51,6 +23,7 @@ const Profile = () => {
             return <div>error</div>;
           }
           const { name, username, solvedPuzzles, solvedPuzzleStats } = user;
+          console.log('get profiel query ran');
           return (
             <div className={styles.Page}>
               <Sidebar
@@ -67,7 +40,7 @@ const Profile = () => {
                 }
                 mainContent={
                   <Stack>
-                    {solvedPuzzles ? (
+                    {solvedPuzzles.length > 0 ? (
                       <div className={styles.container}>
                         <SolvedPuzzlePreview
                           puzzles={solvedPuzzles}

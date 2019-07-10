@@ -11,15 +11,19 @@ export default {
     getSolvedPuzzles: async (root, args, { req, res }, info) => {
       const { user } = req;
       const { cursor } = args;
+      console.log('------');
       console.log(cursor);
+      console.log('------');
       let error;
       const puzzles = await UserPuzzle.find(
         { user: user._id, updatedAt: { $lt: cursor } },
         'updatedAt puzzle isSolved board isRevealed',
-        { limit: 5 }
+        { limit: 5, sort: { updatedAt: -1 } }
       ).populate({ path: 'puzzle', model: Puzzle, select: 'date' });
+      puzzles.forEach(p => {
+        console.log(p.updatedAt);
+      });
       const result = generateResponse({ solvedPuzzles: puzzles }, error);
-      console.log({ result });
       return result;
     },
   },

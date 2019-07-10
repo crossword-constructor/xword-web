@@ -1,13 +1,7 @@
-.row {
-  display: flex;
-  flex-flow: wrap;
-  align-items: center;
-  position: relative;
-}
-
-.stats {
-  display: flex;
-  flex-flow: column;
+.container {
+  /* display: flex; */
+  width: 100%;
+  overflow: hidden;
 }
 
 .puzzleRow {
@@ -15,6 +9,7 @@
   flex: 1;
   flex-flow: no-wrap;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-color: #ddd;
   /* scrollbar-height: var(--s-3); */
 }
@@ -26,16 +21,17 @@
 
 .puzzleRow::-webkit-scrollbar-thumb {
   background-color: #aaa;
+  width: 20%;
 }
 
 .puzzle {
-  flex: 1 20%;
-  padding: var(--s-1);
+  /* 20% is the flex basis because noInView is set to 5 */
+  flex: 1 0 20%;
+  /* border: 1px solid red; */
 }
 
-.next {
+.button {
   position: absolute;
-  right: 0;
   top: calc(50% - 30px);
   padding: var(--s-2);
   color: var(--black);
@@ -45,7 +41,18 @@
   transition: 0.2s;
 }
 
-.next:hover {
+.next {
+  composes: button;
+  right: 0;
+}
+
+.prev {
+  composes: button;
+  left: 0;
+}
+
+.next:hover,
+.prev:hover {
   background: rgba(0, 0, 0, 0.5);
   color: #f8f8f8;
 }
