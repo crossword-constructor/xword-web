@@ -122,7 +122,7 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
           return (
             <div className={styles.puzzle} key={p._id}>
               <PuzzleIcon
-                id={p.puzzle._id}
+                _id={p.puzzle._id}
                 date={p.puzzle.date}
                 fillPercent={0}
                 size={50}
