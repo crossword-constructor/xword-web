@@ -1,51 +1,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Stack from '../Layouts/Stack';
-import PuzzleIcon from '../Shared/PuzzleIcon';
 import styles from './SolvedPuzzles.module.css';
 
-const SolvedPuzzlesPreview = ({ puzzles }) => {
+const SolvedPuzzlesPreview = ({ stats, DataScroller }) => {
   return (
     <Stack>
-      <div>
-        <div className={styles.stats}>
-          {/* <div>games played: {puzzles.length}</div> */}
+      <>
+        <div className={styles.container}>
+          <div>Stats</div>
+          <div className={styles.stats}>
+            <div>
+              total attempted:
+              <div className={styles.number}>{stats.total}</div>
+            </div>
+            <div>
+              total solved: <div className={styles.number}>{stats.solved}</div>
+            </div>
+            <div>
+              total revealed:
+              <div className={styles.number}>{stats.revealed}</div>
+            </div>
+            <div>
+              solve rate:
+              <div className={styles.number}>
+                {(stats.solved / stats.total).toFixed(2) * 100 || 0}%
+              </div>
+            </div>
+          </div>
         </div>
         <div>Recent puzzles</div>
-        <div className={styles.Row}>
-          {puzzles.length > 0 ? (
-            puzzles.map(p => {
-              // let fillPercent = 0;
-              // let total = p.board.length * p
-              return (
-                <PuzzleIcon
-                  id={p.puzzle._id}
-                  key={p._id}
-                  date={p.puzzle.date}
-                  fillPercent={0}
-                  size={50}
-                />
-              );
-            })
-          ) : (
-            <div>You dont have any recent puzzles yet</div>
-          )}
-        </div>
-      </div>
+        <div className={styles.row}>{DataScroller}</div>
+      </>
     </Stack>
+    //     );
+    //   }}
+    // </Query>
   );
 };
 
 SolvedPuzzlesPreview.propTypes = {
-  puzzles: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      puzzle: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-      board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    }).isRequired
-  ).isRequired,
+  stats: PropTypes.shape({
+    total: PropTypes.number.isRequired,
+    solved: PropTypes.number.isRequired,
+    revealed: PropTypes.number.isRequired,
+  }).isRequired,
+  // puzzles: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     _id: PropTypes.string,
+  //     puzzle: PropTypes.shape({
+  //       _id: PropTypes.string.isRequired,
+  //       date: PropTypes.string.isRequired,
+  //     }),
+  //     board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+  //   }).isRequired
+  // ).isRequired,
+  // fetchMore: PropTypes.func.isRequired,
+  DataScroller: PropTypes.element.isRequired,
 };
+
 export default SolvedPuzzlesPreview;

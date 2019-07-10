@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styles from './PuzzleIcon.module.css';
 
-const PuzzleIcon = ({ name, author, date, id, size }) => {
+const PuzzleIcon = ({ name, author, editor, date, _id, size }) => {
   return (
-    <div className={styles.PuzzleIcon}>
-      <Link to={id ? `solve/${id}` : ''}>
+    <Link to={_id ? `solve/${_id}` : ''}>
+      <div className={styles.PuzzleIcon}>
         <img
           height={size}
           className={styles.Image}
@@ -18,31 +18,32 @@ const PuzzleIcon = ({ name, author, date, id, size }) => {
             <span className={styles.Header}>Name:</span> {name}
           </div>
         ) : null}
-        {author ? (
-          <div className={styles.Detail}>
-            <span className={styles.Header}>Author:</span> {author}
-          </div>
-        ) : null}
         {date ? <div className={styles.Detail}>{date}</div> : null}
-      </Link>
-    </div>
+        {author ? <div className={styles.author}>{author}</div> : null}
+        {editor ? (
+          <div className={styles.Detail}>Edited by {editor}</div>
+        ) : null}
+      </div>
+    </Link>
   );
 };
 
 PuzzleIcon.propTypes = {
-  id: PropTypes.string,
+  _id: PropTypes.string,
   size: PropTypes.number,
   name: PropTypes.string,
   date: PropTypes.string,
   author: PropTypes.string,
+  editor: PropTypes.string,
 };
 
 PuzzleIcon.defaultProps = {
-  id: null,
+  _id: null,
   size: null,
   name: null,
   author: null,
   date: null,
+  editor: null,
 };
 
 export default PuzzleIcon;

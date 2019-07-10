@@ -30,7 +30,7 @@ const Month = ({ puzzles, month, year }) => {
               {/* <div className={styles.playRibbon}>Play</div> */}
               <div className={styles.number}>{day.number}</div>
 
-              <PuzzleIcon size={80} id={puzzles[index]._id} />
+              <PuzzleIcon size={80} _id={puzzles[index]._id} />
               {/* <span className={styles.title}>
                     {puzzles[index].title.toLowerCase()}
                   </span>

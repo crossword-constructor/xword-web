@@ -1,47 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { GET_PUZZLE } from '../utils/queries';
 import { buildPlayableBoard } from './Board.utils';
 import SolveSpace from './SolveSpace';
-
-const GET_PUZZLE = gql`
-  query PlayablePuzzle($puzzleId: ID) {
-    playablePuzzle(_id: $puzzleId) {
-      success
-      message
-      playablePuzzle {
-        puzzle {
-          _id
-          title
-          author
-          date
-          publisher
-          board
-          clues {
-            answer {
-              _id
-              text
-            }
-            clue {
-              _id
-              text
-            }
-            position
-          }
-        }
-        userPuzzle {
-          _id
-          board
-          revealedCells
-          isRevealed
-          isSolved
-          time
-        }
-      }
-    }
-  }
-`;
 
 const FetchPuzzle = ({ match }) => {
   const puzzleId = match.params.id;

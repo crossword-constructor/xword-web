@@ -56,4 +56,15 @@ UserSchema.methods.authSummary = function() {
 // });
 
 const User = mongoose.model('User', UserSchema);
+
+// User.aggregate([
+//   {
+//     $project: {
+//       solvedPuzzles: {
+//         puzzles: { $slice: ['$solvedPuzzles', 5] },
+//         stats: { total: { $size: '$solvedPuzzles' } },
+//       },
+//     },
+//   },
+// ]);
 export default User;

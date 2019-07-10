@@ -74,5 +74,28 @@ export default {
       }
       return generateResponse({ puzzles: puzzles }, error);
     },
+
+    todaysPuzzle: async (root, args, { req }, info) => {
+      if (!req.user.isAdmin) {
+        // @todo save error objects as constans somewhere
+        return {
+          success: false,
+          message: 'You must be an admin to view this page',
+          code: '403',
+        };
+      }
+      let puzzle;
+      let error;
+      const { date } = args;
+      try {
+        puzzle = await Puzzle.findOne({ date }, '_id title author date editor');
+      } catch (err) {
+        error = err;
+      }
+      if (!puzzle) {
+        error = 'couldnt find that date';
+      }
+      return generateResponse({ puzzle }, error);
+    },
   },
 };

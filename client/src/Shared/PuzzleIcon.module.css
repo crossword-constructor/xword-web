@@ -1,23 +1,27 @@
 .PuzzleIcon {
   /* height: 30%; */
-  /* letter-spacing: 0.05rem;
+  letter-spacing: 0.05rem;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  background: #f8f8f8;
-  border: 1px solid #ddd; */
+  align-items: center;
+  justify-content: center;
 }
 
 .Image {
   align-self: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--s-2);
 }
 
 .Detail {
   /* max-width: var(--s5); */
   /* word-wrap:  */
+  margin: var(--s-5) 0;
 }
 
+.author {
+  composes: Detail;
+  font-weight: 600;
+}
 .Header {
   font-weight: 700;
 }

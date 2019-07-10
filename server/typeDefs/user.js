@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     verifyLoggedIn: User
     me: User
-    profileInfo: UserResponse
+    profileInfo(solvedCursor: String, constructedCursor: String): UserResponse
     user(id: ID!): User @auth
     users: [User!]!
   }
@@ -31,16 +31,17 @@ export default gql`
     code: String!
     success: Boolean!
     message: String!
-    user: User
+    user: User!
   }
 
   type User {
     _id: ID!
-    email: String!
-    username: String!
-    name: String!
-    createdAt: String!
+    email: String
+    username: String
+    name: String
+    createdAt: String
     solvedPuzzles: [UserPuzzle]
+    solvedPuzzleStats: Stats
     createdPuzzles: [UserPuzzle]
     stats: Stats
     friends: [User]
@@ -53,11 +54,5 @@ export default gql`
     toUser: User!
     message: String
     puzzle: Puzzle
-  }
-
-  type Stats {
-    averageSolveTime: Float
-    noSolved: Float
-    noAttempted: Float
   }
 `;

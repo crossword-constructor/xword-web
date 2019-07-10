@@ -6,7 +6,7 @@
     "plugin:prettier/recommended"
   ],
   "parser": "babel-eslint",
-  "plugins": ["jest", "prettier", "react"],
+  "plugins": ["jest", "prettier", "react", "react-hooks"],
   "globals": {
     "window": true,
     "navigator": true,
@@ -25,6 +25,8 @@
     "no-param-reassign": 0,
     "no-use-before-define": 0,
     "consistent-return": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": [
       "error",
       { "trailingComma": "es5", "singleQuote": true }

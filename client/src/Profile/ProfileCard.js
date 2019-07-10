@@ -1,12 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import styles from './ProfileCard.module.css';
 import testAvatar from './test.jpg';
 // import testBackground from './testBackground.jpg';
 
 const ProfileCard = ({ name, username, avatarImage, background }) => {
-  console.log(avatarImage, background);
   return (
     <div className={styles.Container}>
       <div
