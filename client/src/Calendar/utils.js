@@ -33,32 +33,40 @@ export const buildMonth = (month, year) => {
 };
 
 export const monthMap = {
-  1: 'January',
-  2: 'February',
-  3: 'March',
-  4: 'April',
-  5: 'May',
-  6: 'June',
-  7: 'July',
-  8: 'August',
-  9: 'September',
-  10: 'October',
-  11: 'November',
-  12: 'December',
+  '1': 'January',
+  '2': 'February',
+  '3': 'March',
+  '4': 'April',
+  '5': 'May',
+  '6': 'June',
+  '7': 'July',
+  '8': 'August',
+  '9': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December',
 };
 
-export const buildYearList = () => {
+export const numberMonth = {
+  January: '1',
+  February: '2',
+  March: '3',
+  April: '4',
+  May: '5',
+  June: '6',
+  July: '7',
+  August: '8',
+  September: '9',
+  October: '10',
+  November: '11',
+  December: '12',
+};
+export const buildYearsArr = () => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
   const years = [];
-  for (let year = 1942; year <= 2019; year += 1) {
-    const months = [];
-    for (let month = 1; month <= 12; month += 1) {
-      months.push({
-        date: month,
-        title: monthMap[month],
-      });
-    }
-    // console.log(years);
-    years.push({ date: year, months: months.reverse() });
+  for (let year = yyyy; year >= 1942; year -= 1) {
+    years.push(year.toString());
   }
   return years;
 };
