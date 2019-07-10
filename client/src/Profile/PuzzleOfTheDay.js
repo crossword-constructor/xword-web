@@ -25,7 +25,7 @@ const PuzzleOfTheDay = () => {
               return (
                 <PuzzleIcon
                   {...puzzle}
-                  date={moment(puzzle.date).format('dddd, MMMMM Do, YYYY')}
+                  date={moment(puzzle.date).format('dddd, MMMM Do, YYYY')}
                 />
               );
             }
