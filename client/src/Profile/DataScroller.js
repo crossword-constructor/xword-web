@@ -1,10 +1,10 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { SOLVED_PUZZLES } from '../Utils/queries';
 import PuzzleIcon from '../Shared/PuzzleIcon';
+import usePrevious from '../Hooks/usePrevious';
 import styles from './DataScroller.module.css';
 
+// "globals" for recursive requestAnimationFrame
 let start = null;
 let progress = null;
 let right = true;
@@ -12,10 +12,15 @@ let right = true;
 const DataScroller = ({ data, fetchMore, dataLength }) => {
   const [[shouldDisplayPrev, shouldDisplayNext], displayArrows] = useState([
     false,
-    true,
+    false,
   ]);
 
-  const animateScroll = timestamp => {
+  useEffect(() => {
+    shouldDisplayArrows();
+  }, []); // I feel like this is fine...I dont wanna have to wrap everything in useCalleback
+
+  const scrollRef = useRef(null);
+  const animateScroll = useCallback(timestamp => {
     if (!start) start = timestamp;
     progress = timestamp - start;
     if (right) {
@@ -23,30 +28,30 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
     } else {
       scrollRef.current.scrollLeft -= 0.175 * progress;
     }
-    if (progress < 400) {
+    if (progress < 500) {
       window.requestAnimationFrame(animateScroll);
     }
-  };
+  }, []);
 
   /**
    * @function scrollOne
    * @param  {Number}  direction - 1 for right -1 for left
    */
-  const scrollOne = direction => {
-    if (direction === 'left') {
-      right = false;
-    } else {
-      right = true;
-    }
-    // scrollRef.current.scrollLeft =
-    //   scrollRef.current.getBoundingClientRect().width * direction;
-    progress = null;
-    start = null;
-    window.requestAnimationFrame(animateScroll);
-  };
-
-  const scrollRef = useRef(null);
-  const parentRef = useRef(null);
+  const scrollOne = useCallback(
+    direction => {
+      if (direction === 'left') {
+        right = false;
+      } else {
+        right = true;
+      }
+      // scrollRef.current.scrollLeft =
+      //   scrollRef.current.getBoundingClientRect().width * direction;
+      progress = null;
+      start = null;
+      window.requestAnimationFrame(animateScroll);
+    },
+    [animateScroll]
+  );
 
   /**
    * @function next
@@ -58,32 +63,20 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
     if (scrollWidth - clientWidth !== scrollLeft) {
       scrollOne(1);
     } else if (data.length < dataLength) {
-      fetchMore({
-        query: SOLVED_PUZZLES,
-        variables: { cursor: data[data.length - 1].updatedAt },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          return {
-            profileInfo: {
-              ...previousResult.profileInfo,
-              user: {
-                ...previousResult.profileInfo.user,
-                solvedPuzzles: [
-                  ...previousResult.profileInfo.user.solvedPuzzles,
-                  ...fetchMoreResult.getSolvedPuzzles.solvedPuzzles,
-                ],
-              },
-            },
-          };
-        },
-      });
+      fetchMore();
     }
   };
 
+  const previousData = usePrevious(data);
   useEffect(() => {
-    // perhaps we should check if we have MORE data and not just that its binding has changed
-    // but it really only should update if we fetch more...for now
-    scrollOne(1);
-  }, [data]);
+    if (previousData) {
+      if (data.length !== previousData.length) {
+        // perhaps we should check if we have MORE data and not just that its binding has changed
+        // but it really only should update if we fetch more...for now
+        scrollOne(1);
+      }
+    }
+  }, [data, scrollOne, previousData]);
 
   const shouldDisplayArrows = () => {
     let shouldDisPr;
@@ -116,7 +109,7 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
   };
 
   return (
-    <div className={styles.container} ref={parentRef}>
+    <div className={styles.container}>
       <div
         className={styles.puzzleRow}
         ref={scrollRef}
@@ -125,7 +118,7 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
       >
         {/* {this is assuming the data is always puzzle related...if this component becomes more general purpose
   require another prop describing the kind of data so we know which icons to render */
-        data.map((p, i) => {
+        data.map(p => {
           return (
             <div className={styles.puzzle} key={p._id}>
               <PuzzleIcon

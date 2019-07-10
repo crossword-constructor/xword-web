@@ -2,26 +2,11 @@ import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 // import moment from 'moment';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import Month from './Month';
 import styles from './Calendar.module.css';
 import YearList from './YearList';
+import { FETCH_PUZZLES } from '../utils/queries';
 import { monthMap } from './utils';
-
-const FETCH_PUZZLES = gql`
-  query Puzzles($month: String, $year: String) {
-    puzzles(month: $month, year: $year) {
-      success
-      message
-      puzzles {
-        _id
-        # author
-        # title
-        date
-      }
-    }
-  }
-`;
 
 const Calendar = () => {
   // console.log('current date', moment(Date.now()).format('M/D/YYYY'));

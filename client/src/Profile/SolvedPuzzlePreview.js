@@ -7,12 +7,26 @@ const SolvedPuzzlesPreview = ({ stats, DataScroller }) => {
   return (
     <Stack>
       <>
-        <div className={styles.stats}>
-          <div>total attempted: {stats.total}</div>
-          <div>total solved: {stats.solved}</div>
-          <div> total revealed: {stats.revealed}</div>
-          <div>
-            solve rate: {(stats.solved / stats.total).toFixed(2) * 100}%
+        <div className={styles.container}>
+          <div>Stats</div>
+          <div className={styles.stats}>
+            <div>
+              total attempted:
+              <div className={styles.number}>{stats.total}</div>
+            </div>
+            <div>
+              total solved: <div className={styles.number}>{stats.solved}</div>
+            </div>
+            <div>
+              total revealed:
+              <div className={styles.number}>{stats.revealed}</div>
+            </div>
+            <div>
+              solve rate:
+              <div className={styles.number}>
+                {(stats.solved / stats.total).toFixed(2) * 100 || 0}%
+              </div>
+            </div>
           </div>
         </div>
         <div>Recent puzzles</div>

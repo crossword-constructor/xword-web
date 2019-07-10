@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     playablePuzzle(_id: ID): PlayablePuzzleResponse!
+    todaysPuzzle(date: String!): PuzzleResponse!
     puzzles(month: String, year: String): PuzzlesResponse!
   }
 
@@ -28,6 +29,12 @@ export default gql`
     puzzles: [Puzzle]
   }
 
+  type PuzzleResponse implements QueryResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    puzzle: Puzzle
+  }
   type CreatePuzzleResponse implements MutationResponse {
     code: String!
     success: Boolean!

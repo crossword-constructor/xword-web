@@ -1,10 +1,19 @@
 .Page {
-  padding: var(--s2) var(--s0);
+  padding: var(--s1) var(--s0);
 }
 
 .container {
   background: #f8f8f8;
   border: 1px solid #ddd;
   padding: var(--s-1);
-  position: relative;
+  margin-bottom: var(--s0);
+  display: flex;
+  flex-flow: column;
+}
+
+.containerTitle {
+  font-size: var(--s0);
+  align-self: center;
+  color: var(--darkBlue);
+  border-bottom: 2px solid var(--darkBlue);
 }

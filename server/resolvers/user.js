@@ -94,7 +94,6 @@ export default {
           /** @todo process mongo error */
         }
         const result = generateResponse({ user: populatedUser }, error);
-        console.log(result);
         return result;
       }
     },

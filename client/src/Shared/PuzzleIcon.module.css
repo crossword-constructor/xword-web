@@ -15,8 +15,13 @@
 .Detail {
   /* max-width: var(--s5); */
   /* word-wrap:  */
+  margin: var(--s-5) 0;
 }
 
+.author {
+  composes: Detail;
+  font-weight: 600;
+}
 .Header {
   font-weight: 700;
 }

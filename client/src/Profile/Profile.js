@@ -1,10 +1,11 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { GET_PROFILE } from '../Utils/queries';
+import { GET_PROFILE, SOLVED_PUZZLES } from '../utils/queries';
 import Sidebar from '../Layouts/Sidebar';
 import Stack from '../Layouts/Stack';
 import SolvedPuzzlePreview from './SolvedPuzzlePreview';
 import DataScroller from './DataScroller';
+import PuzzleOfTheDay from './PuzzleOfTheDay';
 // import ConstructedPreview from '../ConstructedPreview/ConstructedPreview';
 import ProfileCard from './ProfileCard';
 import styles from './Profile.module.css';
@@ -40,20 +41,55 @@ const Profile = () => {
                 }
                 mainContent={
                   <Stack>
-                    {solvedPuzzles.length > 0 ? (
+                    <>
                       <div className={styles.container}>
+                        <h2 className={styles.containerTitle}>
+                          Puzzle of the Day
+                        </h2>
+                        <PuzzleOfTheDay />
+                      </div>
+                      <div className={styles.container}>
+                        <h2 className={styles.containerTitle}>SolvedPuzzles</h2>
                         <SolvedPuzzlePreview
                           stats={solvedPuzzleStats}
                           DataScroller={
                             <DataScroller
                               data={solvedPuzzles}
-                              fetchMore={fetchMore}
+                              fetchMore={() =>
+                                fetchMore({
+                                  query: SOLVED_PUZZLES,
+                                  variables: {
+                                    cursor:
+                                      solvedPuzzles[solvedPuzzles.length - 1]
+                                        .updatedAt,
+                                  },
+                                  updateQuery: (
+                                    previousResult,
+                                    { fetchMoreResult }
+                                  ) => {
+                                    return {
+                                      profileInfo: {
+                                        ...previousResult.profileInfo,
+                                        user: {
+                                          ...previousResult.profileInfo.user,
+                                          solvedPuzzles: [
+                                            ...previousResult.profileInfo.user
+                                              .solvedPuzzles,
+                                            ...fetchMoreResult.getSolvedPuzzles
+                                              .solvedPuzzles,
+                                          ],
+                                        },
+                                      },
+                                    };
+                                  },
+                                })
+                              }
                               dataLength={solvedPuzzleStats.total}
                             />
                           }
                         />
                       </div>
-                    ) : null}
+                    </>
                   </Stack>
                 }
               />

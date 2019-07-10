@@ -1,3 +1,10 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  /* align-items: center; */
+}
+
 .row {
   display: flex;
   flex-flow: wrap;
@@ -6,6 +13,25 @@
 }
 
 .stats {
+  margin: var(--s-1) 0;
   display: flex;
-  flex-flow: column;
+  flex-flow: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.stats > * {
+  background: var(--darkBlue);
+  color: var(--highlightBlue);
+  padding: var(--s-2);
+  border-radius: 2px;
+  border: 2px solid var(--highlightBlue);
+  display: flex;
+  border-radius: 5px;
+  justify-content: space-between;
+}
+
+.number {
+  margin-left: 3px;
+  color: white;
 }
