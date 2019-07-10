@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import usePrevious from '../Hooks/usePrevious';
 import { SOLVED_PUZZLES } from '../Utils/queries';
 import PuzzleIcon from '../Shared/PuzzleIcon';
 import styles from './DataScroller.module.css';
@@ -9,6 +8,7 @@ import styles from './DataScroller.module.css';
 let start = null;
 let progress = null;
 let right = true;
+
 const DataScroller = ({ data, fetchMore, dataLength }) => {
   const [[shouldDisplayPrev, shouldDisplayNext], displayArrows] = useState([
     false,
@@ -109,12 +109,19 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
     // if (scrollRef.current.scrollLeft === parentRef.container.outerWidth)
   };
 
+  const mouseWheelListener = e => {
+    const rawData = e.deltaY ? e.deltaY : e.deltaX;
+    const mouseY = Math.floor(rawData) / 5;
+    scrollRef.current.scrollLeft += mouseY;
+  };
+
   return (
     <div className={styles.container} ref={parentRef}>
       <div
         className={styles.puzzleRow}
         ref={scrollRef}
         onScroll={shouldDisplayArrows}
+        onWheel={mouseWheelListener}
       >
         {/* {this is assuming the data is always puzzle related...if this component becomes more general purpose
   require another prop describing the kind of data so we know which icons to render */
@@ -135,7 +142,7 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
             className={styles.prev}
             onClick={() => scrollOne('left')}
             onKeyUp={event =>
-              event.key === 'Enter' ? console.log('see prev puzzles') : null
+              event.key === 'Enter' ? scrollOne('left') : null
             }
             role="button"
             tabIndex="0"
@@ -148,7 +155,7 @@ const DataScroller = ({ data, fetchMore, dataLength }) => {
             className={styles.next}
             onClick={next}
             onKeyUp={event =>
-              event.key === 'Enter' ? console.log('load more puzzles') : null
+              event.key === 'Enter' ? scrollOne('right') : null
             }
             role="button"
             tabIndex="0"

@@ -35,7 +35,7 @@
   top: calc(50% - 30px);
   padding: var(--s-2);
   color: var(--black);
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
   font-size: var(--s1);
   transition: 0.2s;
@@ -44,15 +44,17 @@
 .next {
   composes: button;
   right: 0;
+  border-radius: 3px 0 0 3px;
 }
 
 .prev {
   composes: button;
+  border-radius: 0 3px 3px 0;
   left: 0;
 }
 
 .next:hover,
 .prev:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   color: #f8f8f8;
 }

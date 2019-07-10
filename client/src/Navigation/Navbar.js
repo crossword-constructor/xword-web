@@ -68,7 +68,7 @@ const Navbar = () => {
                     { name: 'logout', link: '/logout' },
                   ]}
                   headerLink="/profile"
-                  offSet={25}
+                  offSet={20}
                 />
               );
             }

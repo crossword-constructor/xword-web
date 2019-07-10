@@ -4,6 +4,7 @@ import { GET_PROFILE } from '../Utils/queries';
 import Sidebar from '../Layouts/Sidebar';
 import Stack from '../Layouts/Stack';
 import SolvedPuzzlePreview from './SolvedPuzzlePreview';
+import DataScroller from './DataScroller';
 // import ConstructedPreview from '../ConstructedPreview/ConstructedPreview';
 import ProfileCard from './ProfileCard';
 import styles from './Profile.module.css';
@@ -23,7 +24,6 @@ const Profile = () => {
             return <div>error</div>;
           }
           const { name, username, solvedPuzzles, solvedPuzzleStats } = user;
-          console.log('get profiel query ran');
           return (
             <div className={styles.Page}>
               <Sidebar
@@ -43,9 +43,14 @@ const Profile = () => {
                     {solvedPuzzles.length > 0 ? (
                       <div className={styles.container}>
                         <SolvedPuzzlePreview
-                          puzzles={solvedPuzzles}
                           stats={solvedPuzzleStats}
-                          fetchMore={fetchMore}
+                          DataScroller={
+                            <DataScroller
+                              data={solvedPuzzles}
+                              fetchMore={fetchMore}
+                              dataLength={solvedPuzzleStats.total}
+                            />
+                          }
                         />
                       </div>
                     ) : null}

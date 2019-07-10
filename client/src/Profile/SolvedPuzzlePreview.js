@@ -1,14 +1,9 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { withApollo, Query } from 'react-apollo';
 import Stack from '../Layouts/Stack';
-import PuzzleIcon from '../Shared/PuzzleIcon';
-import DataScroller from './DataScroller';
 import styles from './SolvedPuzzles.module.css';
 
-const SolvedPuzzlesPreview = ({ puzzles, stats, fetchMore }) => {
+const SolvedPuzzlesPreview = ({ stats, DataScroller }) => {
   return (
     <Stack>
       <>
@@ -21,14 +16,7 @@ const SolvedPuzzlesPreview = ({ puzzles, stats, fetchMore }) => {
           </div>
         </div>
         <div>Recent puzzles</div>
-        <div className={styles.row}>
-          <DataScroller
-            data={puzzles}
-            fetchMore={fetchMore}
-            noInView={5}
-            dataLength={stats.total}
-          />
-        </div>
+        <div className={styles.row}>{DataScroller}</div>
       </>
     </Stack>
     //     );
@@ -43,17 +31,18 @@ SolvedPuzzlesPreview.propTypes = {
     solved: PropTypes.number.isRequired,
     revealed: PropTypes.number.isRequired,
   }).isRequired,
-  puzzles: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      puzzle: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-      board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    }).isRequired
-  ).isRequired,
-  fetchMore: PropTypes.func.isRequired,
+  // puzzles: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     _id: PropTypes.string,
+  //     puzzle: PropTypes.shape({
+  //       _id: PropTypes.string.isRequired,
+  //       date: PropTypes.string.isRequired,
+  //     }),
+  //     board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+  //   }).isRequired
+  // ).isRequired,
+  // fetchMore: PropTypes.func.isRequired,
+  DataScroller: PropTypes.element.isRequired,
 };
 
-export default withApollo(SolvedPuzzlesPreview);
+export default SolvedPuzzlesPreview;
