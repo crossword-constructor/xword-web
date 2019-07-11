@@ -29,7 +29,7 @@ const PuzzleSchema = new mongoose.Schema(
 
 const newConnection = mongoose.connection.useDb(
   process.env.NODE_ENV === 'production'
-    ? 'historicalPuzzles?authSource=admin'
+    ? process.env.PROD_DB_PUZZLES
     : 'historicalCrossword'
 );
 console.log({ newConnection });
