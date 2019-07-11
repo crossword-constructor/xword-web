@@ -14,7 +14,7 @@ console.log(process.env.NODE_ENV);
 const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === 'production'
-      ? 'https://crossword-web.herokuapp.com'
+      ? '/graphql'
       : 'http://localhost:4000/graphql',
   credentials: 'include',
 });

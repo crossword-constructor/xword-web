@@ -37,6 +37,7 @@ import {
     // app.disable('x-powered-by');
 
     const server = new ApolloServer({
+      path: '/graphql',
       typeDefs,
       resolvers,
       playground:
