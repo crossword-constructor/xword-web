@@ -48,8 +48,8 @@ import {
               },
             },
       context: ({ req, res }) => {
-        res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-
+        // res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        console.log('am I making it here?');
         // consider moving this to auth
         const { user } = req.cookies;
         if (user) {
@@ -86,8 +86,10 @@ import {
 
     server.applyMiddleware({ app });
 
-    app.listen({ port: PORT || 4000 }, () =>
-      console.log(`http://localhost:${PORT || 4000}${server.graphqlPath}`)
+    app.listen(
+      { port: PORT || 4000 },
+      () => console.log(`server ready at ${PORT}`)
+      // console.log(`http://localhost:${PORT || 4000}${server.graphqlPath}`)
     );
   } catch (e) {
     console.error(e);
