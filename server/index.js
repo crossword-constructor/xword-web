@@ -66,7 +66,10 @@ import {
 
     app.use(
       cors({
-        origin: 'http://localhost:3000',
+        origin:
+          NODE_ENV === 'production'
+            ? 'https://crossword-web.herokuapp.com'
+            : 'http://localhost:3000',
         credentials: true,
       })
     );

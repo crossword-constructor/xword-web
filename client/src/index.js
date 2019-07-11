@@ -10,9 +10,12 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 // import Login from "./Login/Login";
-console.log(NODE_ENV);
+console.log(process.env.NODE_ENV);
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri:
+    process.env.NODE_ENV === 'prouction'
+      ? 'https://crossword-web.herokuapp.com'
+      : 'http://localhost:4000/graphql',
   credentials: 'include',
 });
 
