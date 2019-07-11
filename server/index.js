@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import cookieParser from 'cookie-parser';
@@ -23,9 +24,13 @@ import {
   dotenv.config();
   const { NODE_ENV, PROD_DB, DEV_DB } = process.env;
   try {
-    await mongoose.connect(NODE_ENV === 'production' ? PROD_DB : DEV_DB, {
-      useNewUrlParser: true,
-    });
+    console.log(NODE_ENV, PROD_DB);
+    await mongoose.connect(
+      'mongodb://okputadora:bwv1064rdmajor@mongodb-3855-0.cloudclusters.net:10011/crossword-web?authSource=admin',
+      {
+        useNewUrlParser: true,
+      }
+    );
     // mongoose.set('debug', true);
     const app = express();
 
