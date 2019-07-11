@@ -22,7 +22,7 @@ import {
 
 (async () => {
   dotenv.config();
-  const { NODE_ENV, PROD_DB, DEV_DB } = process.env;
+  const { NODE_ENV, PROD_DB, DEV_DB, PORT } = process.env;
   try {
     console.log(NODE_ENV, PROD_DB, PORT);
     await mongoose.connect(
