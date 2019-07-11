@@ -10,6 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 // import Login from "./Login/Login";
+console.log(NODE_ENV);
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
   credentials: 'include',

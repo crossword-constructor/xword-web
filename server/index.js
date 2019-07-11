@@ -24,7 +24,7 @@ import {
   dotenv.config();
   const { NODE_ENV, PROD_DB, DEV_DB } = process.env;
   try {
-    console.log(NODE_ENV, PROD_DB);
+    console.log(NODE_ENV, PROD_DB, PORT);
     await mongoose.connect(
       'mongodb://okputadora:bwv1064rdmajor@mongodb-3855-0.cloudclusters.net:10011/crossword-web?authSource=admin',
       {
@@ -82,8 +82,8 @@ import {
 
     server.applyMiddleware({ app });
 
-    app.listen({ port: APP_PORT }, () =>
-      console.log(`http://localhost:${APP_PORT}${server.graphqlPath}`)
+    app.listen({ port: PORT || 4000 }, () =>
+      console.log(`http://localhost:${PORT || 4000}${server.graphqlPath}`)
     );
   } catch (e) {
     console.error(e);
