@@ -11,18 +11,18 @@ const SolvedPuzzlesPreview = ({ stats, DataScroller }) => {
           <div>Stats</div>
           <div className={styles.stats}>
             <div>
-              total attempted:
+              Total Attempted:
               <div className={styles.number}>{stats.total}</div>
             </div>
             <div>
-              total solved: <div className={styles.number}>{stats.solved}</div>
+              Total Solved: <div className={styles.number}>{stats.solved}</div>
             </div>
             <div>
-              total revealed:
+              Total Revealed:
               <div className={styles.number}>{stats.revealed}</div>
             </div>
             <div>
-              solve rate:
+              Solve Rate:
               <div className={styles.number}>
                 {(stats.solved / stats.total).toFixed(2) * 100 || 0}%
               </div>

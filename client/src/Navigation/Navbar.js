@@ -33,7 +33,29 @@ const Navbar = () => {
   return (
     <nav className={styles.container}>
       <NavLink to="/">
-        <h1 className={styles.logo}>Crossword Constructor</h1>
+        <h1 className={styles.logo}>
+          <div>C</div>
+          <div>r</div>
+          <div>o</div>
+          <div>s</div>
+          <div>s</div>
+          <div>w</div>
+          <div>o</div>
+          <div>r</div>
+          <div>d</div>
+          <div className={styles.blackSquare}> </div>
+          <div>C</div>
+          <div>o</div>
+          <div>n</div>
+          <div>s</div>
+          <div>t</div>
+          <div>r</div>
+          <div>u</div>
+          <div>c</div>
+          <div>t</div>
+          <div>o</div>
+          <div>r</div>
+        </h1>
       </NavLink>
       <ul className={styles.menu}>
         <li className={styles.link}>

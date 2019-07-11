@@ -28,7 +28,11 @@ const PuzzleSchema = new mongoose.Schema(
 );
 
 export const Puzzle = mongoose.connection
-  .useDb('historicalCrossword')
+  .useDb(
+    process.env.NODE_ENV === 'production'
+      ? 'historicalPuzzles'
+      : 'historicalCrossword'
+  )
   .model('Puzzle', PuzzleSchema);
 
 export const ccPuzzle = mongoose.connection.model('ccPuzzle', PuzzleSchema);

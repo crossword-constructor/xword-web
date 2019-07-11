@@ -8,6 +8,10 @@
   justify-content: center;
 }
 
+.cube {
+  margin-bottom: var(--s2);
+}
+
 /* This is kind of a hack. We are creating a flex item direction set to row so that form.flex-grow grows in horizontal direction instead of vertical as it would if direct child of .page
 consider finding an alternative way of doing this or moving this to helpers.module.css and documenting it */
 .CenterRow {

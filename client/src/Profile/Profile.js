@@ -49,7 +49,9 @@ const Profile = () => {
                         <PuzzleOfTheDay />
                       </div>
                       <div className={styles.container}>
-                        <h2 className={styles.containerTitle}>SolvedPuzzles</h2>
+                        <h2 className={styles.containerTitle}>
+                          Solved Puzzles
+                        </h2>
                         <SolvedPuzzlePreview
                           stats={solvedPuzzleStats}
                           DataScroller={

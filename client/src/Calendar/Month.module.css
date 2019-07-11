@@ -1,9 +1,9 @@
 .month {
-  /* border: 1px solid red; */
   display: flex;
   flex-wrap: wrap;
-  min-width: 600px;
+  min-width: 500px;
   max-width: 1300px;
+
   /* height: 80%; */
 }
 

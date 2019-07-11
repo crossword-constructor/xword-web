@@ -3,17 +3,20 @@
 }
 
 .container {
-  background: #f8f8f8;
-  border: 1px solid #ddd;
+  background: #f5f7fa;
+  border: 1px solid rgb(5, 26, 85);
   padding: var(--s-1);
   margin-bottom: var(--s-2);
+  /* box-shadow: var(--lightShadow); */
   display: flex;
   flex-flow: column;
 }
 
 .containerTitle {
-  font-size: var(--s0);
+  font-size: 20px;
+  letter-spacing: var(--s-5);
   align-self: center;
+  text-transform: capitalize;
   color: var(--darkBlue);
-  border-bottom: 2px solid var(--darkBlue);
+  /* border-bottom: 2px solid var(--darkBlue); */
 }

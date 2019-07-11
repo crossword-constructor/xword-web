@@ -12,17 +12,18 @@ import dotenv from 'dotenv';
 import {
   APP_PORT,
   IN_PROD,
-  DB_USERNAME,
-  DB_PASSWORD,
-  DB_HOST,
-  DB_PORT,
-  DB_NAME,
+  // DB_USERNAME,
+  // DB_PASSWORD,
+  // DB_HOST,
+  // DB_PORT,
+  // DB_NAME,
 } from './config';
 
 (async () => {
   dotenv.config();
+  const { NODE_ENV, PROD_DB, DEV_DB } = process.env;
   try {
-    await mongoose.connect('mongodb://localhost/crossword-constructor', {
+    await mongoose.connect(NODE_ENV === 'production' ? PROD_DB : DEV_DB, {
       useNewUrlParser: true,
     });
     // mongoose.set('debug', true);
@@ -33,13 +34,14 @@ import {
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      playground: IN_PROD
-        ? false
-        : {
-            settings: {
-              'request.credentials': 'include',
+      playground:
+        NODE_ENV === 'production'
+          ? false
+          : {
+              settings: {
+                'request.credentials': 'include',
+              },
             },
-          },
       context: ({ req, res }) => {
         res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
 
@@ -63,7 +65,16 @@ import {
         credentials: true,
       })
     );
+
     app.use(cookieParser());
+
+    if (NODE_ENV === 'production') {
+      app.use(express.static(path.join(__dirname, '/client/build')));
+      app.get('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, '/client/build/index.html'));
+      });
+    }
+
     server.applyMiddleware({ app });
 
     app.listen({ port: APP_PORT }, () =>

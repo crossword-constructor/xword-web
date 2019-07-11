@@ -22,15 +22,20 @@
   --highlightBlue: rgb(139, 190, 255);
   --darkBlue: rgb(4, 29, 63);
   --black: #232323;
+  --background: rgb(229, 239, 251);
 
   /* other */
   --lightShadow: 0 6px 6px rgba(0, 0, 0, 0.36), 0 3px 3px rgba(0, 0, 0, 0.23);
+  --darkShadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  background: var(--background) !important;
+}
 .Box {
   background: #f8f8f8;
   padding: var(--s-1);
