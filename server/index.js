@@ -25,12 +25,9 @@ import {
   const { NODE_ENV, PROD_DB, DEV_DB, PORT } = process.env;
   try {
     console.log(NODE_ENV, PROD_DB, PORT);
-    await mongoose.connect(
-      'mongodb://okputadora:bwv1064rdmajor@mongodb-3855-0.cloudclusters.net:10011/crossword-web?authSource=admin',
-      {
-        useNewUrlParser: true,
-      }
-    );
+    await mongoose.connect(NODE_ENV === 'production' ? PROD_DB : DEV_DB, {
+      useNewUrlParser: true,
+    });
     // mongoose.set('debug', true);
     const app = express();
 
@@ -49,7 +46,9 @@ import {
               },
             },
       context: ({ req, res }) => {
-        // res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        if (NODE_ENV !== 'production') {
+          res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        }
         console.log('am I making it here?');
         // consider moving this to auth
         const { user } = req.cookies;

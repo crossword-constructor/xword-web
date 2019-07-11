@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node -r esm .",
     "dev": "concurrently \"nodemon --ignore ./client -r esm\" \"cd client && yarn start\"",
-    "deploy": "cd client && npm run build && cd ..  && git push heroku -f HEAD:master"
+    "deploy": "cd client && npm run build && cd ..  && git add . && git commit -m \"built for deploy\" && git push heroku -f HEAD:master"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.0",

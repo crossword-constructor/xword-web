@@ -27,12 +27,12 @@ const PuzzleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Puzzle = mongoose.connection
-  .useDb(
-    process.env.NODE_ENV === 'production'
-      ? 'historicalPuzzles'
-      : 'historicalCrossword'
-  )
-  .model('Puzzle', PuzzleSchema);
+const newConnection = mongoose.connection.useDb(
+  process.env.NODE_ENV === 'production'
+    ? 'historicalPuzzles?authSource=admin'
+    : 'historicalCrossword'
+);
+console.log({ newConnection });
+export const Puzzle = newConnection.model('Puzzle', PuzzleSchema);
 
 export const ccPuzzle = mongoose.connection.model('ccPuzzle', PuzzleSchema);
