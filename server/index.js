@@ -13,6 +13,8 @@ import dotenv from 'dotenv';
 import {
   APP_PORT,
   IN_PROD,
+  DB_USERNAME,
+  DB_PASSWORD,
   // DB_USERNAME,
   // DB_PASSWORD,
   // DB_HOST,
@@ -22,12 +24,31 @@ import {
 
 (async () => {
   dotenv.config();
-  const { NODE_ENV, PROD_DB, DEV_DB, PORT } = process.env;
+  const {
+    NODE_ENV,
+    PROD_DB,
+    DEV_DB,
+    PORT,
+    DB_USERNAME,
+    DB_PASSWORD,
+  } = process.env;
   try {
     console.log(NODE_ENV, PROD_DB, PORT);
     await mongoose.connect(NODE_ENV === 'production' ? PROD_DB : DEV_DB, {
       useNewUrlParser: true,
+      authSource: 'admin',
+      auth: {
+        username: DB_USERNAME,
+        password: DB_PASSWORD,
+      },
     });
+
+    const newConnection = mongoose.connection.useDb(
+      process.env.NODE_ENV === 'production'
+        ? 'historicalPuzzles'
+        : 'historicalCrossword'
+    );
+    console.log(newConnection.db);
     // mongoose.set('debug', true);
     const app = express();
 
