@@ -1,16 +1,16 @@
 import jwt from 'jsonwebtoken';
 import { AuthenticationError, ApolloError } from 'apollo-server-express';
 import { User } from './models';
-import { SESS_SECRET, SESS_NAME } from './config';
+import { SECRET, IN_PROD } from './config';
 
 const issueToken = (user, res) => {
   const payload = user.authSummary();
-  const token = jwt.sign(payload, process.env.SECRET, {
+  const token = jwt.sign(payload, SECRET, {
     expiresIn: '2d',
   });
   res.cookie('user', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: IN_PROD,
     maxAge: 1000 * 60 * 60 * 24 * 2,
   });
 };
@@ -50,12 +50,12 @@ export const attemptLogin = async ({ username, password }, res) => {
     return { error: { message } };
   }
   const payload = user.authSummary();
-  const token = jwt.sign(payload, process.env.SECRET, {
+  const token = jwt.sign(payload, SECRET, {
     expiresIn: '2d',
   });
   res.cookie('user', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: IN_PROD,
     maxAge: 1000 * 60 * 60 * 24 * 2,
   });
   return { user };

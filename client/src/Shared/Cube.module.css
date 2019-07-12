@@ -1,0 +1,109 @@
+:root {
+  --translateZ: 50px;
+}
+
+.scene {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  perspective: 1000px;
+  /* border: 1px solid red; */
+  margin: 0 auto;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /* box-shadow: var(--darkShadow); */
+  transform-style: preserve-3d;
+  transform: translateZ(-100px) rotateY(0deg);
+
+  /* border: 1px solid green; */
+}
+
+.cube figure {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  line-height: 200px;
+  background: rgba(0, 0, 255, 0.25);
+  font-size: 120px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  border: 1px dotted blue;
+  backface-visibility: hidden;
+}
+
+.animatedCube {
+  composes: cube;
+  box-shadow: none;
+  animation: spin 3.5s cubic-bezier(0.34, 1.63, 0.77, 0.89);
+}
+@keyframes spin {
+  0% {
+    transform: translateZ(-100px) rotateY(0deg) rotateZ(0deg) rotateX(0deg);
+  }
+  100% {
+    transform: translateZ(-100px) rotateY(360deg) rotateZ(360deg) rotateX(90deg);
+  }
+}
+
+.cubeFace {
+  position: absolute;
+  /* box-shadow: var(--lightShadow); */
+  width: 100px;
+  height: 100px;
+}
+
+.front {
+  composes: cubeFace;
+  transform: rotateY(0deg) translateZ(var(--translateZ));
+}
+.right {
+  composes: cubeFace;
+  transform: rotateY(90deg) translateZ(var(--translateZ));
+}
+.back {
+  composes: cubeFace;
+  transform: rotateX(180deg) translateZ(var(--translateZ));
+}
+.left {
+  composes: cubeFace;
+  transform: rotateY(-90deg) translateZ(var(--translateZ));
+}
+.top {
+  composes: cubeFace;
+  transform: rotateX(90deg) translateZ(var(--translateZ));
+}
+.bottom {
+  composes: cubeFace;
+  transform: rotateX(-90deg) translateZ(var(--translateZ));
+}
+
+.faceFront {
+  composes: cube;
+  transform: translateZ(-100px) rotateY(0deg);
+}
+.show-right {
+  composes: cube;
+  transform: translateZ(-100px) rotateY(-90deg);
+}
+.show-back {
+  composes: cube;
+  transform: translateZ(-100px) rotateY(-180deg);
+}
+.show-left {
+  composes: cube;
+  transform: translateZ(-100px) rotateY(90deg);
+}
+.show-top {
+  composes: cube;
+  transform: translateZ(-100px) rotateX(-90deg);
+}
+.faceBottom {
+  composes: cube;
+  transform: translateZ(-100px) rotateX(90deg);
+}

@@ -1,20 +1,24 @@
 .month {
-  /* border: 1px solid red; */
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  min-width: 500px;
+  max-width: 1300px;
+
   /* height: 80%; */
 }
 
 .day {
   flex: 1 1 13.286%;
   /* border: 1px solid green;  */
-  padding: 2px;
-  height: 155px;
+  padding: var(--s-2);
   display: flex;
   flex-flow: column;
+  min-height: var(--s3);
   align-items: center;
   position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  /* border: 1px solid grey; */
 }
 
 .number {
@@ -24,7 +28,8 @@
 
 .dayHeading {
   composes: day;
-  height: 20px;
+  min-height: 0;
+  border: none;
 }
 
 /* .number {

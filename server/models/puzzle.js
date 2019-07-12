@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 const ObjectId = mongoose.Types.ObjectId;
+import { PUZZLE_DB_NAME } from '../config';
+
 const PuzzleSchema = new mongoose.Schema(
   {
     editor: { type: String },
@@ -27,8 +29,7 @@ const PuzzleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Puzzle = mongoose.connection
-  .useDb('historicalCrossword')
-  .model('Puzzle', PuzzleSchema);
+const newConnection = mongoose.connection.useDb(PUZZLE_DB_NAME);
+export const Puzzle = newConnection.model('Puzzle', PuzzleSchema);
 
 export const ccPuzzle = mongoose.connection.model('ccPuzzle', PuzzleSchema);

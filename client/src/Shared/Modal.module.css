@@ -1,6 +1,6 @@
 .background {
   position: absolute;
-  top: var(--navbarHeight);
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;

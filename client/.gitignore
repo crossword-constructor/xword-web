@@ -7,9 +7,10 @@
 
 # testing
 /coverage
+./__mocks__
 
 # production
-/build
+# /build
 
 # misc
 .DS_Store

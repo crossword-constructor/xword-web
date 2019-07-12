@@ -1,15 +1,29 @@
 .container {
   display: flex;
-  height: calc(100vh - 60px);
+  flex-flow: column;
   width: 100%;
-  margin-top: 30px;
+  margin-top: var(--s2);
+  align-items: center;
+  /* height: 500px; */
+}
+
+.datePicker {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--s0);
+}
+
+.menu {
+  width: 200px;
+  padding: var(--s-1);
+  position: relative;
+  z-index: 1;
 }
 
 .calendarContainer {
   width: 100%;
   display: flex;
-  flex-flow: column;
-  align-items: center;
+  justify-content: center;
 }
 
 .currentMonth {

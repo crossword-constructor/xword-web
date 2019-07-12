@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import Month from './Month';
 import styles from './Calendar.module.css';
-import YearList from './YearList';
+// import YearList from './YearList';
+import Dropdown from './Dropdown';
 import { FETCH_PUZZLES } from '../utils/queries';
-import { monthMap } from './utils';
+import { monthMap, numberMonth, buildYearsArr } from './utils';
 
 const Calendar = () => {
   // console.log('current date', moment(Date.now()).format('M/D/YYYY'));
@@ -15,13 +16,29 @@ const Calendar = () => {
   let month = date.getUTCMonth() + 1;
   month = month.toString();
   const year = date.getUTCFullYear().toString();
-  // console.log(month, year);
-  const [[currentMonth, currentYear], setDate] = useState([month, year]);
-
-  // console.log(currentMonth, currentYear);
+  const [currentMonth, setMonth] = useState(month);
+  const [currentYear, setYear] = useState(year);
   return (
     <div className={styles.container}>
-      <YearList setDate={setDate} />
+      <div />
+      <div className={styles.datePicker}>
+        <div className={styles.menu}>
+          {/* dropdown1 */}
+          <Dropdown
+            list={Object.keys(monthMap).map(m => monthMap[m])}
+            select={item => setMonth(numberMonth[item])}
+            title={monthMap[currentMonth]}
+          />
+        </div>
+        <div className={styles.menu}>
+          <Dropdown
+            list={buildYearsArr()}
+            select={setYear}
+            title={currentYear}
+          />
+        </div>
+      </div>
+      {/* <YearList setDate={setDate} /> */}
       <Query
         query={FETCH_PUZZLES}
         variables={{ month: currentMonth, year: currentYear }}
@@ -33,10 +50,10 @@ const Calendar = () => {
           if (loading)
             return (
               <div className={styles.calendarContainer}>
-                <h2 className={styles.currentMonth}>
+                {/* <h2 className={styles.currentMonth}>
                   {monthMap[currentMonth]} {currentYear}
-                </h2>
-                <Month puzzles={null} month={currentMonth} year={currentYear} />
+                </h2> */}
+                {/* <Month puzzles={null} month={currentMonth} year={currentYear} /> */}
               </div>
             );
           if (data) {
@@ -50,9 +67,9 @@ const Calendar = () => {
             if (puzzles) {
               return (
                 <div className={styles.calendarContainer}>
-                  <h2 className={styles.currentMonth}>
+                  {/* <h2 className={styles.currentMonth}>
                     {monthMap[currentMonth]} {currentYear}
-                  </h2>
+                  </h2> */}
                   <Month
                     puzzles={puzzles}
                     month={currentMonth}

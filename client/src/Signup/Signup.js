@@ -7,7 +7,8 @@ import useErrorMessage from '../Hooks/useErrorMessage';
 import ErrorToast from '../Shared/ErrorToast';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
-import PuzzleIcon from '../Shared/PuzzleIcon';
+// import PuzzleIcon from '../Shared/PuzzleIcon';
+import Cube from '../Shared/Cube';
 import styles from './Signup.module.css';
 
 const Signup = ({ history }) => {
@@ -69,63 +70,66 @@ const Signup = ({ history }) => {
   ];
 
   return (
-    <div className={styles.page}>
-      <PuzzleIcon />
-      <div className={styles.CenterRow}>
-        <form className={styles.form}>
-          {form.map(formItem => (
-            <Input key={formItem.name} theme="Big" {...formItem} />
-          ))}
-          <Mutation
-            mutation={SIGNUP_MUTATION}
-            variables={{ username, email, password, name }}
-            // refetchQueries={['profileInfo']}
-            update={(_, { data, error }) => {
-              /** @todo abstract seee matching note in login */
-              if (data) {
-                const {
-                  signup: { success, message, user },
-                } = data;
-                if (!success && message) {
-                  setErrorMessage(message);
-                } else if (user) {
-                  history.push('/profile');
-                }
-              } else if (error) {
-                setErrorMessage('Internal Server Error');
-              }
-            }}
-          >
-            {signup => {
-              return (
-                <>
-                  <div>
-                    <Button
-                      onClick={e => {
-                        e.preventDefault();
-                        signup({
-                          variables: { email, username, password, name },
-                          refetchQueries: ['USERNAME'],
-                        });
-                      }}
-                      type="submit"
-                      theme="Main"
-                    >
-                      Signup
-                    </Button>
-                  </div>
-                  {/* @todo abstract this out */}
-                  <ErrorToast errorMessage={errorMessage} />
-                </>
-              );
-            }}
-          </Mutation>
-          <div>
-            Already have an account? <Link to="/login">login</Link>
+    <Mutation
+      mutation={SIGNUP_MUTATION}
+      variables={{ username, email, password, name }}
+      // refetchQueries={['profileInfo']}
+      update={(_, { data, error }) => {
+        /** @todo abstract seee matching note in login */
+        if (data) {
+          const {
+            signup: { success, message, user },
+          } = data;
+          if (!success && message) {
+            setErrorMessage(message);
+          } else if (user) {
+            setTimeout(() => {
+              history.push('/profile');
+            }, 1500);
+          }
+        } else if (error) {
+          setErrorMessage('Internal Server Error');
+        }
+      }}
+    >
+      {(signup, { called }) => {
+        console.log({ called });
+        return (
+          <div className={styles.page}>
+            <div className={styles.cube}>
+              <Cube animate={called} />
+            </div>
+            <div className={styles.CenterRow}>
+              <form className={styles.form}>
+                {form.map(formItem => (
+                  <Input key={formItem.name} theme="Big" {...formItem} />
+                ))}
+                <div>
+                  <Button
+                    onClick={e => {
+                      e.preventDefault();
+                      signup({
+                        variables: { email, username, password, name },
+                        refetchQueries: ['USERNAME'],
+                      });
+                    }}
+                    type="submit"
+                    theme="Main"
+                  >
+                    Signup
+                  </Button>
+                </div>
+                {/* @todo abstract this out */}
+                <ErrorToast errorMessage={errorMessage} />
+                <div>
+                  Already have an account? <Link to="/login">login</Link>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
-      </div>
-    </div>
+        );
+      }}
+    </Mutation>
   );
 };
 
