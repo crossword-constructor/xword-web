@@ -4,7 +4,6 @@ import { defaultFieldResolver } from 'graphql';
 
 class AuthDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
-    console.log('auth Directive');
     const { resolve = defaultFieldResolver } = field;
 
     field.resolve = function(...args) {

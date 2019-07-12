@@ -76,7 +76,6 @@ export default {
     },
 
     todaysPuzzle: async (root, args, { req }, info) => {
-      console.log(args);
       if (!req.user.isAdmin) {
         // @todo save error objects as constans somewhere
         return {
@@ -91,13 +90,11 @@ export default {
       try {
         puzzle = await Puzzle.findOne({ date }, '_id title author date editor');
       } catch (err) {
-        console.log({ err });
         error = err;
       }
       if (!puzzle) {
         error = 'couldnt find that date';
       }
-      console.log({ puzzle });
       return generateResponse({ puzzle }, error);
     },
   },

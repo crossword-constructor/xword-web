@@ -8,110 +8,63 @@ import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
-import schemaDirectives from './directives';
-import dotenv from 'dotenv';
-import {
-  APP_PORT,
-  IN_PROD,
-  DB_USERNAME,
-  DB_PASSWORD,
-  // DB_USERNAME,
-  // DB_PASSWORD,
-  // DB_HOST,
-  // DB_PORT,
-  // DB_NAME,
-} from './config';
+// import schemaDirectives from './directives';
+
+import { PORT, IN_PROD, DB_URI, APP_URL, SECRET } from './config';
 
 (async () => {
-  dotenv.config();
-  const {
-    NODE_ENV,
-    PROD_DB,
-    DEV_DB,
-    PORT,
-    DB_USERNAME,
-    DB_PASSWORD,
-  } = process.env;
   try {
-    console.log(NODE_ENV, PROD_DB, PORT);
-    await mongoose.connect(NODE_ENV === 'production' ? PROD_DB : DEV_DB, {
+    await mongoose.connect(DB_URI, {
       useNewUrlParser: true,
-      authSource: 'admin',
-      auth: {
-        username: DB_USERNAME,
-        password: DB_PASSWORD,
-      },
     });
 
-    const newConnection = mongoose.connection.useDb(
-      process.env.NODE_ENV === 'production'
-        ? 'historicalPuzzles'
-        : 'historicalCrossword'
-    );
-    console.log(newConnection.db);
-    // mongoose.set('debug', true);
     const app = express();
 
-    // app.disable('x-powered-by');
+    app.disable('x-powered-by');
 
     const server = new ApolloServer({
       path: '/graphql',
       typeDefs,
       resolvers,
-      playground:
-        NODE_ENV === 'production'
-          ? false
-          : {
-              settings: {
-                'request.credentials': 'include',
-              },
+      playground: IN_PROD
+        ? false
+        : {
+            settings: {
+              'request.credentials': 'include',
             },
+          },
       context: ({ req, res }) => {
-        if (NODE_ENV !== 'production') {
-          res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-        }
-        console.log('am I making it here?');
-        // consider moving this to auth
+        res.set('Access-Control-Allow-Origin', APP_URL);
         const { user } = req.cookies;
         if (user) {
           try {
-            req.user = jwt.verify(user, process.env.SECRET);
+            req.user = jwt.verify(user, SECRET);
           } catch (e) {
             console.log('ERORR: ', e);
           }
         }
-        // console.log(req);
         return { req, res };
       },
     });
 
     app.use(
       cors({
-        origin:
-          NODE_ENV === 'production'
-            ? 'https://crossword-web.herokuapp.com'
-            : 'http://localhost:3000',
+        origin: APP_URL,
         credentials: true,
       })
     );
 
     app.use(cookieParser());
 
-    if (NODE_ENV === 'production') {
+    if (IN_PROD) {
       app.use(express.static(path.join(__dirname, '../client/build')));
       app.get('/*', (req, res) => {
-        console.log('going to send react file now');
         res.sendFile(path.join(__dirname, '../client/build/index.html'));
       });
     }
 
     server.applyMiddleware({ app });
-
-    app.listen(
-      { port: PORT || 4000 },
-      () => console.log(`server ready at ${PORT}`)
-      // console.log(`http://localhost:${PORT || 4000}${server.graphqlPath}`)
-    );
+    app.listen({ port: PORT }, () => console.log(`server ready at ${PORT}`));
   } catch (e) {
     console.error(e);
   }
