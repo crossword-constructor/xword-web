@@ -3,8 +3,16 @@
   display: flex;
 }
 
+.wrapper {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
 .container {
   height: 100%;
+  border: 1px solid blue;
+  overflow-y: scroll;
 }
 
 .title {
@@ -45,14 +53,13 @@
 .clues {
   height: calc(100% - var(--s0));
   margin-top: var(--s0);
-  overflow-y: scroll;
 }
 
-.clues::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   width: var(--s-3);
   background-color: #ddd;
 }
 
-.clues::-webkit-scrollbar-thumb {
+.container::-webkit-scrollbar-thumb {
   background-color: #aaa;
 }

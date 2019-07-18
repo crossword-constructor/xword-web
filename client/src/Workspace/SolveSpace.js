@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import puzzleReducer from './puzzleReducer';
 import { buildSaveableBoard } from './Board.utils';
-import Sidebar from '../Layouts/Sidebar';
+// import Sidebar from '../Layouts/Sidebar';
 import styles from './SolveSpace.module.css';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
@@ -89,7 +89,7 @@ const Solvespace = ({
     if (playableBoard) {
       debouncedSave(playableBoard);
     }
-  }, [playableBoard]);
+  }, [playableBoard, debouncedSave]);
 
   const updateRevealed = scope => {
     let updatedRevealedCells = [...revealedCells];
@@ -129,94 +129,84 @@ const Solvespace = ({
           {time === 0 ? 'start' : 'resume'}
         </Button>
       </Modal>
-      <div className={styles.container}>
-        <Toolbar
-          title={title}
-          author={author}
-          Clock={
-            <Clock
-              time={time}
-              isPlaying={isPlaying}
-              pause={() => dispatch({ type: 'PAUSE' })}
-              userPuzzleId={userPuzzle}
+      <Toolbar
+        title={title}
+        author={author}
+        Clock={
+          <Clock
+            time={time}
+            isPlaying={isPlaying}
+            pause={() => dispatch({ type: 'PAUSE' })}
+            userPuzzleId={userPuzzle}
+          />
+        }
+        DropdownMenu={
+          <DropdownMenu
+            name="Reveal"
+            list={[
+              {
+                name: 'square',
+                onClick: () => updateRevealed('square'),
+              },
+              {
+                name: 'word',
+                onClick: () => updateRevealed('word'),
+              },
+              {
+                name: 'puzzle',
+                onClick: () => updateRevealed('puzzle'),
+              },
+            ]}
+            offSet={18}
+          />
+        }
+      />
+      <div className={styles.wrapper}>
+        <div className={styles.left}>
+          <div
+            className={
+              isPlaying || isSolved ? styles.focusedClue : styles.hiddenClue
+            }
+          >
+            <span className={styles.focusedCluePosition}>
+              {currentClues
+                ? currentClues[direction === 'across' ? 0 : 1]
+                : null}
+            </span>
+            {currentClues
+              ? puzzle.clues[currentClues[direction === 'across' ? 0 : 1]].clue
+                  .text
+              : null}
+          </div>
+          {playableBoard ? (
+            <Board
+              isPlaying={isSolved || isPlaying}
+              playableBoard={playableBoard}
+              revealedCells={revealedCells}
+              isPuzzleRevealed={isRevealed}
+              isPuzzleSolved={isSolved}
+              currentCells={selection.currentCells}
+              focusedCell={selection.focusedCell}
+              direction={direction}
+              selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
+              navigate={(keyCode, options) =>
+                dispatch({ type: 'NAVIGATE', keyCode, options })
+              }
+              guess={key => dispatch({ type: 'GUESS', key })}
             />
-          }
-          DropdownMenu={
-            <DropdownMenu
-              name="Reveal"
-              list={[
-                {
-                  name: 'square',
-                  onClick: () => updateRevealed('square'),
-                },
-                {
-                  name: 'word',
-                  onClick: () => updateRevealed('word'),
-                },
-                {
-                  name: 'puzzle',
-                  onClick: () => updateRevealed('puzzle'),
-                },
-              ]}
-              offSet={18}
-            />
-          }
-        />
-        <Sidebar
-          heightsAreEqual
-          breakPointPercent={40}
-          sideBar={
-            <div className={styles.left}>
-              <div
-                className={
-                  isPlaying || isSolved ? styles.focusedClue : styles.hiddenClue
-                }
-              >
-                <span className={styles.focusedCluePosition}>
-                  {currentClues
-                    ? currentClues[direction === 'across' ? 0 : 1]
-                    : null}
-                </span>
-                {currentClues
-                  ? puzzle.clues[currentClues[direction === 'across' ? 0 : 1]]
-                      .clue.text
-                  : null}
-              </div>
-              {playableBoard ? (
-                <Board
-                  isPlaying={isSolved || isPlaying}
-                  playableBoard={playableBoard}
-                  revealedCells={revealedCells}
-                  isPuzzleRevealed={isRevealed}
-                  isPuzzleSolved={isSolved}
-                  currentCells={selection.currentCells}
-                  focusedCell={selection.focusedCell}
-                  direction={direction}
-                  selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
-                  navigate={(keyCode, options) =>
-                    dispatch({ type: 'NAVIGATE', keyCode, options })
-                  }
-                  guess={key => dispatch({ type: 'GUESS', key })}
-                />
-              ) : null}
-            </div>
-          }
-          mainContent={
-            <div className={styles.clues}>
-              {currentClues ? (
-                <Clues
-                  isPlaying={isPlaying || isSolved}
-                  clues={clues}
-                  direction={direction}
-                  currentClues={selection.currentClues}
-                  selectClue={clue => {
-                    dispatch({ type: 'SELECT_CLUE', clue });
-                  }}
-                />
-              ) : null}
-            </div>
-          }
-        />
+          ) : null}
+        </div>
+        {currentClues ? (
+          <Clues
+            isPlaying={isPlaying || isSolved}
+            clues={clues}
+            direction={direction}
+            currentClues={selection.currentClues}
+            selectClue={clue => {
+              dispatch({ type: 'SELECT_CLUE', clue });
+            }}
+          />
+        ) : null}
       </div>
     </div>
   );

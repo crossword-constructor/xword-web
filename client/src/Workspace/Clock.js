@@ -1,6 +1,8 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useCallback } from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
+import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 import useInterval from '../Hooks/useInterval';
 import styles from './Clock.module.css';
@@ -14,6 +16,7 @@ const UPDATE_TIME = gql`
     }
   }
 `;
+
 const formatTime = secNum => {
   let timeString = '';
   let hours = Math.floor(secNum / 3600);
@@ -36,13 +39,19 @@ const formatTime = secNum => {
 
 const Clock = ({ time, pause, isPlaying, userPuzzleId, client }) => {
   // Clock
-  useInterval(
-    () => {
+  const throttledSave = useCallback(
+    throttle(newTime => {
       client.mutate({
         mutation: UPDATE_TIME,
-        variables: { _id: userPuzzleId, time: time + 1 },
+        variables: { _id: userPuzzleId, time: newTime + 1 },
         networkPolicy: 'cache-only',
       });
+    }, 1000),
+    []
+  );
+  useInterval(
+    () => {
+      throttledSave(time);
       // setCurrentTime(currentTime + 1);
     },
     isPlaying ? 1000 : null
