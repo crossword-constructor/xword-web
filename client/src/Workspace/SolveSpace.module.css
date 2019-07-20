@@ -1,13 +1,16 @@
 .page {
-  min-height: calc(100vh - var(--navbarHeight));
+  /* min-height: calc(100vh - var(--navbarHeight)); */
   /* display: flex; */
   /* justify-content: center; */
   /* width: 100%; */
   /* border: 1px solid red; */
-  margin: 0 20px;
+  margin: var(--s0);
+  max-width: 1500px;
   z-index: 1;
 }
 .wrapper {
+  margin-top: var(--s-1);
+  max-width: 1500px;
   display: grid;
   width: 100%;
   grid-template-columns: 1fr minmax(min-content, 1fr);
