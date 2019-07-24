@@ -1,22 +1,18 @@
 .page {
   /* min-height: calc(100vh - var(--navbarHeight)); */
-  /* display: flex; */
-  /* justify-content: center; */
+  /* max-width: 1200px; */
   /* width: 100%; */
-  /* border: 1px solid red; */
   margin: var(--s0);
-  max-width: 1500px;
+  /* max-width: 1500px; */
   z-index: 1;
 }
 .wrapper {
   margin-top: var(--s-1);
-  max-width: 1500px;
   display: grid;
   width: 100%;
   grid-template-columns: 1fr minmax(min-content, 1fr);
   grid-template-rows: 80vh;
   grid-column-gap: var(--s-1);
-  border: 1px solid red;
 }
 
 .details {

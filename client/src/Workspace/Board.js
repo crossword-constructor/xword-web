@@ -49,7 +49,7 @@ const Board = ({
       <tr
         // eslint-disable-next-line react/no-array-index-key
         key={rowNum}
-        // className={styles.board}
+        style={{ width: '100%' }}
       >
         {row.map((cell, colNum) => {
           const black = cell.answer === '#BlackSquare#';
@@ -84,6 +84,7 @@ const Board = ({
               number={cell.number}
               showAnswers={false}
               isRevealed={isRevealed}
+              rowLength={row.length}
               coords={[rowNum, colNum]}
               click={() => selectCell([rowNum, colNum])}
             />
@@ -101,7 +102,7 @@ const Board = ({
         // @ TODO NEXT // holding down key is causing freezing
         onKeyDown={keyListener}
       >
-        <table>
+        <table style={{ border: '1px solid blue', width: '100%' }}>
           <tbody className={styles.board}>{rows}</tbody>
         </table>
       </div>
