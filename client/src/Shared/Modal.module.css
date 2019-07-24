@@ -1,5 +1,5 @@
 .background {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -14,7 +14,7 @@
   z-index: -1;
 }
 .modal {
-  position: absolute;
+  position: fixed;
   right: calc(50% - var(--modalWidth) / 2);
   left: calc(50% - var(--modalWidth) / 2);
   top: calc(50% - var(--navbarHeight));

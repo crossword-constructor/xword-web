@@ -11,8 +11,8 @@
   display: grid;
   width: 100%;
   /* border: 2px solid pink; */
-  grid-template-columns: 1.61fr minmax(min-content, 1fr);
-  grid-template-rows: 98vh;
+  grid-template-columns: 1.15fr minmax(min-content, 1fr);
+  grid-template-rows: 88vh;
   grid-column-gap: var(--s-2);
 }
 

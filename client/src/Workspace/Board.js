@@ -40,9 +40,11 @@ const Board = ({
   );
 
   const keyListener = event => {
+    event.preventDefault();
     const { keyCode, key } = event;
     throttledKeyListener(keyCode, key);
   };
+
   const rows = playableBoard.map((row, rowNum) => {
     return (
       // it is fine to use index as key because the index will not change and is actually meaningful information because it's index = its position in the grid
