@@ -36,6 +36,7 @@
 
 html {
   background: var(--background) !important;
+  overflow-x: hidden;
 }
 .Box {
   background: #f8f8f8;

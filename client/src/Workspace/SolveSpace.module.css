@@ -7,12 +7,13 @@
   z-index: 1;
 }
 .wrapper {
-  margin-top: var(--s-1);
+  margin-top: var(--s-2);
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr minmax(min-content, 1fr);
-  grid-template-rows: 80vh;
-  grid-column-gap: var(--s-1);
+  /* border: 2px solid pink; */
+  grid-template-columns: 1.61fr minmax(min-content, 1fr);
+  grid-template-rows: 98vh;
+  grid-column-gap: var(--s-2);
 }
 
 .details {

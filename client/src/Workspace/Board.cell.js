@@ -37,6 +37,8 @@ const Cell = ({
       color = 'red';
     }
   }
+  console.log(rowLength);
+  console.log(2 - (rowLength - 15) * 0.055);
   return (
     <td
       className={styles.cell}
@@ -54,6 +56,8 @@ const Cell = ({
         style={{
           background,
           color,
+          fontSize: `${10.6 - (rowLength - 15) * 0.065}`,
+          // paddingBottom: '1px',
           width: '100%',
         }}
         className={styles.cellInput}

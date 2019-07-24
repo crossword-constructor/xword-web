@@ -3,16 +3,12 @@
   font-size: 1.8vw;
   border: 2px solid #333;
   width: 100%;
-  /* margin-right: 40px; */
+  margin-bottom: 40px;
 }
 
 .cell {
   position: relative;
   border: 1px solid black;
-  /* border-top: none; */
-  /* height: 2.6vw; */
-  max-height: 34px;
-  max-width: 34px;
   cursor: default;
 }
 
@@ -51,10 +47,10 @@
 
 @media screen and (min-width: 1200px) {
   .board {
-    font-size: 26px;
+    font-size: 25px !important;
   }
 
   .number {
-    font-size: 14px;
+    font-size: 14px !important;
   }
 }
