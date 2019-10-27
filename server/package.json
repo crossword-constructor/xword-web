@@ -1,0 +1,39 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=production node -r esm .",
+    "dev": "concurrently \"nodemon --ignore ./client -r esm\" \"cd client && yarn start\"",
+    "deploy": "cd client && npm run build && cd ..  && git add . && git commit -m \"built for deploy\" && git push heroku -f HEAD:master"
+  },
+  "dependencies": {
+    "@hapi/joi": "^15.1.0",
+    "apollo-server-express": "^2.2.6",
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^2.0.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
+    "esm": "^3.0.84",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "graphql": "^14.0.2",
+    "joi": "^14.3.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.15",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true
+  }
+}
