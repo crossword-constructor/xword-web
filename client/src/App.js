@@ -34,15 +34,17 @@ const App = () => {
     <div className={styles.app}>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Signup} />
-        <Route exact path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/construct" component={Workspace} />
-        <Route path="/solve/:id" component={FetchPuzzle} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/nyt/solve/:id" component={FetchPuzzle} />
-        <Route path="/calendar" component={Calendar} />
-        <Route path="/logout" component={Logout} />
+        <div className={styles.page}>
+          <Route exact path="/" component={Signup} />
+          <Route exact path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/construct" component={Workspace} />
+          <Route path="/solve/:id" component={FetchPuzzle} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/nyt/solve/:id" component={FetchPuzzle} />
+          <Route path="/calendar" component={Calendar} />
+          <Route path="/logout" component={Logout} />
+        </div>
       </Switch>
     </div>
     //     );

@@ -11,6 +11,7 @@ const Cell = ({
   isFocused,
   isHighlighted,
   isPlaying,
+  rowLength,
 }) => {
   const cell = useRef(null);
 
@@ -37,13 +38,25 @@ const Cell = ({
     }
   }
   return (
-    <td className={styles.cell}>
+    <td
+      className={styles.cell}
+      style={{
+        width: `${100 / rowLength}%`,
+        height: 0,
+        paddingBottom: `${100 / rowLength}%`,
+        maxHeight: '34px',
+        maxWidth: '34px',
+      }}
+    >
       <div className={styles.number}>{number}</div>
       <div
         ref={cell}
         style={{
           background,
           color,
+          fontSize: `${10.6 - (rowLength - 15) * 0.095}`, // we should do this on page load and resize once...not here for every cell...same with all these calculations
+          // paddingBottom: '1px',
+          width: '100%',
         }}
         className={styles.cellInput}
         onMouseDown={click}
@@ -64,6 +77,7 @@ Cell.propTypes = {
   isRevealed: PropTypes.bool,
   isHighlighted: PropTypes.bool,
   isPlaying: PropTypes.bool.isRequired,
+  rowLength: PropTypes.number.isRequired,
   // coords: PropTypes.arrayOf(PropTypes.number).isRequired,
   isFocused: PropTypes.bool,
 };

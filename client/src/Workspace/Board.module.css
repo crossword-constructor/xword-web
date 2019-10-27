@@ -1,24 +1,23 @@
 .board {
-  border-collapse: collapse;
-  font-size: 25px;
-  border: 3px solid #333;
-  margin-right: 40px;
+  /* border-collapse: collapse; */
+  font-size: 1.8vw;
+  border: 2px solid #333;
+  width: 100%;
+  margin-bottom: 40px;
 }
 
 .cell {
   position: relative;
   border: 1px solid black;
-  /* border-top: none; */
-  height: 38px;
-  width: 38px;
-  margin: 0;
   cursor: default;
-  vertical-align: middle;
 }
 
 .cellInput {
-  height: 38px;
-  width: 38px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* max-height: 34px;
+  max-width: 34px; */
   background: rgb(139, 190, 255);
   text-transform: capitalize;
   display: flex;
@@ -28,16 +27,30 @@
 }
 
 .black {
-  height: 15px;
-  width: 1px;
-  background: black;
+  /* height: 2.5vw;
+  max-height: 28px;
+  width: 2.5vw;
+  max-width: 28px; */
+
+  background: var(--black);
   border: 1px solid #555;
   margin: 0;
 }
 
 .number {
   position: absolute;
-  font-size: 12px;
+  font-size: 0.8vw;
+  z-index: 1;
   top: 1px;
   left: 1px;
+}
+
+@media screen and (min-width: 1200px) {
+  .board {
+    font-size: 25px !important;
+  }
+
+  .number {
+    font-size: 14px !important;
+  }
 }

@@ -12,7 +12,7 @@ import styles from './Profile.module.css';
 
 const Profile = () => {
   return (
-    <Query query={GET_PROFILE}>
+    <Query query={GET_PROFILE} refetchPolicy="network-only">
       {({ error, loading, data, fetchMore }) => {
         if (loading) return <div>loading</div>;
         if (error) return <div>error</div>;

@@ -44,7 +44,7 @@ const Navbar = () => {
           <div>r</div>
           <div>d</div>
           <div className={styles.blackSquare}> </div>
-          <div>C</div>
+          {/* <div>C</div>
           <div>o</div>
           <div>n</div>
           <div>s</div>
@@ -54,7 +54,7 @@ const Navbar = () => {
           <div>c</div>
           <div>t</div>
           <div>o</div>
-          <div>r</div>
+          <div>r</div> */}
         </h1>
       </NavLink>
       <ul className={styles.menu}>

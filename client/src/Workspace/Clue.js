@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Clues.module.css';
 
@@ -12,18 +12,21 @@ const Clue = ({
 }) => {
   const clueRef = useRef(null);
 
-  if (clueRef.current && (isHighlighted || isSecondaryHighlight)) {
-    // @TODO we can't set behavior smooth...only the down column will scroll.'
-    // if (isSecondaryHighlight) {
-    //   setTimeout(() => {
-    //     console.log('scrolling secondary');
-    clueRef.current.scrollIntoView();
-    //   }, 260);
-    // } else if (isHighlighted) {
-    //   console.log('scrolling primary');
-    //   clueRef.current.scrollIntoView({ behavior: 'smooth' });
-    // }
-  }
+  useEffect(() => {
+    if (clueRef.current && (isHighlighted || isSecondaryHighlight)) {
+      // @TODO we can't set behavior smooth...only the down column will scroll.'
+      // if (isSecondaryHighlight) {
+      //   setTimeout(() => {
+      //     console.log('scrolling secondary');
+      clueRef.current.scrollIntoView();
+      //   }, 260);
+      // } else if (isHighlighted) {
+      //   console.log('scrolling primary');
+      //   clueRef.current.scrollIntoView({ behavior: 'smooth' });
+      // }
+    }
+  }, [isHighlighted, isSecondaryHighlight]);
+
   return (
     <li
       ref={clueRef}
@@ -58,4 +61,4 @@ Clue.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
 };
 
-export default Clue;
+export default React.memo(Clue);

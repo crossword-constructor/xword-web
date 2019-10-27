@@ -1,20 +1,19 @@
 .page {
-  min-height: calc(100vh - var(--navbarHeight));
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  /* min-height: calc(100vh - var(--navbarHeight)); */
+  /* max-width: 1200px; */
+  /* width: 100%; */
+  margin: var(--s0);
+  /* max-width: 1500px; */
   z-index: 1;
 }
-.container {
-  margin-top: var(--s-1);
-  max-width: 1300px;
-  display: flex;
-  flex-flow: column;
-  padding: 3px;
-}
-
-.left {
-  height: 80vh;
+.wrapper {
+  margin-top: var(--s-2);
+  display: grid;
+  width: 100%;
+  /* border: 2px solid pink; */
+  grid-template-columns: 1.15fr minmax(min-content, 1fr);
+  grid-template-rows: 88vh;
+  grid-column-gap: var(--s-2);
 }
 
 .details {
@@ -38,10 +37,10 @@
   color: var(--highlightBlue);
 }
 
-.clues {
+/* .clues {
   display: flex;
   height: 80vh;
-}
+} */
 
 /* .container {
   display: flex;
