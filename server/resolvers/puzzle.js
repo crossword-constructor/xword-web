@@ -33,7 +33,7 @@ export default {
           userPuzzle = await UserPuzzle.create({
             puzzle: _id,
             board: puzzle.board.map(row =>
-              row.map(cell => (cell === '#BlackSquare#' ? cell : ''))
+              row.map(cell => (cell === '#BS#' ? cell : ''))
             ),
             user: user._id,
             time: 0,

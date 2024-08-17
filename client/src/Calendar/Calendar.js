@@ -6,7 +6,7 @@ import Month from './Month';
 import styles from './Calendar.module.css';
 // import YearList from './YearList';
 import Dropdown from './Dropdown';
-import { FETCH_PUZZLES } from '../utils/queries';
+import { FETCH_PUZZLES } from '../Utils/queries';
 import { monthMap, numberMonth, buildYearsArr } from './utils';
 
 const Calendar = () => {

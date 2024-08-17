@@ -119,13 +119,17 @@ export default {
     },
 
     login: async (root, args, { req, res }, info) => {
+      console.log("logging in")
       const validated = Joi.validate(args, login);
       if (validated.error) {
+        console.log("validation error: ", validated.error)
         return generateResponse(null, {
           message: validated.error.details.map(e => e.message).join(' '),
         });
       }
+      console.log("attempting loging")
       const { user, error } = await attemptLogin(args, res);
+      console.log({user, error})
       return generateResponse({ user }, error);
     },
 

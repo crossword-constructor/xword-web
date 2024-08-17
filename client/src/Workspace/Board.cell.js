@@ -37,6 +37,14 @@ const Cell = ({
       color = 'red';
     }
   }
+
+  const text = isRevealed ? answer : guess;
+  let fontSize = 1.1;
+  if (cell.current) {
+    if (text.length > 1) {
+      fontSize = 1.1 - 0.13 * text.length;
+    }
+  }
   return (
     <td
       className={styles.cell}
@@ -48,14 +56,15 @@ const Cell = ({
         maxWidth: '34px',
       }}
     >
-      <div className={styles.number}>{number}</div>
+      <div className={styles.number} style={{ fontSize: '0.9cqw' }}>
+        {number}
+      </div>
       <div
         ref={cell}
         style={{
           background,
           color,
-          fontSize: `${10.6 - (rowLength - 15) * 0.095}`, // we should do this on page load and resize once...not here for every cell...same with all these calculations
-          // paddingBottom: '1px',
+          fontSize: `${fontSize}cqw`,
           width: '100%',
         }}
         className={styles.cellInput}
@@ -63,7 +72,7 @@ const Cell = ({
         role="button"
         tabIndex="-1"
       >
-        {isRevealed ? answer : guess}
+        {text}
       </div>
     </td>
   );

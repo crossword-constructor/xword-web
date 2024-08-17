@@ -14,34 +14,35 @@ export const buildPlayableBoard = (puzzle, userPuzzle) => {
     let downClue = '1D';
     return row.map((col, colCount) => {
       let number = null;
-      if (col === '#BlackSquare#') {
+      if (col === '#BS#') {
         return { answer: col };
       }
-      // deduce clues associated with this cell
+      // If we're in the top row, every white square has a down clue
       if (rowCount === 0) {
         downClueTracker[colCount] = currentNumber;
       }
+      // If we're in the first column, every white square has an across clue
       if (colCount === 0) {
         acrossClue = `${currentNumber}A`;
       }
-      if (row[colCount - 1] === '#BlackSquare#') {
+      // If the previous square is black, this is an across clue
+      if (row[colCount - 1] === '#BS#') {
         acrossClue = `${currentNumber}A`;
       }
-      if (
-        board[rowCount - 1] &&
-        board[rowCount - 1][colCount] === '#BlackSquare#'
-      ) {
+      // If there is a row above and the cell above is black, this is a down clue
+      if (board[rowCount - 1] && board[rowCount - 1][colCount] === '#BS#') {
         downClueTracker[colCount] = currentNumber;
       }
       downClue = `${downClueTracker[colCount]}D`;
       cluesObj[acrossClue].cells.push([rowCount, colCount]);
+
       cluesObj[downClue].cells.push([rowCount, colCount]);
       // Check if this cell gets a number
       if (
         rowCount === 0 ||
         colCount === 0 ||
-        row[colCount - 1] === '#BlackSquare#' ||
-        board[rowCount - 1][colCount] === '#BlackSquare#'
+        row[colCount - 1] === '#BS#' ||
+        board[rowCount - 1][colCount] === '#BS#'
       ) {
         number = currentNumber;
         currentNumber += 1;
@@ -95,7 +96,7 @@ export const findNextCell = (
         }
       }
     }
-    if (board[row][col].answer === '#BlackSquare#') {
+    if (board[row][col].answer === '#BS#') {
       validCellFound = false;
     } else {
       validCellFound = true;
@@ -120,7 +121,7 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
         currentCell = undefined;
       }
     }
-    if (!currentCell || currentCell === '#BlackSquare#') {
+    if (!currentCell || currentCell === '#BS#') {
       cell = incOrDec === 'INCREMENT' ? endCounter - 1 : endCounter + 1;
       return cell;
     }
@@ -141,7 +142,7 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
 export const buildSaveableBoard = playableBoard => {
   return playableBoard.map(row => {
     return row.map(cell => {
-      if (cell.answer === '#BlackSquare#') {
+      if (cell.answer === '#BS#') {
         return cell.answer;
       }
       return cell.guess;

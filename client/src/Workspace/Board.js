@@ -11,6 +11,7 @@ const Board = ({
   focusedCell,
   selectCell,
   navigate,
+  toggleRebus,
   guess,
   isPlaying,
   revealedCells,
@@ -19,9 +20,12 @@ const Board = ({
 }) => {
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
+      console.log({ keyCode });
       if (keyCode >= 37 && keyCode <= 40) {
         navigate(keyCode);
         // @todo add conditional for rebus
+      } else if (keyCode === 45) {
+        toggleRebus();
       } else if (keyCode >= 45 && keyCode <= 90) {
         if (
           revealedCells.filter(
@@ -54,7 +58,7 @@ const Board = ({
         style={{ width: '100%' }}
       >
         {row.map((cell, colNum) => {
-          const black = cell.answer === '#BlackSquare#';
+          const black = cell.answer === '#BS#';
           let isHighlighted = false;
 
           currentCells.some(coords => {
@@ -134,6 +138,7 @@ Board.propTypes = {
   revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   isPuzzleRevealed: PropTypes.bool.isRequired,
   isPuzzleSolved: PropTypes.bool.isRequired,
+  toggleRebus: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {

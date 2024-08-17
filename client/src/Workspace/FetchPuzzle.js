@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
-import { GET_PUZZLE } from '../utils/queries';
+import { GET_PUZZLE } from '../Utils/queries';
 import { buildPlayableBoard } from './Board.utils';
 import SolveSpace from './SolveSpace';
 

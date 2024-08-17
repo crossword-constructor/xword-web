@@ -3,7 +3,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import moment from 'moment';
-import { TODAYS_PUZZLE } from '../utils/queries';
+import { TODAYS_PUZZLE } from '../Utils/queries';
 import PuzzleIcon from '../Shared/PuzzleIcon';
 import styles from './PuzzleOfTheDay.module.css';
 

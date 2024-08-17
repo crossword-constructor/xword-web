@@ -20,7 +20,7 @@ export default {
         clues: ['1A', '3D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -53,7 +53,7 @@ export default {
         clues: ['4A', '8D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -142,7 +142,7 @@ export default {
         clues: ['14A', '8D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -231,7 +231,7 @@ export default {
         clues: ['17A', '8D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -290,7 +290,7 @@ export default {
         clues: ['19A', '15D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -355,13 +355,13 @@ export default {
     ],
     [
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -394,7 +394,7 @@ export default {
         clues: ['22A', '7D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -415,13 +415,13 @@ export default {
         clues: ['24A', '10D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
     ],
     [
@@ -444,7 +444,7 @@ export default {
         clues: ['25A', '27D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -483,7 +483,7 @@ export default {
         clues: ['28A', '21D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -542,10 +542,10 @@ export default {
         clues: ['34A', '23D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -566,7 +566,7 @@ export default {
         clues: ['36A', '21D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -637,7 +637,7 @@ export default {
         clues: ['38A', '40D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -708,7 +708,7 @@ export default {
         clues: ['43A', '35D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -729,10 +729,10 @@ export default {
         clues: ['44A', '45D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -791,7 +791,7 @@ export default {
         clues: ['47A', '35D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -830,7 +830,7 @@ export default {
         clues: ['48A', '42D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -853,13 +853,13 @@ export default {
     ],
     [
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -880,7 +880,7 @@ export default {
         clues: ['52A', '39D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -913,13 +913,13 @@ export default {
         clues: ['54A', '55D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
     ],
     [
@@ -984,7 +984,7 @@ export default {
         clues: ['56A', '50D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -1043,7 +1043,7 @@ export default {
         clues: ['64A', '53D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -1132,7 +1132,7 @@ export default {
         clues: ['67A', '53D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -1221,7 +1221,7 @@ export default {
         clues: ['69A', '53D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',
@@ -1254,7 +1254,7 @@ export default {
         clues: ['70A', '66D'],
       },
       {
-        answer: '#BlackSquare#',
+        answer: '#BS#',
       },
       {
         guess: '',

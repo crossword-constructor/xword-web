@@ -10,6 +10,7 @@
   position: relative;
   border: 1px solid black;
   cursor: default;
+  font-size: .9vw;
 }
 
 .cellInput {
@@ -25,6 +26,7 @@
   align-items: flex-end;
   justify-content: center;
 }
+
 
 .black {
   /* height: 2.5vw;

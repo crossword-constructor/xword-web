@@ -70,26 +70,30 @@ const Solvespace = ({
       clues: puzzle.clues,
       time,
     });
-  }, []);
+  }, [puzzle.clues, puzzle.playableBoard, time]);
 
   const debouncedSave = useCallback(
-    debounce(board => {
-      client.mutate({
-        mutation: UPDATE_PLAYER_BOARD,
-        variables: {
-          _id: userPuzzle,
-          board: buildSaveableBoard(board),
-        },
-      });
-    }, 1000),
+    debounce(
+      board => {
+        client.mutate({
+          mutation: UPDATE_PLAYER_BOARD,
+          variables: {
+            _id: userPuzzle,
+            board: buildSaveableBoard(board),
+          },
+        });
+      },
+      1000,
+      { leading: true }
+    ),
     []
   );
 
-  useEffect(() => {
-    if (playableBoard) {
-      debouncedSave(playableBoard);
-    }
-  }, [playableBoard, debouncedSave]);
+  // useEffect(() => {
+  //   if (playableBoard) {
+  //     debouncedSave(playableBoard);
+  //   }
+  // }, [playableBoard, debouncedSave]);
 
   const updateRevealed = scope => {
     let updatedRevealedCells = [...revealedCells];
@@ -193,6 +197,7 @@ const Solvespace = ({
                 dispatch({ type: 'NAVIGATE', keyCode, options })
               }
               guess={key => dispatch({ type: 'GUESS', key })}
+              toggleRebus={() => dispatch({ type: 'TOGGLE_REBUS' })}
             />
           ) : null}
         </div>

@@ -3,10 +3,12 @@ import { findNextCell } from './Board.utils';
 export default (state, action) => {
   switch (action.type) {
     case 'LOAD_PUZZLE': {
+      console.log('load puzzle');
       return {
         ...state,
         playableBoard: action.playableBoard,
         clues: action.clues,
+        isRebusMode: false,
       };
     }
 
@@ -98,14 +100,29 @@ export default (state, action) => {
       };
     }
 
+    case 'TOGGLE_REBUS': {
+      console.log(`toggling rebus, current state: ${state.isRebusMode}`);
+      const newState = {
+        ...state,
+        isRebusMode: !state.isRebusMode,
+      };
+      console.log({ newState });
+      return newState;
+    }
+
     case 'GUESS': {
-      const { playableBoard, selection, direction, clues } = state;
+      console.log('GUESS');
+      const { playableBoard, selection, direction, clues, isRebusMode } = state;
+      console.log({ isRebusMode });
       const updatedPlayableBoard = [...playableBoard];
       const { focusedCell } = selection;
       const [currentRow, currentCol] = selection.focusedCell;
       updatedPlayableBoard[currentRow][
         currentCol
       ].guess = action.key.toUpperCase();
+      if (isRebusMode) {
+        return;
+      }
       const nextCell = findNextCell(
         focusedCell,
         direction,
