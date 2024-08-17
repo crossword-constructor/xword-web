@@ -58,12 +58,11 @@ const Login = ({ history }) => {
           {form.map(formItem => (
             <Input key={formItem.name} {...formItem} theme="Big" />
           ))}
-          <Mutation
+          {/* <Mutation
             mutation={LOGIN_MUTATION}
             variables={{ username, password }}
             refetchQueries={() => ['profileInfo']}
             update={(_, { data, error }) => {
-              /** @todo abstract to util function -- this is duplicated in signup */
               if (data) {
                 const {
                   login: { success, message, user },
@@ -98,8 +97,8 @@ const Login = ({ history }) => {
                   <ErrorToast errorMessage={errorMessage} />
                 </>
               );
-            }}
-          </Mutation>
+            }} */}
+          {/* </Mutation> */}
           <div>
             Don&apos;t have an account yet? <Link to="/signup">signup</Link>
           </div>

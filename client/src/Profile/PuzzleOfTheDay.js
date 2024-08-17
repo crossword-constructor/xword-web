@@ -13,29 +13,7 @@ const PuzzleOfTheDay = () => {
   // display
   const date = getDateString();
 
-  return (
-    <div className={styles.container}>
-      <Query query={TODAYS_PUZZLE} variables={{ date }}>
-        {({ data, error, loading }) => {
-          if (data && data.todaysPuzzle) {
-            const {
-              todaysPuzzle: { success, message, puzzle },
-            } = data;
-            if (success) {
-              return (
-                <PuzzleIcon
-                  {...puzzle}
-                  date={moment(puzzle.date).format('dddd, MMMM Do, YYYY')}
-                />
-              );
-            }
-            return 'error';
-          }
-          return 'loading';
-        }}
-      </Query>
-    </div>
-  );
+  return <div className={styles.container} />;
 };
 
 const getDateString = () => {

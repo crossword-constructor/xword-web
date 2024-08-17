@@ -11,6 +11,7 @@ import Navbar from './Navigation/Navbar';
 import Login from './Login/Login';
 import Logout from './Logout/Logout';
 import Profile from './Profile/Profile';
+import SolveSpace from './Workspace/SolveSpace';
 import './reset.css';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
   //   }
   // `;
   // console.log(props);
+  console.log('hello');
   return (
     // I wonder what the proper way to verify logged in is...
     // presumably, the request for this bundle.js in production will have
@@ -36,12 +38,11 @@ const App = () => {
       <Switch>
         <div className={styles.page}>
           <Route exact path="/" component={Signup} />
-          <Route exact path="/signup" component={Signup} />
+          {/* <Route exact path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/construct" component={Workspace} />
-          <Route path="/solve/:id" component={FetchPuzzle} />
+          <Route path="/construct" component={Workspace} /> */}
+          <Route path="/solve/:id" component={SolveSpace} />
           <Route path="/profile" component={Profile} />
-          <Route path="/nyt/solve/:id" component={FetchPuzzle} />
           <Route path="/calendar" component={Calendar} />
           <Route path="/logout" component={Logout} />
         </div>

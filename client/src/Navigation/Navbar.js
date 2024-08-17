@@ -68,7 +68,7 @@ const Navbar = () => {
             Construct
           </NavLink>
         </li>
-        <Query query={USERNAME} name="profileInfo">
+        {/* <Query query={USERNAME} name="profileInfo">
           {({ data }) => {
             if (data && data.profileInfo) {
               const {
@@ -96,7 +96,7 @@ const Navbar = () => {
             }
             return LoginLink;
           }}
-        </Query>
+        </Query> */}
       </ul>
     </nav>
   );

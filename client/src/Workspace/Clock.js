@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback } from 'react';
 import gql from 'graphql-tag';
-import { withApollo } from 'react-apollo';
 import throttle from 'lodash.throttle';
 import PropTypes from 'prop-types';
 import useInterval from '../Hooks/useInterval';
@@ -73,4 +72,4 @@ Clock.propTypes = {
   client: PropTypes.shape({ mutate: PropTypes.func }).isRequired,
 };
 
-export default withApollo(Clock);
+export default Clock;

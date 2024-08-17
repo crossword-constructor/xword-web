@@ -70,66 +70,67 @@ const Signup = ({ history }) => {
   ];
 
   return (
-    <Mutation
-      mutation={SIGNUP_MUTATION}
-      variables={{ username, email, password, name }}
-      // refetchQueries={['profileInfo']}
-      update={(_, { data, error }) => {
-        /** @todo abstract seee matching note in login */
-        if (data) {
-          const {
-            signup: { success, message, user },
-          } = data;
-          if (!success && message) {
-            setErrorMessage(message);
-          } else if (user) {
-            setTimeout(() => {
-              history.push('/profile');
-            }, 1500);
-          }
-        } else if (error) {
-          setErrorMessage('Internal Server Error');
-        }
-      }}
-    >
-      {(signup, { called }) => {
-        console.log({ called });
-        return (
-          <div className={styles.page}>
-            <div className={styles.cube}>
-              <Cube animate={called} />
-            </div>
-            <div className={styles.CenterRow}>
-              <form className={styles.form}>
-                {form.map(formItem => (
-                  <Input key={formItem.name} theme="Big" {...formItem} />
-                ))}
-                <div>
-                  <Button
-                    onClick={e => {
-                      e.preventDefault();
-                      signup({
-                        variables: { email, username, password, name },
-                        refetchQueries: ['USERNAME'],
-                      });
-                    }}
-                    type="submit"
-                    theme="Main"
-                  >
-                    Signup
-                  </Button>
-                </div>
-                {/* @todo abstract this out */}
-                <ErrorToast errorMessage={errorMessage} />
-                <div>
-                  Already have an account? <Link to="/login">login</Link>
-                </div>
-              </form>
-            </div>
-          </div>
-        );
-      }}
-    </Mutation>
+    <div />
+    // <Mutation
+    //   mutation={SIGNUP_MUTATION}
+    //   variables={{ username, email, password, name }}
+    //   // refetchQueries={['profileInfo']}
+    //   update={(_, { data, error }) => {
+    //     /** @todo abstract seee matching note in login */
+    //     if (data) {
+    //       const {
+    //         signup: { success, message, user },
+    //       } = data;
+    //       if (!success && message) {
+    //         setErrorMessage(message);
+    //       } else if (user) {
+    //         setTimeout(() => {
+    //           history.push('/profile');
+    //         }, 1500);
+    //       }
+    //     } else if (error) {
+    //       setErrorMessage('Internal Server Error');
+    //     }
+    //   }}
+    // >
+    //   {(signup, { called }) => {
+    //     console.log({ called });
+    //     return (
+    //       <div className={styles.page}>
+    //         <div className={styles.cube}>
+    //           <Cube animate={called} />
+    //         </div>
+    //         <div className={styles.CenterRow}>
+    //           <form className={styles.form}>
+    //             {form.map(formItem => (
+    //               <Input key={formItem.name} theme="Big" {...formItem} />
+    //             ))}
+    //             <div>
+    //               <Button
+    //                 onClick={e => {
+    //                   e.preventDefault();
+    //                   signup({
+    //                     variables: { email, username, password, name },
+    //                     refetchQueries: ['USERNAME'],
+    //                   });
+    //                 }}
+    //                 type="submit"
+    //                 theme="Main"
+    //               >
+    //                 Signup
+    //               </Button>
+    //             </div>
+    //             {/* @todo abstract this out */}
+    //             <ErrorToast errorMessage={errorMessage} />
+    //             <div>
+    //               Already have an account? <Link to="/login">login</Link>
+    //             </div>
+    //           </form>
+    //         </div>
+    //       </div>
+    //     );
+    //   }}
+    // </Mutation>
   );
 };
 

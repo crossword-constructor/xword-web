@@ -1,10 +1,8 @@
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter } from 'react-router-dom';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
@@ -24,12 +22,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
+  <BrowserRouter>
+    <ApolloProvider client={client}>
       <App />
-    </BrowserRouter>
-  </ApolloProvider>,
-  document.getElementById('root')
+    </ApolloProvider>
+  </BrowserRouter>
 );
+
 serviceWorker.unregister();

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 // import moment from 'moment';
+import { useQuery } from '@apollo/client';
 import { Query } from 'react-apollo';
 import Month from './Month';
 import styles from './Calendar.module.css';
@@ -10,6 +11,7 @@ import { FETCH_PUZZLES } from '../Utils/queries';
 import { monthMap, numberMonth, buildYearsArr } from './utils';
 
 const Calendar = () => {
+  console.log('loading calendar');
   // console.log('current date', moment(Date.now()).format('M/D/YYYY'));
   const date = new Date();
 
@@ -18,6 +20,20 @@ const Calendar = () => {
   const year = date.getUTCFullYear().toString();
   const [currentMonth, setMonth] = useState(month);
   const [currentYear, setYear] = useState(year);
+  const { data, refetch } = useQuery(FETCH_PUZZLES, {
+    variables: {
+      month: currentMonth,
+      year: currentYear,
+    },
+  });
+  const updateDate = (newMonth, newYear) => {
+    refetch({ month: newMonth, year: newYear });
+    setMonth(newMonth);
+    setYear(newYear);
+  };
+  if (data) {
+    console.log(data.puzzles);
+  }
   return (
     <div className={styles.container}>
       <div />
@@ -26,20 +42,30 @@ const Calendar = () => {
           {/* dropdown1 */}
           <Dropdown
             list={Object.keys(monthMap).map(m => monthMap[m])}
-            select={item => setMonth(numberMonth[item])}
+            select={item => updateDate(numberMonth[item], currentYear)}
             title={monthMap[currentMonth]}
           />
         </div>
         <div className={styles.menu}>
           <Dropdown
             list={buildYearsArr()}
-            select={setYear}
+            select={newYear => updateDate(currentMonth, newYear)}
             title={currentYear}
           />
         </div>
       </div>
+      <div className={styles.calendarContainer}>
+        {data && data.puzzles && (
+          <Month
+            puzzles={data.puzzles.puzzles}
+            month={currentMonth}
+            year={currentYear}
+          />
+        )}
+      </div>
+
       {/* <YearList setDate={setDate} /> */}
-      <Query
+      {/* <Query
         query={FETCH_PUZZLES}
         variables={{ month: currentMonth, year: currentYear }}
       >
@@ -47,15 +73,7 @@ const Calendar = () => {
           if (error) {
             console.log(error);
           }
-          if (loading)
-            return (
-              <div className={styles.calendarContainer}>
-                {/* <h2 className={styles.currentMonth}>
-                  {monthMap[currentMonth]} {currentYear}
-                </h2> */}
-                {/* <Month puzzles={null} month={currentMonth} year={currentYear} /> */}
-              </div>
-            );
+          if (loading) return <div className={styles.calendarContainer} />;
           if (data) {
             const {
               puzzles: { success, message, puzzles },
@@ -67,9 +85,6 @@ const Calendar = () => {
             if (puzzles) {
               return (
                 <div className={styles.calendarContainer}>
-                  {/* <h2 className={styles.currentMonth}>
-                    {monthMap[currentMonth]} {currentYear}
-                  </h2> */}
                   <Month
                     puzzles={puzzles}
                     month={currentMonth}
@@ -81,7 +96,7 @@ const Calendar = () => {
           }
           return <div>Loading</div>;
         }}
-      </Query>
+      </Query> */}
     </div>
   );
 };
