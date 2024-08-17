@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { GET_PUZZLE } from '../Utils/queries';
 import puzzleReducer from './puzzleReducer';
-import { buildSaveableBoard } from './Board.utils';
+import { buildSaveableBoard, buildPlayableBoard } from './Board.utils';
 // import Sidebar from '../Layouts/Sidebar';
 import styles from './SolveSpace.module.css';
 import Modal from '../Shared/Modal';
@@ -43,32 +43,41 @@ const UPDATE_PLAYER_BOARD = gql`
 
 const Solvespace = ({
   match,
-  puzzle,
-  userPuzzle,
-  time,
   revealedCells,
   isRevealed = false,
   isSolved = false,
 }) => {
-  console.log({ id: match.params.id });
-  const { data } = useQuery(GET_PUZZLE, {
-    variables: { puzzleId: match.params.id },
-  });
-  console.log({ data });
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: null,
     clues: {},
     direction: 'across',
-    // selection: {
-    //   focusedCell: [0, 0],
-    //   currentCells: puzzle.clues['1A'].cells,
-    //   currentClues: ['1A', '1D'],
-    // },
+    selection: {
+      focusedCell: [0, 0],
+      currentCells: ['A'],
+      // currentCells: puzzle.clues['1A'].cells, // do this in load instead
+      currentClues: ['1A', '1D'],
+    },
     isPlaying: false,
   });
 
-  const { playableBoard, clues, selection, direction, isPlaying } = state;
+  const { playableBoard, clues, selection, direction, isPlaying, time } = state;
 
+  useQuery(GET_PUZZLE, {
+    variables: { puzzleId: match.params.id },
+    onCompleted: data => {
+      const {
+        playablePuzzle: {
+          playablePuzzle: { puzzle: p, userPuzzle },
+        },
+      } = data;
+      const playablePuzzle = buildPlayableBoard(p, userPuzzle);
+      dispatch({
+        type: 'LOAD_PUZZLE',
+        payload: playablePuzzle,
+      });
+      console.log(`query completed: ${data}`);
+    },
+  });
   // useEffect(() => {
   //   dispatch({
   //     type: 'LOAD_PUZZLE',
@@ -102,6 +111,7 @@ const Solvespace = ({
   // }, [playableBoard, debouncedSave]);
 
   const updateRevealed = scope => {
+    // move this logic to reducer
     let updatedRevealedCells = [...revealedCells];
     const { currentCells, focusedCell } = selection;
     if (scope === 'puzzle') {
@@ -122,7 +132,10 @@ const Solvespace = ({
     //   },
     // });
   };
-  // const { currentClues } = selection;
+  if (!playableBoard) return <div>loading</div>;
+  const { currentClues } = selection;
+  console.log({ ...state });
+  // console.log(puzzle.clues[currentClues[direction === 'across' ? 0 : 1]]);
   // const { title, author } = puzzle;
   return (
     <div className={styles.page}>
@@ -139,17 +152,17 @@ const Solvespace = ({
           {time === 0 ? 'start' : 'resume'}
         </Button>
       </Modal>
-      {/* <Toolbar
+      <Toolbar
         // title={title}
         // author={author}
-        Clock={
-          <Clock
-            time={time}
-            isPlaying={isPlaying}
-            pause={() => dispatch({ type: 'PAUSE' })}
-            userPuzzleId={userPuzzle}
-          />
-        }
+        // Clock={
+        //   <Clock
+        //     time={time}
+        //     isPlaying={isPlaying}
+        //     pause={() => dispatch({ type: 'PAUSE' })}
+        //     userPuzzleId={userPuzzle}
+        //   />
+        // }
         DropdownMenu={
           <DropdownMenu
             name="Reveal"
@@ -170,8 +183,8 @@ const Solvespace = ({
             offSet={18}
           />
         }
-      /> */}
-      {/* <div className={styles.wrapper}>
+      />
+      <div className={styles.wrapper}>
         <div className={styles.left}>
           <div
             className={
@@ -184,8 +197,7 @@ const Solvespace = ({
                 : null}
             </span>
             {currentClues
-              ? puzzle.clues[currentClues[direction === 'across' ? 0 : 1]].clue
-                  .text
+              ? clues[currentClues[direction === 'across' ? 0 : 1]].clue.text
               : null}
           </div>
           {playableBoard ? (
@@ -218,7 +230,7 @@ const Solvespace = ({
             }}
           />
         ) : null}
-      </div> */}
+      </div>
     </div>
   );
 };

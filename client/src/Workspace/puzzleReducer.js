@@ -3,12 +3,19 @@ import { findNextCell } from './Board.utils';
 export default (state, action) => {
   switch (action.type) {
     case 'LOAD_PUZZLE': {
-      console.log('load puzzle');
+      const { clues, playableBoard, puzzle } = action.payload;
+      const focusedCells = clues['1A'].cells;
       return {
         ...state,
-        playableBoard: action.playableBoard,
-        clues: action.clues,
+        playableBoard,
+        puzzle,
+        clues,
+        direction: 'across',
         isRebusMode: false,
+        selection: {
+          ...state.selection,
+          focusedCells,
+        },
       };
     }
 

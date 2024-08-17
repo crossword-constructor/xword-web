@@ -1,10 +1,13 @@
 export const buildPlayableBoard = (puzzle, userPuzzle) => {
   const { board, clues } = puzzle;
   const { board: userBoard } = userPuzzle;
-
+  console.log({ board, clues });
   const cluesObj = {};
   for (let i = 0; i < clues.length; i += 1) {
-    cluesObj[clues[i].position] = clues[i];
+    console.log(clues[i]);
+    console.log(clues[i].position);
+    cluesObj[clues[i].position] = { ...clues[i] };
+    console.log(cluesObj[clues[i].position]);
     cluesObj[clues[i].position].cells = [];
   }
   let currentNumber = 1;
