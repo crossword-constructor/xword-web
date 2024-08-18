@@ -70,3 +70,11 @@ export const buildYearsArr = () => {
   }
   return years;
 };
+
+export const getCurrentMonthAndYear = () => {
+  const date = new Date();
+  let month = date.getUTCMonth() + 1;
+  month = month.toString();
+  const year = date.getUTCFullYear().toString();
+  return { month, year };
+};

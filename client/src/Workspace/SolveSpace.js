@@ -42,7 +42,7 @@ const UPDATE_PLAYER_BOARD = gql`
 `;
 
 const Solvespace = ({
-  match,
+  // match,
   revealedCells,
   isRevealed = false,
   isSolved = false,
@@ -63,7 +63,7 @@ const Solvespace = ({
   const { playableBoard, clues, selection, direction, isPlaying, time } = state;
 
   useQuery(GET_PUZZLE, {
-    variables: { puzzleId: match.params.id },
+    variables: { puzzleId: 'ID' },
     onCompleted: data => {
       const {
         playablePuzzle: {
@@ -75,17 +75,8 @@ const Solvespace = ({
         type: 'LOAD_PUZZLE',
         payload: playablePuzzle,
       });
-      console.log(`query completed: ${data}`);
     },
   });
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'LOAD_PUZZLE',
-  //     playableBoard: puzzle.playableBoard,
-  //     clues: puzzle.clues,
-  //     time,
-  //   });
-  // }, [puzzle.clues, puzzle.playableBoard, time]);
 
   const debouncedSave = useCallback(
     debounce(
@@ -236,6 +227,9 @@ const Solvespace = ({
 };
 
 Solvespace.propTypes = {
+  // match: PropTypes.shape({
+  //   params: PropTypes.shape({ id: PropTypes.string }),
+  // }).isRequired,
   // puzzle: PropTypes.shape({
   //   playableBoard: PropTypes.arrayOf(
   //     PropTypes.arrayOf(
@@ -264,9 +258,9 @@ Solvespace.propTypes = {
 };
 
 Solvespace.defaultProps = {
-  isRevealed: false,
-  isSolved: false,
-  revealedCells: [],
+  // isRevealed: false,
+  // isSolved: false,
+  // revealedCells: [],
 };
 
 export default Solvespace;

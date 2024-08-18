@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import useErrorMessage from '../Hooks/useErrorMessage';
 import ErrorToast from '../Shared/ErrorToast';
@@ -11,7 +10,7 @@ import Input from '../Shared/Input';
 import Cube from '../Shared/Cube';
 import styles from './Signup.module.css';
 
-const Signup = ({ history }) => {
+const Signup = () => {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -135,6 +134,6 @@ const Signup = ({ history }) => {
 };
 
 Signup.propTypes = {
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  // history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 export default Signup;

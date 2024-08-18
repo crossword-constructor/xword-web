@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 // import moment from 'moment';
+import {
+  useNavigate,
+  createSearchParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Query } from 'react-apollo';
 import Month from './Month';
 import styles from './Calendar.module.css';
 // import YearList from './YearList';
@@ -12,24 +16,32 @@ import { monthMap, numberMonth, buildYearsArr } from './utils';
 
 const Calendar = () => {
   console.log('loading calendar');
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const month = searchParams.get('month');
+  const year = searchParams.get('year');
   // console.log('current date', moment(Date.now()).format('M/D/YYYY'));
-  const date = new Date();
 
-  let month = date.getUTCMonth() + 1;
-  month = month.toString();
-  const year = date.getUTCFullYear().toString();
-  const [currentMonth, setMonth] = useState(month);
-  const [currentYear, setYear] = useState(year);
+  // const [currentMonth, setMonth] = useState(month);
+  // const [currentYear, setYear] = useState(year);
   const { data, refetch } = useQuery(FETCH_PUZZLES, {
     variables: {
-      month: currentMonth,
-      year: currentYear,
+      month,
+      year,
     },
   });
   const updateDate = (newMonth, newYear) => {
-    refetch({ month: newMonth, year: newYear });
-    setMonth(newMonth);
-    setYear(newYear);
+    console.log('navigating');
+    navigate({
+      pathname: '/calendar',
+      search: `?${createSearchParams({
+        month: newMonth,
+        year: newYear,
+      })}`,
+    });
+    // refetch({ month: newMonth, year: newYear });
+    // setMonth(newMonth);
+    // setYear(newYear);
   };
   if (data) {
     console.log(data.puzzles);
@@ -42,25 +54,21 @@ const Calendar = () => {
           {/* dropdown1 */}
           <Dropdown
             list={Object.keys(monthMap).map(m => monthMap[m])}
-            select={item => updateDate(numberMonth[item], currentYear)}
-            title={monthMap[currentMonth]}
+            select={item => updateDate(numberMonth[item], year)}
+            title={monthMap[month]}
           />
         </div>
         <div className={styles.menu}>
           <Dropdown
             list={buildYearsArr()}
-            select={newYear => updateDate(currentMonth, newYear)}
-            title={currentYear}
+            select={newYear => updateDate(month, newYear)}
+            title={year}
           />
         </div>
       </div>
       <div className={styles.calendarContainer}>
         {data && data.puzzles && (
-          <Month
-            puzzles={data.puzzles.puzzles}
-            month={currentMonth}
-            year={currentYear}
-          />
+          <Month puzzles={data.puzzles.puzzles} month={month} year={year} />
         )}
       </div>
 

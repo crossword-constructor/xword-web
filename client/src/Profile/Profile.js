@@ -1,5 +1,4 @@
 import React from 'react';
-import { Query } from 'react-apollo';
 import { GET_PROFILE, SOLVED_PUZZLES } from '../Utils/queries';
 import Sidebar from '../Layouts/Sidebar';
 import Stack from '../Layouts/Stack';

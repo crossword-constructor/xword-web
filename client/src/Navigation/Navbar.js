@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 import styles from './Navbar.module.css';
 import DropdownMenu from '../Shared/DropdownMenu';
+import { getCurrentMonthAndYear } from '../Calendar/utils';
 
 const Navbar = () => {
+  const { month, year } = getCurrentMonthAndYear();
   const USERNAME = gql`
     {
       profileInfo {
@@ -59,7 +60,10 @@ const Navbar = () => {
       </NavLink>
       <ul className={styles.menu}>
         <li className={styles.link}>
-          <NavLink to="/calendar" activeClassName={styles.activeLink}>
+          <NavLink
+            to={`/calendar?month=${month}&year=${year}`}
+            activeClassName={styles.activeLink}
+          >
             Solve
           </NavLink>
         </li>
