@@ -5,7 +5,7 @@ import styles from './PuzzleIcon.module.css';
 
 const PuzzleIcon = ({ name, author, editor, date, _id, size }) => {
   return (
-    <Link to={_id ? `solve/${_id}` : ''}>
+    <Link to={_id ? `/solve/${_id}` : ''}>
       <div className={styles.PuzzleIcon}>
         <img
           height={size}

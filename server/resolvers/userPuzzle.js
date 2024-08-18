@@ -32,7 +32,7 @@ export default {
         });
       }
       delete args._id;
-      const userPuzzle = await UserPuzzle.findByIdAndUpdate(_id, args, {
+      const userPuzzle = await UserPuzzle.findOneAndUpdate(_id, args, {
         new: true,
       });
       if (!userPuzzle) throw new Error('Internal Server Error');

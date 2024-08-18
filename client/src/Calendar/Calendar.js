@@ -15,23 +15,19 @@ import { FETCH_PUZZLES } from '../Utils/queries';
 import { monthMap, numberMonth, buildYearsArr } from './utils';
 
 const Calendar = () => {
-  console.log('loading calendar');
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const month = searchParams.get('month');
   const year = searchParams.get('year');
-  // console.log('current date', moment(Date.now()).format('M/D/YYYY'));
 
-  // const [currentMonth, setMonth] = useState(month);
-  // const [currentYear, setYear] = useState(year);
-  const { data, refetch } = useQuery(FETCH_PUZZLES, {
+  const { data } = useQuery(FETCH_PUZZLES, {
     variables: {
       month,
       year,
     },
   });
   const updateDate = (newMonth, newYear) => {
-    console.log('navigating');
     navigate({
       pathname: '/calendar',
       search: `?${createSearchParams({
@@ -39,10 +35,8 @@ const Calendar = () => {
         year: newYear,
       })}`,
     });
-    // refetch({ month: newMonth, year: newYear });
-    // setMonth(newMonth);
-    // setYear(newYear);
   };
+
   if (data) {
     console.log(data.puzzles);
   }

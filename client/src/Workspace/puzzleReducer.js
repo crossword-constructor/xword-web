@@ -10,6 +10,7 @@ export default (state, action) => {
         playableBoard,
         puzzle,
         clues,
+        isDirty: false,
         direction: 'across',
         isRebusMode: false,
         selection: {
@@ -140,9 +141,11 @@ export default (state, action) => {
       const currentCells =
         clues[playableBoard[row][col].clues[direction === 'across' ? 0 : 1]]
           .cells;
+
       return {
         ...state,
         playableBoard: updatedPlayableBoard,
+        isDirty: true,
         selection: {
           ...selection,
           currentCells,
@@ -185,6 +188,13 @@ export default (state, action) => {
         isPuzzleRevealed: true,
         isPuzzleSolved: true,
         isPlaying: false,
+      };
+    }
+
+    case 'CLEAR_DIRTY': {
+      return {
+        ...state,
+        isDirty: false,
       };
     }
     default:

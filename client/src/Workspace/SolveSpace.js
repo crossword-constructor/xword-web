@@ -1,8 +1,9 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import { useParams } from 'react-router-dom';
 import { GET_PUZZLE } from '../Utils/queries';
 import puzzleReducer from './puzzleReducer';
 import { buildSaveableBoard, buildPlayableBoard } from './Board.utils';
@@ -41,12 +42,8 @@ const UPDATE_PLAYER_BOARD = gql`
   }
 `;
 
-const Solvespace = ({
-  // match,
-  revealedCells,
-  isRevealed = false,
-  isSolved = false,
-}) => {
+const Solvespace = () => {
+  const { id } = useParams();
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: null,
     clues: {},
@@ -54,16 +51,29 @@ const Solvespace = ({
     selection: {
       focusedCell: [0, 0],
       currentCells: ['A'],
-      // currentCells: puzzle.clues['1A'].cells, // do this in load instead
       currentClues: ['1A', '1D'],
     },
     isPlaying: false,
+    isDirty: false,
   });
 
-  const { playableBoard, clues, selection, direction, isPlaying, time } = state;
-
+  const {
+    playableBoard,
+    clues,
+    selection,
+    direction,
+    isPlaying,
+    time,
+    isDirty,
+  } = state;
+  useEffect(() => {
+    if (isDirty) {
+      debouncedSave(playableBoard);
+    }
+  }, [playableBoard, isDirty, debouncedSave]);
+  const [updateUserPuzzle] = useMutation(UPDATE_PLAYER_BOARD);
   useQuery(GET_PUZZLE, {
-    variables: { puzzleId: 'ID' },
+    variables: { puzzleId: id },
     onCompleted: data => {
       const {
         playablePuzzle: {
@@ -80,7 +90,18 @@ const Solvespace = ({
 
   const debouncedSave = useCallback(
     debounce(
-      board => {
+      async board => {
+        try {
+          await updateUserPuzzle({
+            variables: {
+              _id: id,
+              board: buildSaveableBoard(board),
+            },
+          });
+          dispatch({ type: 'CLEAR_DIRTY' });
+        } catch (err) {
+          console.log({ err });
+        }
         // client.mutate({
         //   mutation: UPDATE_PLAYER_BOARD,
         //   variables: {
@@ -103,16 +124,16 @@ const Solvespace = ({
 
   const updateRevealed = scope => {
     // move this logic to reducer
-    let updatedRevealedCells = [...revealedCells];
-    const { currentCells, focusedCell } = selection;
-    if (scope === 'puzzle') {
-      isRevealed = true;
-      isSolved = true;
-    } else if (scope === 'word') {
-      updatedRevealedCells = updatedRevealedCells.concat(currentCells);
-    } else if (scope === 'square') {
-      updatedRevealedCells.push(focusedCell);
-    }
+    // let updatedRevealedCells = [...revealedCells];
+    // const { currentCells, focusedCell } = selection;
+    // if (scope === 'puzzle') {
+    //   isRevealed = true;
+    //   isSolved = true;
+    // } else if (scope === 'word') {
+    //   updatedRevealedCells = updatedRevealedCells.concat(currentCells);
+    // } else if (scope === 'square') {
+    //   updatedRevealedCells.push(focusedCell);
+    // }
     // client.mutate({
     //   mutation: UPDATE_PLAYER_BOARD,
     //   variables: {
@@ -125,6 +146,9 @@ const Solvespace = ({
   };
   if (!playableBoard) return <div>loading</div>;
   const { currentClues } = selection;
+  const isSolved = false;
+  const isRevealed = false;
+  const revealedCells = [];
   console.log({ ...state });
   // console.log(puzzle.clues[currentClues[direction === 'across' ? 0 : 1]]);
   // const { title, author } = puzzle;
@@ -205,7 +229,9 @@ const Solvespace = ({
               navigate={(keyCode, options) =>
                 dispatch({ type: 'NAVIGATE', keyCode, options })
               }
-              guess={key => dispatch({ type: 'GUESS', key })}
+              guess={key => {
+                dispatch({ type: 'GUESS', key });
+              }}
               toggleRebus={() => dispatch({ type: 'TOGGLE_REBUS' })}
             />
           ) : null}
@@ -226,41 +252,8 @@ const Solvespace = ({
   );
 };
 
-Solvespace.propTypes = {
-  // match: PropTypes.shape({
-  //   params: PropTypes.shape({ id: PropTypes.string }),
-  // }).isRequired,
-  // puzzle: PropTypes.shape({
-  //   playableBoard: PropTypes.arrayOf(
-  //     PropTypes.arrayOf(
-  //       PropTypes.shape({
-  //         guess: PropTypes.string,
-  //         answer: PropTypes.string.isRequired,
-  //         number: PropTypes.number,
-  //         clues: PropTypes.arrayOf(PropTypes.string),
-  //       }).isRequired
-  //     ).isRequired
-  //   ).isRequired,
-  //   clues: PropTypes.shape({
-  //     answer: PropTypes.string,
-  //     clue: PropTypes.string,
-  //     position: PropTypes.string,
-  //     cells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-  //   }).isRequired,
-  //   _id: PropTypes.string.isRequired,
-  // }).isRequired,
-  // userPuzzle: PropTypes.string.isRequired,
-  // time: PropTypes.number.isRequired,
-  // revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  // isRevealed: PropTypes.bool,
-  // isSolved: PropTypes.bool,
-  // client: PropTypes.shape({}).isRequired,
-};
+Solvespace.propTypes = {};
 
-Solvespace.defaultProps = {
-  // isRevealed: false,
-  // isSolved: false,
-  // revealedCells: [],
-};
+Solvespace.defaultProps = {};
 
 export default Solvespace;

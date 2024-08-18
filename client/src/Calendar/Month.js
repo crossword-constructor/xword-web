@@ -15,7 +15,6 @@ const Month = ({ puzzles, month, year }) => {
   const days = buildMonth(month, year);
   let puzzleDates;
   if (puzzles) {
-    console.log({ puzzles });
     puzzleDates = puzzles.map(puzzle => puzzle.date);
   } else {
     puzzleDates = new Array(31);

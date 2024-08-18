@@ -23,19 +23,11 @@ const App = () => {
     <div className={styles.app}>
       <Navbar />
       <Routes>
-        {/* <Route path="/" element={<Navbar />}> */}
         <Route index element={<Signup />} />
         <Route path="calendar" element={<Calendar />} />
-        <Route path="solve:id" element={<SolveSpace />} />
-        {/* </Route> */}
+        <Route path="solve/:id" element={<SolveSpace />} />
       </Routes>
-      {/* <RouterProvider router={router}>
-        <Navbar />
-      </RouterProvider> */}
     </div>
-    //     );
-    //   }}
-    // </Query>
   );
 };
 
