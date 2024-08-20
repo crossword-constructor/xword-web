@@ -54,12 +54,18 @@ export default gql`
     publisher: String
     date: String
     title: String
+    dimensions: Dimensions
     clues: [ClueAnswer]
-    board: [[String]]
+    board: [Cell]
     createdAt: String!
     updatedAt: String
     privacySetting: String!
     comments: [Comment]
+  }
+
+  type Cell {
+    text: String
+    style: String
   }
 
   type ClueAnswer {

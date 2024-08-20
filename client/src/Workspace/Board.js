@@ -9,10 +9,7 @@ const Board = ({
   direction,
   currentCells,
   focusedCell,
-  selectCell,
-  navigate,
-  toggleRebus,
-  guess,
+  dispatch,
   isPlaying,
   revealedCells,
   isPuzzleRevealed,
@@ -20,12 +17,10 @@ const Board = ({
 }) => {
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
-      console.log({ keyCode });
       if (keyCode >= 37 && keyCode <= 40) {
-        navigate(keyCode);
-        // @todo add conditional for rebus
+        dispatch({ type: 'NAVIGATE', keyCode });
       } else if (keyCode === 45) {
-        toggleRebus();
+        dispatch({ type: 'TOGGLE_REBUS' });
       } else if (keyCode >= 45 && keyCode <= 90) {
         if (
           revealedCells.filter(
@@ -35,9 +30,17 @@ const Board = ({
         ) {
           return;
         }
-        if (!isPuzzleSolved) guess(key);
+        if (!isPuzzleSolved) dispatch({ type: 'GUESS', key });
       } else if (keyCode === 8) {
-        navigate(direction === 'across' ? 37 : 38, { clearFirst: true });
+        dispatch({
+          type: 'NAVIGATE',
+          keyCode: direction === 'across' ? 37 : 38,
+          options: { clearFirst: true },
+        });
+      } else if (key === 'Home') {
+        dispatch({ type: 'HOME' });
+      } else if (key === 'End') {
+        dispatch({ type: 'END' });
       }
     }, 50),
     [direction, isPuzzleSolved]
@@ -51,14 +54,14 @@ const Board = ({
 
   const rows = playableBoard.map((row, rowNum) => {
     return (
-      // it is fine to use index as key because the index will not change and is actually meaningful information because it's index = its position in the grid
       <tr
+        // it is fine to use index as key because the index will not change and is actually meaningful information because it's index = its position in the grid
         // eslint-disable-next-line react/no-array-index-key
         key={rowNum}
         style={{ width: '100%' }}
       >
         {row.map((cell, colNum) => {
-          const black = cell.answer === '#BS#';
+          const black = cell.style === '#BS#';
           let isHighlighted = false;
 
           currentCells.some(coords => {
@@ -88,11 +91,14 @@ const Board = ({
               isPlaying={isPlaying}
               guess={isPlaying ? cell.guess : ''}
               number={cell.number}
+              style={cell.style}
               showAnswers={false}
               isRevealed={isRevealed}
               rowLength={row.length}
               coords={[rowNum, colNum]}
-              click={() => selectCell([rowNum, colNum])}
+              click={() =>
+                dispatch({ type: 'SELECT_CELL', cell: [rowNum, colNum] })
+              }
             />
           );
         })}
@@ -129,16 +135,13 @@ Board.propTypes = {
   ),
   direction: PropTypes.oneOf(['across', 'down']).isRequired,
   currentCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  selectCell: PropTypes.func.isRequired,
   focusedCell: PropTypes.arrayOf(PropTypes.number).isRequired,
   // isConstructing: PropTypes.bool,
-  navigate: PropTypes.func.isRequired,
-  guess: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   revealedCells: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   isPuzzleRevealed: PropTypes.bool.isRequired,
   isPuzzleSolved: PropTypes.bool.isRequired,
-  toggleRebus: PropTypes.bool.isRequired,
 };
 
 Board.defaultProps = {

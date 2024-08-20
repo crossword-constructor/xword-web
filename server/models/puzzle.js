@@ -20,7 +20,11 @@ const PuzzleSchema = new mongoose.Schema(
       rows: { type: Number },
       columns: { type: Number },
     },
-    board: [],
+    board: [{
+      _id: false,
+      text: { type: String, nullable: true, },
+      style: { type: String, nullable: true, }
+    }], 
     privacySetting: {
       type: String,
       enum: ['PUBLIC', 'PRIVATE', 'SUPERPRIVATE'],

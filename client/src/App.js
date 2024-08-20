@@ -26,6 +26,7 @@ const App = () => {
         <Route index element={<Signup />} />
         <Route path="calendar" element={<Calendar />} />
         <Route path="solve/:id" element={<SolveSpace />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </div>
   );

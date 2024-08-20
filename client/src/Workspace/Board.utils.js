@@ -1,24 +1,29 @@
 export const buildPlayableBoard = (puzzle, userPuzzle) => {
-  const { board, clues } = puzzle;
+  const { board, clues, dimensions } = puzzle;
   const { board: userBoard } = userPuzzle;
-  console.log({ board, clues });
   const cluesObj = {};
   for (let i = 0; i < clues.length; i += 1) {
-    console.log(clues[i]);
-    console.log(clues[i].position);
     cluesObj[clues[i].position] = { ...clues[i] };
-    console.log(cluesObj[clues[i].position]);
     cluesObj[clues[i].position].cells = [];
   }
   let currentNumber = 1;
   const downClueTracker = {};
-  const playableBoard = board.map((row, rowCount) => {
+  const rows = [];
+  let tempRow = [];
+  board.forEach((cell, i) => {
+    tempRow.push(cell);
+    if ((i + 1) % dimensions.width === 0) {
+      rows.push([...tempRow]);
+      tempRow = [];
+    }
+  });
+  const playableBoard = rows.map((row, rowCount) => {
     let acrossClue = '1A';
     let downClue = '1D';
     return row.map((col, colCount) => {
       let number = null;
-      if (col === '#BS#') {
-        return { answer: col };
+      if (col.style === '#BS#') {
+        return { answer: col.text, style: col.style };
       }
       // If we're in the top row, every white square has a down clue
       if (rowCount === 0) {
@@ -29,31 +34,30 @@ export const buildPlayableBoard = (puzzle, userPuzzle) => {
         acrossClue = `${currentNumber}A`;
       }
       // If the previous square is black, this is an across clue
-      if (row[colCount - 1] === '#BS#') {
+      if (row[colCount - 1] && row[colCount - 1].style === '#BS#') {
         acrossClue = `${currentNumber}A`;
       }
       // If there is a row above and the cell above is black, this is a down clue
-      if (board[rowCount - 1] && board[rowCount - 1][colCount] === '#BS#') {
+      if (rows[rowCount - 1] && rows[rowCount - 1][colCount].style === '#BS#') {
         downClueTracker[colCount] = currentNumber;
       }
       downClue = `${downClueTracker[colCount]}D`;
       cluesObj[acrossClue].cells.push([rowCount, colCount]);
-
       cluesObj[downClue].cells.push([rowCount, colCount]);
       // Check if this cell gets a number
       if (
         rowCount === 0 ||
         colCount === 0 ||
-        row[colCount - 1] === '#BS#' ||
-        board[rowCount - 1][colCount] === '#BS#'
+        row[colCount - 1].style === '#BS#' ||
+        rows[rowCount - 1][colCount].style === '#BS#'
       ) {
         number = currentNumber;
         currentNumber += 1;
       }
-
       return {
-        guess: userBoard[rowCount][colCount],
-        answer: col,
+        guess: userBoard[rowCount + colCount * dimensions.height].text,
+        answer: col.text,
+        style: col.style,
         number,
         clues: [acrossClue, downClue],
       };
@@ -73,33 +77,35 @@ export const findNextCell = (
   board
 ) => {
   let validCellFound;
+  const originalRow = row;
+  const originalCol = col;
   while (!validCellFound) {
     if (direction === 'across') {
       if (key === 39) {
         col += 1;
         if (!board[row][col]) {
-          col = 0;
+          return [originalRow, originalCol];
         }
       } else {
         col -= 1;
         if (!board[row][col]) {
-          col = board[0].length - 1;
+          return [originalRow, originalCol];
         }
       }
     } else if (direction === 'down') {
       if (key === 40) {
         row += 1;
         if (!board[row]) {
-          row = 0;
+          row -= 1;
         }
       } else {
         row -= 1;
         if (!board[row]) {
-          row = board.length - 1;
+          row += 1;
         }
       }
     }
-    if (board[row][col].answer === '#BS#') {
+    if (board[row][col].style === '#BS#') {
       validCellFound = false;
     } else {
       validCellFound = true;
@@ -124,7 +130,7 @@ export const searchForBoundaryCell = (row, col, direction, incOrDec, board) => {
         currentCell = undefined;
       }
     }
-    if (!currentCell || currentCell === '#BS#') {
+    if (!currentCell || currentCell.style === '#BS#') {
       cell = incOrDec === 'INCREMENT' ? endCounter - 1 : endCounter + 1;
       return cell;
     }

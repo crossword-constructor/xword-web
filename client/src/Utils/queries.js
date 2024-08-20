@@ -88,8 +88,15 @@ export const GET_PUZZLE = gql`
           title
           author
           date
+          dimensions {
+            height
+            width
+          }
           publisher
-          board
+          board {
+            text
+            style
+          }
           clues {
             answer {
               _id
@@ -104,7 +111,10 @@ export const GET_PUZZLE = gql`
         }
         userPuzzle {
           _id
-          board
+          board {
+            text
+            style
+          }
           revealedCells
           isRevealed
           isSolved

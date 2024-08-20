@@ -1,10 +1,10 @@
-import { findNextCell } from './Board.utils';
+import { findNextCell, searchForBoundaryCell } from './Board.utils';
 
 export default (state, action) => {
   switch (action.type) {
     case 'LOAD_PUZZLE': {
       const { clues, playableBoard, puzzle } = action.payload;
-      const focusedCells = clues['1A'].cells;
+      const currentCells = clues['1A'].cells;
       return {
         ...state,
         playableBoard,
@@ -15,7 +15,7 @@ export default (state, action) => {
         isRebusMode: false,
         selection: {
           ...state.selection,
-          focusedCells,
+          currentCells,
         },
       };
     }
@@ -99,6 +99,7 @@ export default (state, action) => {
         ...state,
         playableBoard: updatedBoard,
         direction,
+        isRebusMode: false,
         selection: {
           ...selection,
           currentCells,
@@ -108,35 +109,40 @@ export default (state, action) => {
       };
     }
 
+    case 'HOME': {
+      return goToBoundary('DECREMENT', state);
+    }
+
+    case 'END': {
+      return goToBoundary('INCREMENT', state);
+    }
+
     case 'TOGGLE_REBUS': {
-      console.log(`toggling rebus, current state: ${state.isRebusMode}`);
       const newState = {
         ...state,
         isRebusMode: !state.isRebusMode,
       };
-      console.log({ newState });
       return newState;
     }
 
     case 'GUESS': {
-      console.log('GUESS');
       const { playableBoard, selection, direction, clues, isRebusMode } = state;
-      console.log({ isRebusMode });
       const updatedPlayableBoard = [...playableBoard];
       const { focusedCell } = selection;
       const [currentRow, currentCol] = selection.focusedCell;
-      updatedPlayableBoard[currentRow][
-        currentCol
-      ].guess = action.key.toUpperCase();
-      if (isRebusMode) {
-        return;
-      }
-      const nextCell = findNextCell(
-        focusedCell,
-        direction,
-        direction === 'across' ? 39 : 40,
-        playableBoard
-      );
+      let currentGuess = updatedPlayableBoard[currentRow][currentCol].guess;
+      currentGuess = isRebusMode
+        ? currentGuess + action.key.toUpperCase()
+        : action.key.toUpperCase();
+      updatedPlayableBoard[currentRow][currentCol].guess = currentGuess;
+      const nextCell = isRebusMode
+        ? [currentRow, currentCol]
+        : findNextCell(
+            focusedCell,
+            direction,
+            direction === 'across' ? 39 : 40,
+            playableBoard
+          );
       const [row, col] = nextCell;
       const currentCells =
         clues[playableBoard[row][col].clues[direction === 'across' ? 0 : 1]]
@@ -200,4 +206,27 @@ export default (state, action) => {
     default:
       break;
   }
+};
+
+const goToBoundary = (incOrDec, state) => {
+  const { playableBoard, selection, direction } = state;
+  const { focusedCell, currentCells } = selection;
+  const next = searchForBoundaryCell(
+    focusedCell[0],
+    focusedCell[1],
+    direction,
+    incOrDec,
+    playableBoard
+  );
+  const row = direction === 'down' ? next : focusedCell[0];
+  const col = direction === 'across' ? next : focusedCell[1];
+  const nextCell = [row, col];
+  return {
+    ...state,
+    selection: {
+      currentCells,
+      focusedCell: nextCell,
+      currentClues: playableBoard[nextCell[0]][nextCell[1]].clues,
+    },
+  };
 };

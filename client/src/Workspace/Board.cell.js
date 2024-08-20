@@ -12,6 +12,7 @@ const Cell = ({
   isHighlighted,
   isPlaying,
   rowLength,
+  style,
 }) => {
   const cell = useRef(null);
 
@@ -72,7 +73,8 @@ const Cell = ({
         role="button"
         tabIndex="-1"
       >
-        {text}
+        {style === 'circle' && <div className={styles.circle} />}
+        <div className={styles.text}>{text}</div>
       </div>
     </td>
   );

@@ -4,7 +4,11 @@ const { ObjectId, Mixed } = mongoose.Schema.Types;
 const UserPuzzleSchema = new mongoose.Schema(
   {
     puzzle: { type: ObjectId, ref: 'Puzzle' },
-    board: [[{ type: String }]],
+    board: [{
+      _id: false,
+      text: { type: String, nullable: true, },
+      style: { type: String, nullable: true, }
+    }], 
     user: { type: ObjectId, ref: 'User' },
     time: { type: Number, default: 0 },
     revealedCells: [{ type: Array }],

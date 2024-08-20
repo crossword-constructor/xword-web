@@ -28,13 +28,19 @@ export default gql`
   type UserPuzzle {
     _id: ID!
     puzzle: Puzzle!
-    board: [[String]]!
+    board: [Cell]!
     revealedCells: [[Float]]
+    dimensions: Dimensions
     isRevealed: Boolean
     isSolved: Boolean
     user: String
     time: Float
     updatedAt: String
+  }
+
+  type Dimensions {
+    width: Int
+    height: Int
   }
 
   type Stats {

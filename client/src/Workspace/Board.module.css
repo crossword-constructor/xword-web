@@ -13,6 +13,26 @@
   font-size: .9vw;
 }
 
+.circle {
+  margin: 2.5%;
+  margin-bottom: 0;
+  height: 80%;
+  width: 85%;
+  background: #f7e69f;
+  border: 2.5px solid #ffd83e;
+  border-radius: 45%;
+  z-index: 0;
+  position: absolute;
+}
+
+.shade {
+
+}
+
+.text {
+  z-index: 2;
+}
+
 .cellInput {
   position: absolute;
   top: 0;

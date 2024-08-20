@@ -33,7 +33,10 @@ const UPDATE_PLAYER_BOARD = gql`
       isSolved: $isSolved
     ) {
       _id
-      board
+      board {
+        text
+        style
+      }
       time
       revealedCells
       isRevealed
@@ -225,14 +228,7 @@ const Solvespace = () => {
               currentCells={selection.currentCells}
               focusedCell={selection.focusedCell}
               direction={direction}
-              selectCell={cell => dispatch({ type: 'SELECT_CELL', cell })}
-              navigate={(keyCode, options) =>
-                dispatch({ type: 'NAVIGATE', keyCode, options })
-              }
-              guess={key => {
-                dispatch({ type: 'GUESS', key });
-              }}
-              toggleRebus={() => dispatch({ type: 'TOGGLE_REBUS' })}
+              dispatch={dispatch}
             />
           ) : null}
         </div>

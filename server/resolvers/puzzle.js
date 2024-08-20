@@ -18,6 +18,7 @@ export default {
       let puzzle;
       let userPuzzle;
       try {
+        // ??? ummm is this order guaranteed?
         [user, puzzle] = await Promise.all([
           User.findById(req.user._id).populate('solvedPuzzles'),
           Puzzle.findById(_id)
@@ -32,9 +33,7 @@ export default {
         if (!userPuzzle) {
           userPuzzle = await UserPuzzle.create({
             puzzle: _id,
-            board: puzzle.board.map(row =>
-              row.map(cell => (cell === '#BS#' ? cell : ''))
-            ),
+            board: puzzle.board.map(cell => ({...cell, text: ''})),
             user: user._id,
             time: 0,
           });
@@ -44,10 +43,19 @@ export default {
         error = err;
       }
       return generateResponse(
-        { playablePuzzle: { puzzle, userPuzzle } },
+        { 
+          playablePuzzle: {
+              puzzle: {
+                ...puzzle, 
+                dimensions: { height: puzzle.dimensions.rows, width: puzzle.dimensions.columns }
+              },
+            userPuzzle 
+          }
+        },
         error
       );
     },
+    
 
     puzzles: async (root, args, { req }, info) => {
       let error;

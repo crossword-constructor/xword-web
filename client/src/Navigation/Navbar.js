@@ -72,6 +72,7 @@ const Navbar = () => {
             Construct
           </NavLink>
         </li>
+        {LoginLink}
         {/* <Query query={USERNAME} name="profileInfo">
           {({ data }) => {
             if (data && data.profileInfo) {
