@@ -66,10 +66,67 @@ export const buildPlayableBoard = (puzzle, userPuzzle) => {
   return { ...puzzle, playableBoard, clues: cluesObj };
 };
 
+export const buildConstructableBoard = size => {
+  const cols = new Array(size).fill({ text: '', style: '' });
+  const rows = new Array(size).fill([...cols]);
+  const { board: constructableBoard, clues } = recalculateCluesAndNumbers(rows);
+  return { constructableBoard, clues };
+};
+
+export const recalculateBlackSquares = board => {};
+
+export const recalculateCluesAndNumbers = board => {
+  const cluesObj = {};
+  let currentNumber = 1;
+  const downClueTracker = {};
+  const newBoard = board.map((row, rowCount) => {
+    let acrossClue = '1A';
+    let downClue = '1D';
+    return row.map((col, colCount) => {
+      let number = null;
+      if (col.style === '#BS#') {
+        return { answer: col.text, style: col.style };
+      }
+
+      if (
+        rowCount === 0 ||
+        colCount === 0 ||
+        row[colCount - 1].style === '#BS#' ||
+        board[rowCount - 1][colCount].style === '#BS#'
+      ) {
+        number = currentNumber;
+        if (colCount === 0 || row[colCount - 1].style === '#BS#') {
+          // we have an across clue
+          acrossClue = `${number}A`;
+          cluesObj[`${number}A`] = { clue: '', answer: '', cells: [] };
+        }
+        if (rowCount === 0 || board[rowCount - 1][colCount].style === '#BS#') {
+          // we have a down clue
+          downClueTracker[colCount] = number;
+          cluesObj[`${number}D`] = { clue: '', answer: '', cells: [] };
+        }
+        currentNumber += 1;
+      }
+      downClue = `${downClueTracker[colCount]}D`;
+      cluesObj[acrossClue].cells.push([rowCount, colCount]);
+      cluesObj[downClue].cells.push([rowCount, colCount]);
+      return {
+        ...col,
+        answer: col.text,
+        style: col.style,
+        number,
+        clues: [acrossClue, downClue],
+      };
+    });
+  });
+  return { board: newBoard, clues: cluesObj };
+};
+
 // Take the current position, direction, keypressed and finds the next cell in that row or col that isn't a blacksquare.
 // If it reaches the end of the board it goes back to the beginning
 // If a key (arrow key code) is not provided we deduce it from the direction
 
+const maxSearchDepth = 200;
 export const findNextCell = (
   [row, col],
   direction,
@@ -79,7 +136,9 @@ export const findNextCell = (
   let validCellFound;
   const originalRow = row;
   const originalCol = col;
+  let currentSearchDepth = 0;
   while (!validCellFound) {
+    currentSearchDepth += 1;
     if (direction === 'across') {
       if (key === 39) {
         col += 1;
@@ -110,6 +169,10 @@ export const findNextCell = (
     } else {
       validCellFound = true;
       return [row, col];
+    }
+    if (currentSearchDepth >= maxSearchDepth) {
+      console.warn('Max search depth reached for finding valid cell');
+      return;
     }
   }
 };

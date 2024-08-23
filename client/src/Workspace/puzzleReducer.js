@@ -55,6 +55,12 @@ export default (state, action) => {
       ) {
         newDirection = direction === 'across' ? 'down' : 'across';
       }
+      console.log({
+        clues,
+        playableBoard,
+        cell,
+        current: playableBoard[cell[0]][cell[1]],
+      });
       return {
         ...state,
         direction: newDirection,

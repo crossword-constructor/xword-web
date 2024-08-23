@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { useParams } from 'react-router-dom';
+import { useTheme } from '@emotion/react';
 import { GET_PUZZLE } from '../Utils/queries';
 import puzzleReducer from './puzzleReducer';
 import { buildSaveableBoard, buildPlayableBoard } from './Board.utils';
@@ -46,6 +47,8 @@ const UPDATE_PLAYER_BOARD = gql`
 `;
 
 const Solvespace = () => {
+  const them = useTheme();
+  console.log(them);
   const { id } = useParams();
   const [state, dispatch] = useReducer(puzzleReducer, {
     playableBoard: null,

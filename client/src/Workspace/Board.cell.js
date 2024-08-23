@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import styles from './Board.module.css';
 
 const Cell = ({
-  answer,
+  text,
   number,
-  guess,
   isRevealed,
   click,
   isFocused,
@@ -32,30 +32,29 @@ const Cell = ({
   } else if (isHighlighted) {
     background = highlightBlue;
   }
-  let color = 'black';
-  if (isRevealed) {
-    if (answer.toLowerCase() !== guess.toLowerCase()) {
-      color = 'red';
-    }
-  }
-
-  const text = isRevealed ? answer : guess;
+  const color = 'black';
+  // if (isRevealed) {
+  //   if (answer.toLowerCase() !== guess.toLowerCase()) {
+  //     color = 'red';
+  //   }
+  // }
   let fontSize = 1.1;
   if (cell.current) {
-    if (text.length > 1) {
+    if (text && text.length > 1) {
       fontSize = 1.1 - 0.13 * text.length;
     }
   }
   return (
-    <td
-      className={styles.cell}
-      style={{
-        width: `${100 / rowLength}%`,
-        height: 0,
-        paddingBottom: `${100 / rowLength}%`,
-        maxHeight: '34px',
-        maxWidth: '34px',
-      }}
+    <BaseCell
+      // className={styles.cell}
+      $width={100 / rowLength}
+      // style={{
+      //   width: `%`,
+      //   height: 0,
+      //   paddingBottom: `${100 / rowLength}%`,
+      //   maxHeight: '34px',
+      //   maxWidth: '34px',
+      // }}
     >
       <div className={styles.number} style={{ fontSize: '0.9cqw' }}>
         {number}
@@ -76,13 +75,23 @@ const Cell = ({
         {style === 'circle' && <div className={styles.circle} />}
         <div className={styles.text}>{text}</div>
       </div>
-    </td>
+    </BaseCell>
   );
 };
 
+export const BaseCell = styled.td`
+  width: ${({ $width }) => $width}%;
+  /* height: ${({ $width }) => $width}%; */
+  padding-bottom: ${({ $width }) => $width}%;
+  /* max-height: 34px;
+  max-width: 34px; */
+  position: relative;
+  border: 1px solid black;
+  cursor: default;
+`;
+
 Cell.propTypes = {
-  answer: PropTypes.string.isRequired,
-  guess: PropTypes.string,
+  text: PropTypes.string.isRequired,
   number: PropTypes.number,
   click: PropTypes.func.isRequired,
   isRevealed: PropTypes.bool,
@@ -94,7 +103,6 @@ Cell.propTypes = {
 };
 
 Cell.defaultProps = {
-  guess: '',
   number: null,
   isRevealed: false,
   isFocused: false,

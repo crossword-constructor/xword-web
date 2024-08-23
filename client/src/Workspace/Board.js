@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import Cell from './Board.cell';
 import styles from './Board.module.css';
+import { BoardContainer } from '../Shared/Common';
 
 const Board = ({
   playableBoard,
@@ -17,7 +18,10 @@ const Board = ({
 }) => {
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
-      if (keyCode >= 37 && keyCode <= 40) {
+      console.log({ keyCode, key });
+      if (keyCode === 32) {
+        dispatch({ type: 'SPACE' });
+      } else if (keyCode >= 37 && keyCode <= 40) {
         dispatch({ type: 'NAVIGATE', keyCode });
       } else if (keyCode === 45) {
         dispatch({ type: 'TOGGLE_REBUS' });
@@ -52,61 +56,61 @@ const Board = ({
     throttledKeyListener(keyCode, key);
   };
 
-  const rows = playableBoard.map((row, rowNum) => {
-    return (
-      <tr
-        // it is fine to use index as key because the index will not change and is actually meaningful information because it's index = its position in the grid
-        // eslint-disable-next-line react/no-array-index-key
-        key={rowNum}
-        style={{ width: '100%' }}
-      >
-        {row.map((cell, colNum) => {
-          const black = cell.style === '#BS#';
-          let isHighlighted = false;
+  // const rows = playableBoard.map((row, rowNum) => {
+  //   return (
+  //     <tr
+  //       // it is fine to use index as key because the index will not change and is actually meaningful information because it's index = its position in the grid
+  //       // eslint-disable-next-line react/no-array-index-key
+  //       key={rowNum}
+  //       style={{ width: '100%' }}
+  //     >
+  //       {row.map((cell, colNum) => {
+  //         const black = cell.style === '#BS#';
+  //         let isHighlighted = false;
 
-          currentCells.some(coords => {
-            // console.log('coords: ', coords);
-            if (coords[0] === rowNum && coords[1] === colNum) {
-              isHighlighted = true;
-              return true;
-            }
-            return false;
-          });
+  //         currentCells.some(coords => {
+  //           // console.log('coords: ', coords);
+  //           if (coords[0] === rowNum && coords[1] === colNum) {
+  //             isHighlighted = true;
+  //             return true;
+  //           }
+  //           return false;
+  //         });
 
-          const isRevealed =
-            isPuzzleRevealed ||
-            revealedCells.filter(
-              cells => cells[0] === rowNum && cells[1] === colNum
-            ).length > 0;
-          return black ? (
-            // eslint-disable-next-line react/no-array-index-key
-            <td className={styles.black} key={`${rowNum}${colNum}`} />
-          ) : (
-            <Cell
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${rowNum}${colNum}`}
-              isHighlighted={isHighlighted}
-              isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
-              answer={isPlaying || isPuzzleSolved ? cell.answer : ''}
-              isPlaying={isPlaying}
-              guess={isPlaying ? cell.guess : ''}
-              number={cell.number}
-              style={cell.style}
-              showAnswers={false}
-              isRevealed={isRevealed}
-              rowLength={row.length}
-              coords={[rowNum, colNum]}
-              click={() =>
-                dispatch({ type: 'SELECT_CELL', cell: [rowNum, colNum] })
-              }
-            />
-          );
-        })}
-      </tr>
-    );
-  });
+  //         const isRevealed =
+  //           isPuzzleRevealed ||
+  //           revealedCells.filter(
+  //             cells => cells[0] === rowNum && cells[1] === colNum
+  //           ).length > 0;
+  //         return black ? (
+  //           // eslint-disable-next-line react/no-array-index-key
+  //           <td className={styles.black} key={`${rowNum}${colNum}`} />
+  //         ) : (
+  //           <Cell
+  //             // eslint-disable-next-line react/no-array-index-key
+  //             key={`${rowNum}${colNum}`}
+  //             isHighlighted={isHighlighted}
+  //             isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
+  //             answer={isPlaying || isPuzzleSolved ? cell.answer : ''}
+  //             isPlaying={isPlaying}
+  //             guess={isPlaying ? cell.guess : ''}
+  //             number={cell.number}
+  //             style={cell.style}
+  //             showAnswers={false}
+  //             isRevealed={isRevealed}
+  //             rowLength={playableBoard.length}
+  //             coords={[rowNum, colNum]}
+  //             click={() =>
+  //               dispatch({ type: 'SELECT_CELL', cell: [rowNum, colNum] })
+  //             }
+  //           />
+  //         );
+  //       })}
+  //     </tr>
+  //   );
+  // });
   return (
-    <div className="page">
+    <div>
       {/* <Clock play={playing} onClick={() => togglePlaying(!playing)} /> */}
       <div
         role="button"
@@ -114,9 +118,58 @@ const Board = ({
         // @ TODO NEXT // holding down key is causing freezing
         onKeyDown={keyListener}
       >
-        <table style={{ border: '1px solid blue', width: '100%' }}>
+        <BoardContainer
+          rows={playableBoard}
+          cellRenderer={(cell, rowNum, colNum) => {
+            const black = cell.style === '#BS#';
+            let isHighlighted = false;
+
+            currentCells.some(coords => {
+              // console.log('coords: ', coords);
+              if (coords[0] === rowNum && coords[1] === colNum) {
+                isHighlighted = true;
+                return true;
+              }
+              return false;
+            });
+
+            const isRevealed =
+              isPuzzleRevealed ||
+              revealedCells.filter(
+                cells => cells[0] === rowNum && cells[1] === colNum
+              ).length > 0;
+            return black ? (
+              // eslint-disable-next-line react/no-array-index-key
+              <td className={styles.black} key={`${rowNum}${colNum}`} />
+            ) : (
+              <Cell
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${rowNum}${colNum}`}
+                isHighlighted={isHighlighted}
+                isFocused={
+                  focusedCell[0] === rowNum && focusedCell[1] === colNum
+                }
+                isPlaying={isPlaying}
+                text={
+                  // eslint-disable-next-line no-nested-ternary
+                  isPuzzleSolved ? cell.answer : isPlaying ? cell.guess : ''
+                }
+                number={cell.number}
+                style={cell.style}
+                showAnswers={false}
+                isRevealed={isRevealed}
+                rowLength={playableBoard.length}
+                coords={[rowNum, colNum]}
+                click={() =>
+                  dispatch({ type: 'SELECT_CELL', cell: [rowNum, colNum] })
+                }
+              />
+            );
+          }}
+        />
+        {/* <table style={{ border: '1px solid blue', width: '100%' }}>
           <tbody className={styles.board}>{rows}</tbody>
-        </table>
+        </table> */}
       </div>
     </div>
   );
