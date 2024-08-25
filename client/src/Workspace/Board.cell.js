@@ -6,7 +6,7 @@ import styles from './Board.module.css';
 const Cell = ({
   text,
   number,
-  isRevealed,
+  isRevealed = false,
   click,
   isFocused,
   isHighlighted,
@@ -18,7 +18,7 @@ const Cell = ({
 
   useEffect(() => {
     if (cell.current && isFocused && isPlaying) {
-      cell.current.focus();
+      setTimeout(() => cell.current.focus(), 0);
     }
   }, [isFocused, isPlaying]);
 
@@ -27,7 +27,9 @@ const Cell = ({
     .getComputedStyle(document.documentElement)
     .getPropertyValue('--highlightBlue');
   let background = '#F6F6F6';
-  if (isFocused) {
+  if (style === '#BS#') {
+    background = 'black';
+  } else if (isFocused) {
     background = 'rgb(255, 200, 100)';
   } else if (isHighlighted) {
     background = highlightBlue;
@@ -48,13 +50,6 @@ const Cell = ({
     <BaseCell
       // className={styles.cell}
       $width={100 / rowLength}
-      // style={{
-      //   width: `%`,
-      //   height: 0,
-      //   paddingBottom: `${100 / rowLength}%`,
-      //   maxHeight: '34px',
-      //   maxWidth: '34px',
-      // }}
     >
       <div className={styles.number} style={{ fontSize: '0.9cqw' }}>
         {number}
@@ -88,6 +83,12 @@ export const BaseCell = styled.td`
   position: relative;
   border: 1px solid black;
   cursor: default;
+  div:focus {
+    border: 2px solid red;
+  }
+  div:focus-visible {
+    outline: none;
+  }
 `;
 
 Cell.propTypes = {

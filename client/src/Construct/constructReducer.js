@@ -59,17 +59,19 @@ export default (state, action) => {
       ) {
         newDirection = direction === 'across' ? 'down' : 'across';
       }
+      const currentCells = playableBoard[cell[0]][cell[1]].clues
+        ? clues[
+            playableBoard[cell[0]][cell[1]].clues[
+              newDirection === 'across' ? 0 : 1
+            ]
+          ].cells
+        : [selection.focusedCell];
       return {
         ...state,
         direction: newDirection,
         selection: {
           focusedCell: cell,
-          currentCells:
-            clues[
-              playableBoard[cell[0]][cell[1]].clues[
-                newDirection === 'across' ? 0 : 1
-              ]
-            ].cells,
+          currentCells,
           currentClues: playableBoard[cell[0]][cell[1]].clues,
         },
       };
@@ -80,6 +82,7 @@ export default (state, action) => {
       const { currentClues, focusedCell } = selection;
       const { keyCode, options } = action;
       const updatedBoard = [...playableBoard];
+      const allowBlackSquareNavigation = true;
       let { currentCells } = selection;
       let nextCell = focusedCell; // Do I need to copy these so React knows its value has changed ? @ todo look into this
       let { direction } = state;
@@ -88,16 +91,30 @@ export default (state, action) => {
       }
       if (keyCode % 2 !== 0 && state.direction === 'down') {
         direction = 'across';
-        currentCells = clues[currentClues[0]].cells;
+        currentCells = currentClues
+          ? clues[currentClues[0]].cells
+          : [focusedCell];
       } else if (keyCode % 2 === 0 && state.direction === 'across') {
         direction = 'down';
-        currentCells = clues[currentClues[1]].cells;
+        currentCells = currentClues
+          ? clues[currentClues[1]].cells
+          : [focusedCell];
       } else {
-        nextCell = findNextCell(focusedCell, direction, keyCode, playableBoard);
+        nextCell = findNextCell(
+          focusedCell,
+          direction,
+          keyCode,
+          playableBoard,
+          allowBlackSquareNavigation
+        );
         const [row, col] = nextCell;
-        currentCells =
-          clues[playableBoard[row][col].clues[direction === 'across' ? 0 : 1]]
-            .cells;
+        if (!playableBoard[row][col].clues) {
+          currentCells = [[row, col]];
+        } else {
+          currentCells =
+            clues[playableBoard[row][col].clues[direction === 'across' ? 0 : 1]]
+              .cells;
+        }
       }
       return {
         ...state,
@@ -185,11 +202,23 @@ export default (state, action) => {
         playableBoard,
         selection: { focusedCell },
       } = state;
-      const blackSquares = [focusedCell];
       const autoBlackSquares = calculateAutoBlackSquares(
         focusedCell,
         playableBoard
       );
+      const blackSquares = [];
+      if (playableBoard[focusedCell[0]][focusedCell[1]].style === '#BS#') {
+        // remove blacksquare
+        playableBoard[focusedCell[0]][focusedCell[1]].style = '';
+        const inverseSquare = getInverseSquare(
+          focusedCell[0],
+          focusedCell[1],
+          size
+        );
+        playableBoard[inverseSquare[0]][inverseSquare[1]].style = '';
+      } else {
+        blackSquares.push(focusedCell);
+      }
       const allBlackSquares = [...blackSquares, ...autoBlackSquares];
       const inverseSquares = getInverseSquares(allBlackSquares, size);
       // Recalculate black sqaures before getting auto inverse black squares
@@ -221,12 +250,6 @@ export default (state, action) => {
         playableBoard: board,
         clues,
         isDirty: true,
-      };
-    }
-
-    case 'REMOVE_BLACK_SQUARE': {
-      return {
-        ...state,
       };
     }
 

@@ -7,16 +7,35 @@ import cookieParser from 'cookie-parser';
 // import auth from './auth';
 import jwt from 'jsonwebtoken';
 import typeDefs from './typeDefs';
+import { Sequelize } from 'sequelize'
 import resolvers from './resolvers';
+import { Word, WordList } from './sequelizeModels'
+import writeToDb from './scripts/writeWordListToDB';
+
 // import schemaDirectives from './directives';
 
-import { PORT, IN_PROD, DB_URI, APP_URL, SECRET } from './config';
+import { PORT, IN_PROD, DB_URI, APP_URL, SECRET, PG_DB_NAME, PG_USERNAME, PG_PW, PG_HOST } from './config';
 
 (async () => {
   try {
     await mongoose.connect(DB_URI, {
       useNewUrlParser: true,
     });
+
+    const sequelize = new Sequelize(PG_DB_NAME, PG_USERNAME, PG_PW, {
+      host: PG_HOST,
+      dialect: 'postgres'
+    });
+    try {
+      await sequelize.authenticate();
+      await Word.sync({ force: true })
+      await WordList.sync({ force: true })
+      console.log("writing to db")
+      writeToDb();
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
 
     const app = express();
 
