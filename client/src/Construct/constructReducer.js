@@ -91,14 +91,38 @@ export default (state, action) => {
       }
       if (keyCode % 2 !== 0 && state.direction === 'down') {
         direction = 'across';
-        currentCells = currentClues
-          ? clues[currentClues[0]].cells
-          : [focusedCell];
+        if (currentClues) {
+          currentCells = clues[currentClues[0]].cells;
+        } else {
+          nextCell = findNextCell(
+            focusedCell,
+            direction,
+            keyCode,
+            playableBoard,
+            allowBlackSquareNavigation
+          );
+        }
+        if (playableBoard[nextCell[0]][nextCell[1]].style !== '#BS#') {
+          currentCells =
+            clues[playableBoard[nextCell[0]][nextCell[1]].clues[0]].cells;
+        }
       } else if (keyCode % 2 === 0 && state.direction === 'across') {
         direction = 'down';
-        currentCells = currentClues
-          ? clues[currentClues[1]].cells
-          : [focusedCell];
+        if (currentClues) {
+          currentCells = clues[currentClues[1]].cells;
+        } else {
+          nextCell = findNextCell(
+            focusedCell,
+            direction,
+            keyCode,
+            playableBoard,
+            allowBlackSquareNavigation
+          );
+        }
+        if (playableBoard[nextCell[0]][nextCell[1]].style !== '#BS#') {
+          currentCells =
+            clues[playableBoard[nextCell[0]][nextCell[1]].clues[1]].cells;
+        }
       } else {
         nextCell = findNextCell(
           focusedCell,
