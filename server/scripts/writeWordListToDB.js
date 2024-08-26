@@ -1,13 +1,15 @@
 import fs from 'fs'
 import readline from 'readline'
 
-import { WordList, Word } from '../sequelizeModels'
+import { WordList, Word, Car } from '../sequelizeModels'
 
 const writeToDb = async () => {
   const fileStream = fs.createReadStream('./server/scripts/xwordlist.txt')
   const wordList = await WordList.create({
     name: 'xwordlist'
   }, { raw: true })
+  const cars = await Car.findAll({})
+  console.log({cars})
   // const rl = readline.createInterface({
   //   input: fileStream,
   //   crlfDelay: Infinity

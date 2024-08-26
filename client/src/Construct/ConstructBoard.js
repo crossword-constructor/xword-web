@@ -55,7 +55,6 @@ const ConstructionBoard = ({
       tabIndex="-1"
       // @ TODO NEXT // holding down key is causing freezing
       onKeyDown={e => {
-        console.log('on key down');
         keyListener(e);
       }}
     >
