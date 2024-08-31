@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID, InterfaceType, InputType } from 'type-graphql'
+import { Field, ObjectType, ID, InputType, ArgsType } from 'type-graphql'
 import { QueryResponse, MutationResponse } from './Response'
 import { UserPuzzle, Dimensions } from './UserPuzzle'
 import { User } from './User'
@@ -6,7 +6,7 @@ import { User } from './User'
 @ObjectType()
 export class Puzzle {
   @Field(() => ID)
-  _id!: string
+  id!: string
 
   @Field({ nullable: true })
   editor?: string
@@ -66,7 +66,7 @@ export class Cell {
 @ObjectType()
 export class Clue {
   @Field(() => ID, { nullable: true })
-  _id?: string
+  id?: string
 
   @Field({ nullable: true })
   text?: string
@@ -75,7 +75,7 @@ export class Clue {
 @ObjectType()
 export class Answer {
   @Field(() => ID, { nullable: true })
-  _id?: string
+  id?: string
 
   @Field({ nullable: true })
   text?: string
@@ -84,7 +84,7 @@ export class Answer {
 @ObjectType()
 export class ClueAnswer {
   @Field(() => ID, { nullable: true })
-  _id?: string
+  id?: string
 
   @Field(() => Answer, { nullable: true })
   answer?: Answer
@@ -96,10 +96,22 @@ export class ClueAnswer {
   position?: string
 }
 
+@InputType()
+export class ClueAnswerInput {
+  @Field()
+  answer!: string
+
+  @Field()
+  clue!: string
+
+  @Field()
+  position!: string
+}
+
 @ObjectType()
 export class Comment {
   @Field(() => ID)
-  _id!: string
+  id!: string
 
   @Field(() => User)
   author?: User
@@ -113,100 +125,36 @@ export class Comment {
   @Field()
   date?: string
 }
-// export default gql`
-//   extend type Query {
-//     playablePuzzle(_id: ID): PlayablePuzzleResponse!
-//     todaysPuzzle(date: String!): PuzzleResponse!
-//     puzzles(month: String, year: String): PuzzlesResponse!
-//   }
 
-//   extend type Mutation {
-//     createPuzzle(
-//       username: String!
-//       name: String!
-//       password: String!
-//     ): CreatePuzzleResponse
-//   }
+@ArgsType()
+export class PlayablePuzzleInput {
+  @Field(() => ID)
+  id!: string
+}
 
-//   type PlayablePuzzleResponse implements QueryResponse {
-//     code: String!
-//     success: Boolean!
-//     message: String!
-//     playablePuzzle: PlayablePuzzle
-//   }
+@InputType()
+export class CreatePuzzleInput {
+  @Field({ nullable: true })
+  editor?: string
 
-//   type PuzzlesResponse implements QueryResponse {
-//     code: String!
-//     success: Boolean!
-//     message: String!
-//     puzzles: [Puzzle]
-//   }
+  @Field({ nullable: true })
+  author?: string
 
-//   type PuzzleResponse implements QueryResponse {
-//     code: String!
-//     success: Boolean!
-//     message: String!
-//     puzzle: Puzzle
-//   }
-//   type CreatePuzzleResponse implements MutationResponse {
-//     code: String!
-//     success: Boolean!
-//     message: String!
-//     puzzle: Puzzle
-//   }
+  @Field({ nullable: true })
+  publisher?: string
 
-//   type PlayablePuzzle {
-//     puzzle: Puzzle!
-//     userPuzzle: UserPuzzle!
-//   }
+  @Field({ nullable: true })
+  date?: string
 
-//   type Puzzle {
-//     _id: ID!
-//     editor: String
-//     author: String
-//     publisher: String
-//     date: String
-//     title: String
-//     dimensions: Dimensions
-//     clues: [ClueAnswer]
-//     board: [Cell]
-//     createdAt: String!
-//     updatedAt: String
-//     privacySetting: String!
-//     comments: [Comment]
-//   }
+  @Field({ nullable: true })
+  title?: string
 
-//   type Cell {
-//     text: String
-//     style: String
-//   }
+  @Field(() => Cell)
+  board!: string
 
-//   type ClueAnswer {
-//     _id: ID
-//     answer: Answer
-//     clue: Clue
-//     position: String
-//   }
-
-//   type Clue {
-//     _id: ID
-//     text: String
-//   }
-
-//   type Answer {
-//     _id: ID
-//     text: String
-//   }
-
-//   type Comment {
-//     _id: ID!
-//     author: User!
-//     puzzle: Puzzle!
-//     text: String!
-//     date: String!
-//   }
-// `
-
+  @Field()
+  width!: number
+}
 @ObjectType({ implements: QueryResponse })
 export class PlayablePuzzleResponse {
   @Field()
@@ -235,6 +183,21 @@ export class PuzzlesResponse {
 
   @Field(() => [Puzzle], { nullable: true })
   puzzles?: Puzzle[]
+}
+
+@ObjectType({ implements: QueryResponse })
+export class PuzzleResponse {
+  @Field()
+  code!: string
+
+  @Field()
+  success!: boolean
+
+  @Field()
+  message!: string
+
+  @Field(() => Puzzle, { nullable: true })
+  puzzle?: Puzzle
 }
 
 @ObjectType({ implements: MutationResponse })

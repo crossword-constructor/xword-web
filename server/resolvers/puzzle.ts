@@ -7,7 +7,7 @@ import { Puzzle } from '../typeDefs/puzzle';
 @Resolver()
 export class PuzzleResolver {
   @Query(() => PuzzlesResponse)
-  async playablePuzzle(@Args() { _id: string }, @Ctx() { req }) {
+  async playablePuzzle(@Args() { _id }, @Ctx() { req }) {
     if (!req.user.isAdmin) {
       // @todo save error objects as constans somewhere
       return {

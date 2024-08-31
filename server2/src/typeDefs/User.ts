@@ -9,7 +9,7 @@ import { Notification } from './Notification'
 @ObjectType()
 export class User {
   @Field(() => ID)
-  _id!: string
+  id!: string
 
   @Field({ nullable: true })
   email?: string

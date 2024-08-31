@@ -42,7 +42,7 @@ export class Stats {
 @ObjectType()
 export class UserPuzzle {
   @Field(() => ID)
-  _id!: string
+  id!: string
 
   @Field(() => Puzzle)
   puzzle?: Puzzle
@@ -81,7 +81,7 @@ export class UserPuzzle {
 
 //   extend type Mutation {
 //     updateUserPuzzle(
-//       _id: ID!
+//       id: ID!
 //       board: [[String!]]
 //       time: Float
 //       revealedCells: [[Float]]
@@ -98,7 +98,7 @@ export class UserPuzzle {
 //   }
 
 //   type UserPuzzle {
-//     _id: ID!
+//     id: ID!
 //     puzzle: Puzzle!
 //     board: [Cell]!
 //     revealedCells: [[Float]]

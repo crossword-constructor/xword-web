@@ -5,7 +5,7 @@ import { User } from './User'
 @ObjectType()
 export class Notification {
   @Field(() => ID)
-  _id!: string
+  id!: string
 
   @Field(() => User, { nullable: true })
   fromUser?: User

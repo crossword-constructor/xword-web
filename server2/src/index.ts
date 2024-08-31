@@ -28,22 +28,14 @@ import {
   PG_PW,
   PG_HOST,
 } from './config'
+import { getDatabaseConfig } from './db/dbConfig'
 ;(async () => {
   try {
     // await mongoose.connect(DB_URI, {
     //   useNewUrlParser: true,
     // });
 
-    const knex = Knex({
-      client: 'pg',
-      connection: {
-        host: PG_HOST,
-        port: 5432,
-        user: PG_USERNAME,
-        password: PG_PW,
-        database: PG_DB_NAME,
-      },
-    })
+    getDatabaseConfig()
     try {
       // await sequelize.authenticate();
       // await Word.sync({ force: true })
@@ -73,7 +65,7 @@ import {
       //       },
       //     },
       context: ({ req, res }: any) => {
-        res.set('Access-Control-Allow-Origin', APP_URL)
+        res.set('Access-Control-Allow-Origin', '*')
         const { user } = req.cookies
         if (user) {
           try {
@@ -86,11 +78,23 @@ import {
       },
     })
 
+    // app.use(
+    //   cors({
+    //     origin: APP_URL,
+    //     credentials: true,
+    //   })
+    // )
     app.use(
-      cors({
-        origin: APP_URL,
+      '/graphql',
+      cors<cors.CorsRequest>({
+        origin: [
+          'https://www.your-app.example',
+          'https://studio.apollographql.com', // Remove in prod
+        ],
         credentials: true,
-      })
+      }),
+      express.json()
+      // expressMiddleware(server)
     )
 
     app.use(cookieParser())

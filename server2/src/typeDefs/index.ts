@@ -15,7 +15,7 @@ import {
   AuthenticationResponse,
   UserResponse,
   User,
-  Notification,
+  // Notification,
 } from './User'
 import { UserPuzzleResponse, UserPuzzle, Dimensions, Stats } from './UserPuzzle'
 

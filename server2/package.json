@@ -9,7 +9,8 @@
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "migration:create": "knex migrate:make {args.name} -x ts",
     "migration:latest": "knex migrate:latest",
-    "migration:down": "knex migrate:down"
+    "migration:down": "knex migrate:down",
+    "scrape-crosswords": "node ./scripts/scrapeNYTPuzzles.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,8 @@
     "@types/cookie-parser": "^1.4.7",
     "@types/jsonwebtoken": "^9.0.6",
     "apollo-server-express": "^3.13.0",
+    "axios": "^1.7.5",
+    "cheerio": "^1.0.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "graphql": "^16.9.0",

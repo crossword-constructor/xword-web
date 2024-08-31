@@ -1,3 +1,5 @@
 import { PuzzleResolver } from './puzzleResolver'
+import { WordResolver } from './wordResolver'
+import { ScrapeResolver } from './scrape'
 
-export default [PuzzleResolver] as const
+export default [PuzzleResolver, WordResolver, ScrapeResolver] as const
