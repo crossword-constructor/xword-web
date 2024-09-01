@@ -6,9 +6,12 @@ import { scrape } from '../scripts/scrapeNYTPuzzles'
 export class ScrapeResolver {
   constructor() {}
   @Query(() => Boolean)
-  async scrape(): Promise<Boolean> {
+  async scrape(
+    @Arg('date') date: string,
+    @Arg('scrapeAll') scrapeAll: boolean
+  ): Promise<Boolean> {
     try {
-      await scrape(`/Crossword?date=8/29/2024`)
+      await scrape(`/Crossword?date=${date}`, scrapeAll)
       return true
     } catch (err) {
       console.log({ err })

@@ -16,23 +16,9 @@ import { ClueAnswerModel } from '../models/ClueAnswerModel'
 import { AnswerModel } from '../models/AnswerModel'
 import { ClueJSON, AnswerJSON } from '../db/JSONtypes'
 
-// @TODO
-// 1. Add puzzle ids to clues and answers
-// 2. Add clue-answer pair to puzzle
-// 3. Save cell number on board obj
-// newPuzzle.clues.push({clue: clue.id, answer: answer.id, position: clues[i].position})
-
-// @DEBUG
-let prevDate
-let avg = 0
-let total = 0
-let counter = 0
-
-const scrapeAll = false
-const startDate = process.argv[3] ?? '2/5/2019'
 getDatabaseConfig()
 
-export async function scrape(urlExtension: string) {
+export async function scrape(urlExtension: string, scrapeAll: boolean) {
   let nextLink: string | undefined
   const res = await axios.get(`https://www.xwordinfo.com/${urlExtension}`)
   let $ = cheerio.load(res.data)
@@ -47,13 +33,14 @@ export async function scrape(urlExtension: string) {
   if (!newPuzzle) {
     console.warn(`A puzzle with the link: ${urlExtension} already exists`)
     if (nextLink) {
-      return scrapeNextPuzzle(nextLink)
+      return scrapeNextPuzzle(nextLink, scrapeAll)
     }
     return
   }
   const clues = scrapeClues($)
   const createdClues = await createClues(clues)
   const createdAnswers = await createAnswers(clues)
+  console.log({ createdClues })
   await createClueAnswerPairs(
     clues,
     createdClues.map((clue) => clue.id),
@@ -64,16 +51,16 @@ export async function scrape(urlExtension: string) {
     `Success, scraped puzzle: ${newPuzzle.date} from https://www.xwordinfo.com/${urlExtension}`
   )
   if (nextLink) {
-    return scrapeNextPuzzle(nextLink)
+    return scrapeNextPuzzle(nextLink, scrapeAll)
   }
   console.log('no NEXT LINK')
   return true
 }
 
-function scrapeNextPuzzle(nextLink: string) {
+function scrapeNextPuzzle(nextLink: string, scrapeAll: boolean) {
   if (scrapeAll) {
     console.log({ nextLink })
-    scrape(nextLink)
+    scrape(nextLink, scrapeAll)
   } else {
     return true
     // process.exit(0)
@@ -174,8 +161,8 @@ async function createClues(clues: ClueAnswerInput[]): Promise<ClueJSON[]> {
     if (existingClue) {
       results.push(existingClue)
     } else {
-      console.log('creating clue: ', clues[i].clue)
       const newClue = await clueModel.createClue(clues[i].clue)
+      console.log({ newClue })
       results.push(newClue)
     }
   }
@@ -190,7 +177,6 @@ async function createAnswers(clues: ClueAnswerInput[]): Promise<AnswerJSON[]> {
     if (existingClue) {
       results.push(existingClue)
     } else {
-      console.log('creating clue: ', clues[i].clue)
       const newClue = await answerModel.createAnswer(clues[i].clue)
       results.push(newClue)
     }
@@ -205,6 +191,7 @@ async function createClueAnswerPairs(
   puzzleId: string
 ) {
   const clueAnswerModel = new ClueAnswerModel()
+  console.log({ clueIds, answerIds })
   const clueAnswerPairs = clues.map((c, i) => ({
     position: c.position,
     clueId: clueIds[i],

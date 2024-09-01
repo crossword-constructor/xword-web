@@ -33,7 +33,7 @@ export class KnexModel {
   }
 
   public create<T>(data: T): Promise<Record<string, any>> {
-    return knexConnector(this.tableName).insert(data)
+    return knexConnector(this.tableName).insert(data).select()
   }
 
   public bulkCreate<T>(data: T[]): Promise<Record<string, any>> {
