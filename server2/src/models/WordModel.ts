@@ -15,6 +15,7 @@ export class WordModel extends KnexModel {
       const words = await this.findLike<WordJSON>(
         'text',
         sanitizedSearchString,
+        20,
         { field: 'score', direction: SortDirection.DESCENDING }
       )
       console.log({ words })

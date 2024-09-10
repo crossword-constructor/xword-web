@@ -30,9 +30,12 @@ export class KnexModel {
   public findLike<T>(
     field: string,
     value: string,
+    limit: number,
     orderBy?: OrderBy
   ): Promise<T[]> {
-    let query = this.knexConnector(this.tableName).where(field, 'like', value)
+    let query = this.knexConnector(this.tableName)
+      .where(field, 'like', value)
+      .limit(limit)
     if (orderBy) {
       query = query.orderBy(orderBy.field, orderBy.direction)
     }

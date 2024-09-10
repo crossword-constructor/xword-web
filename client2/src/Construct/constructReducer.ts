@@ -65,10 +65,13 @@ export const constructReducer = (
         newDirection = direction === 'across' ? 'down' : 'across';
       }
       const currentClues = playableBoard[cell[0]][cell[1]].clues;
-      const currentCells =
+      let currentCells =
         currentClues !== null
           ? clues[currentClues[newDirection === 'across' ? 0 : 1]].cells
           : [selection.focusedCell];
+      if (playableBoard[cell[0]][cell[1]].style === '#BS#') {
+        currentCells = [cell];
+      }
       return {
         ...state,
         direction: newDirection,
@@ -143,6 +146,7 @@ export const constructReducer = (
               .cells;
         }
       }
+      // DIFF FROM SOLVE REDUCER
       if (playableBoard[nextCell[0]][nextCell[1]].style === '#BS#') {
         currentCells = [nextCell];
       }
@@ -281,6 +285,13 @@ export const constructReducer = (
         playableBoard: board,
         clues,
         isDirty: true,
+      };
+    }
+
+    case 'PREVIEW_WORD': {
+      const { word } = action;
+      return {
+        ...state,
       };
     }
 

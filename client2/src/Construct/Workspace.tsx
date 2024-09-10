@@ -4,10 +4,11 @@ import { Setup } from './Setup';
 // import { Page } from '../Shared/Common';
 import { ConstructBoard } from './ConstructBoard';
 import { constructReducer } from './constructReducer';
-// import SidePanel from './SidePanel';
+import { SidePanel } from './SidePanel';
 // import undoable from '../Utils/undoableReducer';
 import { buildConstructableBoard } from '../Utils/board';
 import { PuzzleReducerState } from '../SolveSpace/puzzleReducer';
+import { WorkspaceContextProvider } from './WorkspaceContext';
 // import useKeyDownMap from '../Hooks/useKeyDownMap';
 
 export const Workspace = () => {
@@ -33,34 +34,32 @@ export const Workspace = () => {
     revealedCells: [],
   };
   const [state, dispatch] = useReducer(constructReducer, initialState);
-  const PuzzleContext = createContext({
-    state: {},
-    dispatch: (payload: Record<string, any>) => {},
-  });
-  console.log({ state });
 
   // const keyDownMap = useKeyDownMap();
   // console.log({ keyDownMap });
 
   // load puzzle when size is selected
   return (
-    <PuzzleContext.Provider value={{ state, dispatch }}>
+    <WorkspaceContextProvider value={{ state, dispatch }}>
       {/* <Page> */}
       {/* {initialSize === null && <Setup />} */}
       <Container>
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '45%' }}>
           <ConstructBoard size={initialSize} dispatch={dispatch} {...state} />
         </div>
-        {/* <SidePanel /> */}
+        <SidePanel />
       </Container>
       {/* </Page> */}
-    </PuzzleContext.Provider>
+    </WorkspaceContextProvider>
   );
 };
 
 const Container = styled.div`
   display: flex;
-  height: 100%;
+  margin-top: 20px;
+  padding: 0 120px;
+  /* height: 100%; */
   width: 100%;
   flex-grow: 1;
+  justify-content: space-between;
 `;
