@@ -1,5 +1,5 @@
 import KnexConnector, { Knex } from 'knex'
-import { PG_HOST, PG_USERNAME, PG_PW, PG_DB_NAME } from '../config'
+import { PG_HOST, PG_USERNAME, PG_PW, PG_DB_NAME, DEBUG_KNEX } from '../config'
 
 const knex = KnexConnector({
   client: 'pg',
@@ -10,6 +10,7 @@ const knex = KnexConnector({
     password: PG_PW,
     database: PG_DB_NAME,
   },
+  debug: DEBUG_KNEX as boolean,
 })
 export class DatabaseConfig {
   public static instance: DatabaseConfig

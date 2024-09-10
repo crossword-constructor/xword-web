@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID, InputType, ArgsType } from 'type-graphql'
+import { Field, ObjectType, ID, InputType, ArgsType, Int } from 'type-graphql'
 import { QueryResponse, MutationResponse } from './Response'
 import { UserPuzzle, Dimensions } from './UserPuzzle'
 import { User } from './User'
@@ -23,8 +23,8 @@ export class Puzzle {
   @Field({ nullable: true })
   title?: string
 
-  @Field(() => Dimensions, { nullable: true })
-  dimensions?: Dimensions
+  @Field(() => Int, { nullable: true })
+  width?: number
 
   @Field(() => [ClueAnswer], { nullable: true })
   clues?: ClueAnswer[]
@@ -155,7 +155,7 @@ export class CreatePuzzleInput {
   @Field()
   width!: number
 }
-@ObjectType({ implements: QueryResponse })
+@ObjectType()
 export class PlayablePuzzleResponse {
   @Field()
   code!: string
@@ -213,4 +213,13 @@ export class CreatePuzzleResponse {
 
   @Field(() => Puzzle, { nullable: true })
   puzzle?: Puzzle
+}
+
+@ArgsType()
+export class GetPuzzlesByMonthArgs {
+  @Field(() => Int)
+  month!: number
+
+  @Field(() => Int)
+  year!: number
 }

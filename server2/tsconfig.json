@@ -11,8 +11,8 @@
     "sourceMap": true,
     "declaration": true,
     "declarationDir": "dist/types",
-    "experimentalDecorators": true,                   /* Enable experimental support for legacy experimental decorators. */
-    "emitDecoratorMetadata": true,      
+    "experimentalDecorators": true /* Enable experimental support for legacy experimental decorators. */,
+    "emitDecoratorMetadata": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

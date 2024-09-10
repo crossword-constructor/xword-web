@@ -41,12 +41,31 @@ export async function up(knex: Knex): Promise<void> {
     table.string('position').notNullable()
     table.unique(['clueId', 'answerId', 'puzzleId', 'position'])
   })
+
+  await knex.schema.createTable('users', (table) => {
+    createId(table, knex)
+    table.string('firstName')
+    table.string('lastName')
+    table.string('hashedPassword')
+    table.string('role')
+    table.string('username').unique()
+  })
+
+  await knex.schema.createTable('userPuzzles', (table) => {
+    createId(table, knex)
+    table.uuid('puzzleId').references('id').inTable('puzzles')
+    table.uuid('userId').references('id').inTable('users')
+    table.json('board')
+    table.unique(['puzzleId', 'userId'])
+  })
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('clueAnswerPairs')
-  await knex.schema.dropTableIfExists('puzzles')
   await knex.schema.dropTableIfExists('clues')
   await knex.schema.dropTableIfExists('answers')
+  await knex.schema.dropTableIfExists('userPuzzles')
+  await knex.schema.dropTableIfExists('users')
+  await knex.schema.dropTableIfExists('puzzles')
   await knex.schema.dropTableIfExists('authors')
 }

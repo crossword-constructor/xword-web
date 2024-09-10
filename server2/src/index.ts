@@ -22,7 +22,7 @@ import {
   IN_PROD,
   DB_URI,
   APP_URL,
-  SECRET,
+  JWT_SECRET,
   PG_DB_NAME,
   PG_USERNAME,
   PG_PW,
@@ -65,30 +65,31 @@ import { getDatabaseConfig } from './db/dbConfig'
       //       },
       //     },
       context: ({ req, res }: any) => {
-        res.set('Access-Control-Allow-Origin', '*')
+        res.set('Access-Control-Allow-Origin', APP_URL)
         const { user } = req.cookies
+        let verifiedUser
         if (user) {
           try {
-            req.user = jwt.verify(user, SECRET)
+            verifiedUser = jwt.verify(user, JWT_SECRET)
           } catch (e) {
             console.log('ERORR: ', e)
           }
         }
-        return { req, res, user }
+        return { req, res, user: verifiedUser }
       },
     })
 
-    // app.use(
-    //   cors({
-    //     origin: APP_URL,
-    //     credentials: true,
-    //   })
-    // )
+    app.use(
+      cors({
+        origin: [APP_URL, 'https://studio.apollographql.com'], // only in dev
+        credentials: true,
+      })
+    )
     app.use(
       '/graphql',
       cors<cors.CorsRequest>({
         origin: [
-          'https://www.your-app.example',
+          APP_URL,
           'https://studio.apollographql.com', // Remove in prod
         ],
         credentials: true,

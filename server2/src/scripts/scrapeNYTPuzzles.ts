@@ -173,11 +173,11 @@ async function createAnswers(clues: ClueAnswerInput[]): Promise<AnswerJSON[]> {
   const answerModel = new AnswerModel()
   const results: Array<AnswerJSON> = []
   for (let i = 0; i < clues.length; i += 1) {
-    const existingClue = await answerModel.findAnswerByText(clues[i].clue)
+    const existingClue = await answerModel.findAnswerByText(clues[i].answer)
     if (existingClue) {
       results.push(existingClue)
     } else {
-      const newClue = await answerModel.createAnswer(clues[i].clue)
+      const newClue = await answerModel.createAnswer(clues[i].answer)
       results.push(newClue)
     }
   }

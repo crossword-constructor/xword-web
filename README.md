@@ -26,3 +26,10 @@
 ### Issues
 
 ### Tests
+
+### Working todo list
+
+1. ~~Field resolvers for clues, answers~~
+1. When scraping puzzles, get width and height, sometimes they differ
+1. deserialize board before returning in resolver
+1. ~~issue token when signing in and read token on context to determine access~~

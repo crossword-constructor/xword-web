@@ -8,6 +8,15 @@ export class PuzzleModel extends KnexModel {
     super(PuzzleModel.tableName)
   }
 
+  async findPuzzlesByMonth(month: number, year: number): Promise<PuzzleJSON[]> {
+    const startDate = `${month}/1/${year}`
+    const endDate = `${month}/30/${year}`
+    return this.knexConnector
+      .table(PuzzleModel.tableName)
+      .where('date', '>=', startDate)
+      .andWhere('date', '<=', endDate)
+  }
+
   async createPuzzle(newPuzzle: CreatePuzzleInput): Promise<PuzzleJSON> {
     // convert string date to date?
     const result = await super.create(newPuzzle)

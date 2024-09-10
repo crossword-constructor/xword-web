@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
 
-import { ObjectType, Field, ID } from 'type-graphql'
+import { ObjectType, Field, ID, ArgsType, InputType } from 'type-graphql'
 import { MutationResponse, QueryResponse } from './Response' // Adjust the import path as necessary
 import { Puzzle } from './Puzzle'
 import { UserPuzzle, Stats } from './UserPuzzle'
@@ -16,6 +16,12 @@ export class User {
 
   @Field({ nullable: true })
   username?: string
+
+  @Field({ nullable: true })
+  firstName?: string
+
+  @Field({ nullable: true })
+  lastName?: string
 
   @Field({ nullable: true })
   name?: string
@@ -70,4 +76,24 @@ export class AuthenticationResponse {
 
   @Field(() => User, { nullable: true })
   user?: User
+}
+
+@ArgsType()
+export class UserLoginInput {
+  @Field()
+  username!: string
+  @Field()
+  password!: string
+}
+
+@InputType()
+export class UserSignupInput {
+  @Field()
+  username!: string
+  @Field()
+  password!: string
+  @Field()
+  firstName!: string
+  @Field()
+  lastName!: string
 }

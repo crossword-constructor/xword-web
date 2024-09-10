@@ -7,9 +7,21 @@ export interface PuzzleJSON {
   date: string
 }
 
-interface CellJSON {
+export interface UserPuzzleJSON {
+  id: string
+  puzzleId: string
+  board: UserCellJSON[]
+}
+
+export interface CellJSON {
   text: string
   style: string
+}
+
+interface UserCellJSON {
+  text: string
+  style: string
+  guess: string
 }
 
 export interface WordJSON {
@@ -49,4 +61,20 @@ export interface ClueAnswerPairJSON {
   answerId: string
   puzzleId: string
   position: string
+  clueText?: string
+  answerText?: string
+}
+
+export interface UserJSON {
+  id: string
+  firstName: string
+  lastName: string
+  username: string
+  hashedPassword: string
+  role: UserRole
+}
+
+enum UserRole {
+  ADMIN = 'ADMIN',
+  BASE = 'BASE',
 }

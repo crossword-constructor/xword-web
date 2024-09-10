@@ -160,7 +160,7 @@ const Solvespace = () => {
   // const { title, author } = puzzle;
   return (
     <div className={styles.page}>
-      <Modal
+      {/* <Modal
         isOpen={!isPlaying && !isSolved}
         close={() => dispatch({ type: 'PLAY' })}
       >
@@ -172,8 +172,8 @@ const Solvespace = () => {
         >
           {time === 0 ? 'start' : 'resume'}
         </Button>
-      </Modal>
-      <Toolbar
+      </Modal> */}
+      {/* <Toolbar
         // title={title}
         // author={author}
         // Clock={
@@ -204,7 +204,7 @@ const Solvespace = () => {
             offSet={18}
           />
         }
-      />
+      /> */}
       <div className={styles.wrapper}>
         <div className={styles.left}>
           <div

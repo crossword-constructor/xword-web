@@ -21,4 +21,16 @@ export class ClueAnswerModel extends KnexModel {
     const results = await super.bulkCreate(clueAnswerPairs)
     return results as ClueAnswerPairJSON[]
   }
+
+  async findPairsByPuzzleId(puzzleId: string): Promise<ClueAnswerPairJSON[]> {
+    return this.knexConnector(ClueAnswerModel.tableName)
+      .where({ puzzleId })
+      .join('clues', 'clueAnswerPairs.clueId', '=', 'clues.id')
+      .join('answers', 'clueAnswerPairs.answerId', '=', 'answers.id')
+      .select([
+        'clues.text as clueText',
+        'answers.text as answerText',
+        'clueAnswerPairs.*',
+      ])
+  }
 }
