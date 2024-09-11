@@ -131,7 +131,8 @@ export const findNextCell = (
   [row, col],
   direction,
   key = direction === 'across' ? 39 : 40,
-  board
+  board,
+  allowBlackSquare = false
 ) => {
   let validCellFound;
   const originalRow = row;
@@ -164,7 +165,7 @@ export const findNextCell = (
         }
       }
     }
-    if (board[row][col].style === '#BS#') {
+    if (board[row][col].style === '#BS#' && !allowBlackSquare) {
       validCellFound = false;
     } else {
       validCellFound = true;

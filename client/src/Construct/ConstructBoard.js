@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import throttle from 'lodash.throttle';
 import Board from '../Workspace/Board';
 import { buildConstructableBoard } from '../Workspace/Board.utils';
@@ -14,7 +14,6 @@ const ConstructionBoard = ({
   const { currentCells, focusedCell } = selection;
   const throttledKeyListener = useCallback(
     throttle((keyCode, key) => {
-      console.log({ keyCode, key });
       if (keyCode === 32) {
         dispatch({ type: 'SPACE' });
       } else if (keyCode >= 37 && keyCode <= 40) {
@@ -22,14 +21,6 @@ const ConstructionBoard = ({
       } else if (keyCode === 45) {
         dispatch({ type: 'TOGGLE_REBUS' });
       } else if (keyCode >= 45 && keyCode <= 90) {
-        // if (
-        //   revealedCells.filter(
-        //     coords =>
-        //       coords[0] === focusedCell[0] && coords[0] === focusedCell[1]
-        //   ).length > 0
-        // ) {
-        //   return;
-        // }
         dispatch({ type: 'GUESS', key });
       } else if (keyCode === 8) {
         dispatch({
@@ -53,12 +44,19 @@ const ConstructionBoard = ({
     const { keyCode, key } = event;
     throttledKeyListener(keyCode, key);
   };
+  // useEffect(() => {
+  //   window.addEventListener('keydown', keyListener);
+  // }, [throttledKeyListener]);
+
+  // console.log({ keyListener });
   return (
     <div
       role="button"
       tabIndex="-1"
       // @ TODO NEXT // holding down key is causing freezing
-      onKeyDown={keyListener}
+      onKeyDown={e => {
+        keyListener(e);
+      }}
     >
       <BoardContainer
         rows={constructableBoard}
@@ -80,23 +78,21 @@ const ConstructionBoard = ({
           //   revealedCells.filter(
           //     cells => cells[0] === rowNum && cells[1] === colNum
           //   ).length > 0;
-          return black ? (
-            // eslint-disable-next-line react/no-array-index-key
-            <td
-              style={{ backgroundColor: 'black' }}
-              key={`${rowNum}${colNum}`}
-            />
-          ) : (
+          return (
             <Cell
-              // eslint-disable-next-line react/no-array-index-key
               key={`${rowNum}${colNum}`}
               isHighlighted={isHighlighted}
               isFocused={focusedCell[0] === rowNum && focusedCell[1] === colNum}
               isPlaying
-              text={cell.guess}
+              text={
+                cell.guess
+                // eslint-disable-next-line no-nested-ternary
+                // isPuzzleSolved ? cell.answer : isPlaying ? cell.guess : ''
+              }
               number={cell.number}
               style={cell.style}
               showAnswers={false}
+              isRevealed={false}
               rowLength={constructableBoard.length}
               coords={[rowNum, colNum]}
               click={() =>
