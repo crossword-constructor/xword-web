@@ -45,4 +45,5 @@ const WordAndScore = styled.li`
   max-width: 250px;
   display: flex;
   justify-content: space-between;
+  letter-spacing: 0.1rem;
 `;
